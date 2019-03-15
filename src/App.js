@@ -1,6 +1,7 @@
 import React from 'react'
 import Login from './Login'
 import Registro from './Registro'
+import Muro from './Muro'
 class App extends React.Component{
 
     constructor(props) {
@@ -10,6 +11,7 @@ class App extends React.Component{
         }
         this.login = this.login.bind(this)
         this.registro = this.registro.bind(this)
+        this.muro = this.muro.bind(this)
     }
 
     registro(){
@@ -18,6 +20,9 @@ class App extends React.Component{
 
     login(){
         this.setState({mostrar: 'login'})
+    }
+    muro(){
+        this.setState({mostrar: 'muro'})
     }
 
     render() {
@@ -30,7 +35,11 @@ class App extends React.Component{
                     </div>
             case 'registro':
                 return <div>
-                        <Registro log={this.login}/>
+                        <Registro log={this.login} muro={this.muro}/>
+                    </div>
+            case 'muro':
+                return <div>
+                        <Muro log={this.login}/>
                     </div>
         
             default:
