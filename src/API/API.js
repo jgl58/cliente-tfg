@@ -1,3 +1,5 @@
+
+import { reactLocalStorage } from 'reactjs-localstorage';
 class API {
     constructor() {
         this.API_URL = 'http://localhost:3030/'
@@ -21,6 +23,14 @@ class API {
             },
             body: json
         })
+    }
+
+    getOfertasCreadas() {
+        
+        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas")
+            .then(function (response) {
+                return response.json()
+            })
     }
 
 }
