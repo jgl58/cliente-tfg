@@ -21,6 +21,7 @@ class App extends React.Component{
     login(){
         this.setState({mostrar: 'login'})
     }
+
     muro(){
         this.setState({mostrar: 'muro'})
     }
@@ -31,15 +32,15 @@ class App extends React.Component{
 
             case 'login':
                 return <div>
-                        <Login reg={this.registro}/>
+                        <Login reg={this.registro} muro={this.muro}/>
                     </div>
             case 'registro':
                 return <div>
-                        <Registro log={this.login} muro={this.muro}/>
+                        <Registro log={this.login} />
                     </div>
             case 'muro':
                 return <div>
-                        <Muro log={this.login}/>
+                        <Muro logout={this.login}/>
                     </div>
         
             default:

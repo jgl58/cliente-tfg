@@ -1,76 +1,63 @@
 import React, { Component } from 'react';
 import './App.css';
 import API from './API/API'
-import { Button }from "react-bootstrap"
+import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 class Muro extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { nick: '', pass: '',show: false}
-    this.login = this.login.bind(this)
-    this.goToRegistro = this.goToRegistro.bind(this);
+    this.state = { nick: '', trabajos: []}
+    this.logout = this.logout.bind(this)
 
-
- 
   }
 
-  goToRegistro() {
-    this.props.reg()
+  componentWillMount(){
+    this.setState({nick: reactLocalStorage.get('nombre')})
   }
-  login(event) {
-    var pet = { nick: this.state.nick, pass: this.state.pass };
-    var json = JSON.stringify(pet)
 
-    new API().login(json)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          this.handleShow()
-        }
-      }).then((json) => {
-        console.log(json)
-
-      })
+  logout() {
+    reactLocalStorage.clear()
+    this.props.logout()
   }
 
 
   render() {
-    return (
-      <div className="App">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
 
-              <p className="h4 text-center mb-4">Log in</p>
-              <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-                Your email
-            </label>
-              <input
-                type="email"
-                id="email"
-                onChange={(event) => this.setState({ nick: event.target.value })}
-                className="form-control"
-              />
-              <br />
-              <label htmlFor="defaultFormLoginPasswordEx" className="grey-text">
-                Your password
-            </label>
-              <input
-                type="password"
-                id="pass"
-                onChange={(event) => this.setState({ pass: event.target.value })}
-                className="form-control"
-              />
-              <div className="text-center mt-4">
-                <button className="btn btn-primary" color="indigo" type="submit" onClick={(event) => this.login(event)}>Login</button>
-              </div>
-              <button className="btn btn-primary" onClick={this.goToRegistro}>Registrarse</button>
+    let label 
+    if(this.state.trabajos.length==0){
+      label = <label>No tienes ofertas</label>
+    }
+    return (<div id="ui-view">
+      <nav className="navbar navbar-light bg-light">
+        <span className="navbar-brand mb-0 h1">Navbar</span>
+        <div className="dropdown pull-right">
+          <div className="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Hola {this.state.nick}
+          </div>
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a className="dropdown-item" href="#">Perfil</a>
+            <div className="dropdown-divider"></div>
+            <a className="dropdown-item" onClick={this.logout} href="#">Cerrar sesión</a>
+          </div>
+        </div>
+      </nav>
+
+      <div className="container-fluid">
+        <div id="ui-view">
+          <div className="row mt-5">
+          <div className="col-sm-6 col-md-4">
+            <div className="card">
+            <div className="card-header">Card title<span className="badge badge-success float-right">Success</span></div>
+            <div className="card-body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip
+            ex ea commodo consequat.</div>
+            </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }

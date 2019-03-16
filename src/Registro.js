@@ -77,73 +77,73 @@ class Registro extends Component {
               </Modal.Footer>
             </Modal>
 
-            <div class="card">
-              <div class="card-header">
+            <div className="card">
+              <div className="card-header">
                 {titulo}
               </div>
-              <div class="card-body">
-                <div class="form-horizontal">
-                  <div class="position-relative row form-group">
-                    <div class="col-md-3">
-                      <label for="hf-email" class="">Email</label>
+              <div className="card-body">
+                <div className="form-horizontal">
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Email</label>
                     </div>
-                    <div class="col-12 col-md-9">
-                      <input id="hf-email" name="hf-email" placeholder="" autocomplete="email" type="email" class="form-control" onChange={(event) => this.setState({ email: event.target.value })} />
-                      <small class="help-block form-text text-muted">Introduce tu email</small>
-                    </div>
-                  </div>
-                  <div class="position-relative row form-group">
-                    <div class="col-md-3">
-                      <label for="hf-password" class="">Contraseña</label>
-                    </div>
-                    <div class="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" autocomplete="current-password" type="password" class="form-control" onChange={(event) => this.setState({ pass: event.target.value })} />
-                      <small class="help-block form-text text-muted">Introduce tu contraseña</small>
+                    <div className="col-12 col-md-9">
+                      <input id="hf-email" name="hf-email" placeholder="" type="email" className="form-control" onChange={(event) => this.setState({ email: event.target.value })} />
+                      <small className="help-block form-text text-muted">Introduce tu email</small>
                     </div>
                   </div>
-                  <div class="position-relative row form-group">
-                    <div class="col-md-3">
-                      <label for="hf-password" class="">Repite la contraseña</label>
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Contraseña</label>
                     </div>
-                    <div class="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" autocomplete="current-password" type="password" class="form-control" onChange={(event) => this.setState({ confirmpassword: event.target.value })} />
-                      <small class="help-block form-text text-muted">Repite la contraseña</small>
-                    </div>
-                  </div>
-                  <div class="position-relative row form-group">
-                    <div class="col-md-3">
-                      <label for="hf-text" class="">Nombre</label>
-                    </div>
-                    <div class="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" autocomplete="current-password" type="text" class="form-control" onChange={(event) => this.setState({ nombre: event.target.value })} />
-                      <small class="help-block form-text text-muted">Introduce tu nombre</small>
+                    <div className="col-12 col-md-9">
+                      <input id="hf-password" name="hf-password" placeholder="" type="password" className="form-control" onChange={(event) => this.setState({ pass: event.target.value })} />
+                      <small className="help-block form-text text-muted">Introduce tu contraseña</small>
                     </div>
                   </div>
-                  <div class="position-relative row form-group">
-                    <div class="col-md-3">
-                      <label for="hf-password" class="">Apellidos</label>
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Repite la contraseña</label>
                     </div>
-                    <div class="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" autocomplete="current-password" type="text" class="form-control" onChange={(event) => this.setState({ apellidos: event.target.value })} />
-                      <small class="help-block form-text text-muted">Introduce tus apellidos</small>
+                    <div className="col-12 col-md-9">
+                      <input id="hf-password" name="hf-password" placeholder="" type="password" className="form-control" onChange={(event) => this.setState({ confirmpassword: event.target.value })} />
+                      <small className="help-block form-text text-muted">Repite la contraseña</small>
                     </div>
                   </div>
-                  <div class="position-relative row form-group">
-                    <div class="col-md-3">
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Nombre</label>
                     </div>
-                    <div class="col-12 col-md-9">
-                      <button class="btn btn-primary" onClick={(event) => this.registrar(event)}>
-                        <i class="fa fa-dot-circle-o">
+                    <div className="col-12 col-md-9">
+                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ nombre: event.target.value })} />
+                      <small className="help-block form-text text-muted">Introduce tu nombre</small>
+                    </div>
+                  </div>
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Apellidos</label>
+                    </div>
+                    <div className="col-12 col-md-9">
+                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ apellidos: event.target.value })} />
+                      <small className="help-block form-text text-muted">Introduce tus apellidos</small>
+                    </div>
+                  </div>
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                    </div>
+                    <div className="col-12 col-md-9">
+                      <button className="btn btn-primary" onClick={(event) => this.registrar(event)}>
+                        <i className="fa fa-dot-circle-o">
                         </i> Registrarse</button>
                     </div>
                   </div>
 
                 </div>
               </div>
-              <div class="card-footer">
+              <div className="card-footer">
 
-                <button type="reset" class="btn btn-ghost-danger" onClick={this.goToLogin}>
-                  <i class="fa fa-ban"></i> Ir a inicio de sesion</button>
+                <button type="reset" className="btn btn-ghost-danger" onClick={this.goToLogin}>
+                  <i className="fa fa-ban"></i> Ir a inicio de sesion</button>
 
                 {enlace}
               </div>
