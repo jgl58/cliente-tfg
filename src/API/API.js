@@ -33,6 +33,13 @@ class API {
             })
     }
 
+    getCliente(){
+        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser'))
+        .then(function (response) {
+            return response.json()
+        })
+    }
+
 }
 
 export default API

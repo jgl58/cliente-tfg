@@ -4,6 +4,7 @@ import API from './API/API'
 import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 import { reactLocalStorage } from 'reactjs-localstorage';
+import { timingSafeEqual } from 'crypto';
 
 class Muro extends Component {
 
@@ -11,7 +12,7 @@ class Muro extends Component {
     super(props)
     this.state = { nick: '', ofertas: [] }
     this.logout = this.logout.bind(this)
-
+    this.perfil = this.perfil.bind(this)
   }
 
   componentWillMount() {
@@ -29,6 +30,10 @@ class Muro extends Component {
     this.props.logout()
   }
 
+  perfil(){
+    this.props.perfil();
+  }
+
 
   render() {
 
@@ -37,7 +42,6 @@ class Muro extends Component {
       ofertas = <label>No has creado ninguna oferta todavía</label>
     } else {
       for (let i = 0; i < this.state.ofertas.length; i++) {
-        console.log(this.state.ofertas[i].titulo)
         let elem = <div className="col-sm-6 col-md-4">
           <div className="card">
             <div className="card-header">{this.state.ofertas[i].titulo}<span className="badge badge-success float-right">Acabada</span></div>
@@ -57,7 +61,7 @@ class Muro extends Component {
           Hola {this.state.nick}
         </div>
         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a className="dropdown-item" href="#">Perfil</a>
+          <a className="dropdown-item" onClick={this.perfil}>Perfil</a>
           <div className="dropdown-divider"></div>
           <a className="dropdown-item" onClick={this.logout} href="#">Cerrar sesión</a>
         </div>
@@ -67,9 +71,15 @@ class Muro extends Component {
       <div id="ui-view">
         {nav}
         <div className="container-fluid">
-          <div className="row mt-5">
-            {ofertas}
+          <div className="card mt-3">
+            <div className="card-header">
+              Tus ofertas
+            </div>
+            <div className="card-body">
+                {ofertas}
+        </div>
           </div>
+
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ import React from 'react'
 import Login from './Login'
 import Registro from './Registro'
 import Muro from './Muro'
+import Perfil from './Perfil'
 class App extends React.Component{
 
     constructor(props) {
@@ -12,6 +13,7 @@ class App extends React.Component{
         this.login = this.login.bind(this)
         this.registro = this.registro.bind(this)
         this.muro = this.muro.bind(this)
+        this.perfil = this.perfil.bind(this)
     }
 
     registro(){
@@ -24,6 +26,9 @@ class App extends React.Component{
 
     muro(){
         this.setState({mostrar: 'muro'})
+    }
+    perfil(){
+        this.setState({mostrar: 'perfil'})
     }
 
     render() {
@@ -40,8 +45,12 @@ class App extends React.Component{
                     </div>
             case 'muro':
                 return <div>
-                        <Muro logout={this.login}/>
+                        <Muro logout={this.login} perfil={this.perfil}/>
                     </div>
+            case 'perfil':
+                return <div>
+                    <Perfil />
+                </div>
         
             default:
                 return <div>
