@@ -5,6 +5,7 @@ import Muro from './Usuarios/Muro'
 import Perfil from './Usuarios/Perfil'
 import Navbar from './Usuarios/Navbar'
 import CrearOferta from './Ofertas/CrearOferta'
+import Oferta from './Ofertas/Oferta'
 class App extends React.Component {
 
     constructor(props) {
@@ -17,10 +18,15 @@ class App extends React.Component {
         this.muro = this.muro.bind(this)
         this.perfil = this.perfil.bind(this)
         this.crearOferta = this.crearOferta.bind(this)
+        this.oferta = this.oferta.bind(this)
     }
 
-    crearOferta(){ 
-        this.setState({ mostrar: 'crear-oferta' }) 
+    crearOferta() {
+        this.setState({ mostrar: 'crear-oferta' })
+    }
+
+    oferta() {
+        this.setState({ mostrar: 'oferta' })
     }
 
     registro() {
@@ -52,8 +58,8 @@ class App extends React.Component {
                 </div>
             case 'muro':
                 return <div id="ui-view">
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro}/>
-                    <Muro crearOferta={this.crearOferta} />
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                    <Muro crearOferta={this.crearOferta} oferta={this.oferta}/>
                 </div>
             case 'perfil':
                 return <div id="ui-view">
@@ -64,7 +70,13 @@ class App extends React.Component {
             case 'crear-oferta':
                 return <div id="ui-view">
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
-                    <CrearOferta muro={this.muro}/>
+                    <CrearOferta muro={this.muro} />
+                </div>
+
+            case 'oferta':
+                return <div id="ui-view">
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                    <Oferta muro={this.muro} />
                 </div>
             default:
                 return <div>

@@ -33,6 +33,14 @@ class API {
             })
     }
 
+    getOferta(id) {
+        
+        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas/"+id)
+            .then(function (response) {
+                return response.json()
+            })
+    }
+
     getCliente(){
         return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser'))
         .then(function (response) {

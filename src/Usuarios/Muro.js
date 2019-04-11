@@ -9,6 +9,7 @@ class Muro extends Component {
     super(props)
     this.state = { nick: '', ofertas: [] }
     this.crearOferta = this.crearOferta.bind(this)
+    this.goOferta = this.goOferta.bind(this)
   }
 
   componentWillMount() {
@@ -19,6 +20,12 @@ class Muro extends Component {
         this.setState({ ofertas: json.ofertas })
       })
 
+  }
+
+  goOferta(id){
+    console.log("Visitando oferta "+id)
+    reactLocalStorage.set('idOferta',id)
+    this.props.oferta()
   }
 
   crearOferta() {
@@ -40,11 +47,10 @@ class Muro extends Component {
           estado = <span className="badge badge-danger float-right">No seleccionada</span>
         }
 
-
         let elem = <div className="col-sm-6 col-md-4">
           <div className="card">
             <div className="card-header">{this.state.ofertas[i].titulo}{estado}</div>
-            <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right"><i class="fa fa-plus"></i></a></div>
+            <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right" onClick={() => this.goOferta(this.state.ofertas[i].id)}><i class="fa fa-plus"></i></a></div>
           </div>
         </div>
 
