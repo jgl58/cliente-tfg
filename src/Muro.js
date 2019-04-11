@@ -11,6 +11,7 @@ class Muro extends Component {
   constructor(props) {
     super(props)
     this.state = { nick: '', ofertas: [] }
+    this.crearOferta = this.crearOferta.bind(this)
   }
 
   componentWillMount() {
@@ -21,6 +22,10 @@ class Muro extends Component {
         this.setState({ ofertas: json.ofertas })
       })
 
+  }
+
+  crearOferta(){
+    this.props.crearOferta();
   }
 
   render() {
@@ -48,6 +53,7 @@ class Muro extends Component {
           <div className="card mt-3">
             <div className="card-header">
               Tus ofertas
+                <a className="float-right" onClick={this.crearOferta}><i class="fa fa-plus fa-lg"></i></a>         
             </div>
             <div className="card-body">
               {ofertas}

@@ -4,7 +4,8 @@ import Registro from './Registro'
 import Muro from './Muro'
 import Perfil from './Perfil'
 import Navbar from './Navbar'
-class App extends React.Component{
+import CrearOferta from './CrearOferta'
+class App extends React.Component {
 
     constructor(props) {
         super(props)
@@ -15,53 +16,63 @@ class App extends React.Component{
         this.registro = this.registro.bind(this)
         this.muro = this.muro.bind(this)
         this.perfil = this.perfil.bind(this)
+        this.crearOferta = this.crearOferta.bind(this)
     }
 
-    registro(){
-        this.setState({mostrar: 'registro'})
+    crearOferta(){ 
+        this.setState({ mostrar: 'crear-oferta' }) 
     }
 
-    login(){
-        this.setState({mostrar: 'login'})
+    registro() {
+        this.setState({ mostrar: 'registro' })
     }
 
-    muro(){
-        this.setState({mostrar: 'muro'})
+    login() {
+        this.setState({ mostrar: 'login' })
     }
-    perfil(){
-        this.setState({mostrar: 'perfil'})
+
+    muro() {
+        this.setState({ mostrar: 'muro' })
+    }
+    perfil() {
+        this.setState({ mostrar: 'perfil' })
     }
 
     render() {
 
-        switch(this.state.mostrar){
+        switch (this.state.mostrar) {
 
             case 'login':
                 return <div id="ui-view">
-                        <Login reg={this.registro} muro={this.muro}/>
-                    </div>
+                    <Login reg={this.registro} muro={this.muro} />
+                </div>
             case 'registro':
                 return <div id="ui-view">
-                        <Registro log={this.login} />
-                    </div>
+                    <Registro log={this.login} />
+                </div>
             case 'muro':
                 return <div id="ui-view">
-                        <Navbar logout={this.login} perfil={this.perfil} muro={this.muro}/>
-                        <Muro />
-                    </div>
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro}/>
+                    <Muro crearOferta={this.crearOferta} />
+                </div>
             case 'perfil':
                 return <div id="ui-view">
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro}/>
-                    <Perfil/>
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                    <Perfil />
                 </div>
-        
+
+            case 'crear-oferta':
+                return <div id="ui-view">
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                    <CrearOferta muro={this.muro}/>
+                </div>
             default:
                 return <div>
 
                 </div>
         }
-       
-         
+
+
     }
 }
 

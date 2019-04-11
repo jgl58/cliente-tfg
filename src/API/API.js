@@ -50,6 +50,16 @@ class API {
         })
     }
 
+    crearOferta(json){
+        return fetch("http://localhost:3030/users/"+reactLocalStorage.get('idUser') + "/ofertas" , {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body:json
+        })
+    }
+
 }
 
 export default API
