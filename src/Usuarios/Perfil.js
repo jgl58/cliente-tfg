@@ -12,10 +12,18 @@ class Perfil extends Component {
     }
 
     componentWillMount() {
-        new API().getCliente().then((json) => {
-            this.setState({ user: json.user })
-            console.log(this.state.user)
-        })
+        if(reactLocalStorage.get("isProfesional")){
+            new API().getProfesional().then((json) => {
+                this.setState({ user: json.user })
+                console.log(this.state.user)
+            })
+        }else{
+            new API().getCliente().then((json) => {
+                this.setState({ user: json.user })
+                console.log(this.state.user)
+            })
+        }
+        
         
     }
 
@@ -46,15 +54,29 @@ class Perfil extends Component {
         }
         var json = JSON.stringify(us)
         console.log("Enviando: "+json)
-        new API().updateCliente(json).then((response) => {
-            if (response.ok) {
-                this.setState({user: us})
-                reactLocalStorage.set('nombre', us.nombre)
-                alert('Datos actualizados')
-            } else {
-                alert('Datos incorrectos')
-            }
-        })
+
+        if(reactLocalStorage.get("isProfesional")){
+            new API().updateProfesional(json).then((response) => {
+                if (response.ok) {
+                    this.setState({user: us})
+                    reactLocalStorage.set('nombre', us.nombre)
+                    alert('Datos actualizados')
+                } else {
+                    alert('Datos incorrectos')
+                }
+            })
+        }else{
+            new API().updateCliente(json).then((response) => {
+                if (response.ok) {
+                    this.setState({user: us})
+                    reactLocalStorage.set('nombre', us.nombre)
+                    alert('Datos actualizados')
+                } else {
+                    alert('Datos incorrectos')
+                }
+            })
+        }
+        
 
     }
 

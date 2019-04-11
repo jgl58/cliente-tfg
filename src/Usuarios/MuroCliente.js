@@ -3,7 +3,7 @@ import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 
-class Muro extends Component {
+class MuroCiente extends Component {
 
   constructor(props) {
     super(props)
@@ -88,5 +88,5 @@ class Muro extends Component {
   }
 }
 
-export default Muro;
+export default MuroCiente;
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import Login from './Auth/Login'
 import Registro from './Auth/Registro'
-import Muro from './Usuarios/Muro'
+import MuroCiente from './Usuarios/MuroCliente'
+import MuroProfesional from './Usuarios/MuroProfesional'
 import Perfil from './Usuarios/Perfil'
 import Navbar from './Usuarios/Navbar'
 import CrearOferta from './Ofertas/CrearOferta'
@@ -16,9 +17,11 @@ class App extends React.Component {
         this.login = this.login.bind(this)
         this.registro = this.registro.bind(this)
         this.muro = this.muro.bind(this)
+        this.muroProfesional = this.muroProfesional.bind(this)
         this.perfil = this.perfil.bind(this)
         this.crearOferta = this.crearOferta.bind(this)
         this.oferta = this.oferta.bind(this)
+
     }
 
     crearOferta() {
@@ -40,6 +43,10 @@ class App extends React.Component {
     muro() {
         this.setState({ mostrar: 'muro' })
     }
+
+    muroProfesional() {
+        this.setState({ mostrar: 'muro-p' })
+    }
     perfil() {
         this.setState({ mostrar: 'perfil' })
     }
@@ -50,7 +57,7 @@ class App extends React.Component {
 
             case 'login':
                 return <div id="ui-view">
-                    <Login reg={this.registro} muro={this.muro} />
+                    <Login reg={this.registro} muro={this.muro} muroP={this.muroProfesional}/>
                 </div>
             case 'registro':
                 return <div id="ui-view">
@@ -59,7 +66,12 @@ class App extends React.Component {
             case 'muro':
                 return <div id="ui-view">
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
-                    <Muro crearOferta={this.crearOferta} oferta={this.oferta}/>
+                    <MuroCiente crearOferta={this.crearOferta} oferta={this.oferta} />
+                </div>
+            case 'muro-p':
+                return <div id="ui-view">
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                    <MuroProfesional crearOferta={this.crearOferta} oferta={this.oferta} />
                 </div>
             case 'perfil':
                 return <div id="ui-view">

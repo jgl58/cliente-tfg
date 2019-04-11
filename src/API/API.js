@@ -48,8 +48,25 @@ class API {
             })
     }
 
+    getProfesional() {
+        return fetch("http://localhost:3030/profesionales/" + reactLocalStorage.get('idUser'))
+            .then(function (response) {
+                return response.json()
+            })
+    }
+
     updateCliente(json) {
         return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser'), {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: json
+        })
+    }
+
+    updateProfesional(json) {
+        return fetch("http://localhost:3030/profesionales/" + reactLocalStorage.get('idUser'), {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json'

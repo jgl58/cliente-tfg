@@ -62,8 +62,12 @@ class Login extends Component {
         }
       }).then((json) => {
         reactLocalStorage.set('idUser',json.idUser)
+        reactLocalStorage.set('isProfesional',this.state.profesional)
         reactLocalStorage.set('nombre',json.nombre)
-        this.goToMuro()
+        if(!this.state.profesional)
+          this.goToMuro()
+        else
+          this.props.muroP()
       }).catch(function(err){
         
       })
