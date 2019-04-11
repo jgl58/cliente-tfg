@@ -26,7 +26,7 @@ class API {
     }
 
     getOfertasCreadas() {
-        
+
         return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas")
             .then(function (response) {
                 return response.json()
@@ -34,38 +34,46 @@ class API {
     }
 
     getOferta(id) {
-        
-        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas/"+id)
+
+        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id)
             .then(function (response) {
                 return response.json()
             })
     }
 
-    getCliente(){
+    getCliente() {
         return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser'))
-        .then(function (response) {
-            return response.json()
-        })
+            .then(function (response) {
+                return response.json()
+            })
     }
 
-    updateCliente(json){
-        return fetch("http://localhost:3030/users/"+reactLocalStorage.get('idUser'), {
+    updateCliente(json) {
+        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser'), {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json'
             },
-            body:json
+            body: json
         })
     }
 
-    crearOferta(json){
-        return fetch("http://localhost:3030/users/"+reactLocalStorage.get('idUser') + "/ofertas" , {
+    crearOferta(json) {
+        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas", {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body:json
+            body: json
         })
+    }
+
+    getProfesionalOferta(id) {
+
+        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id + "/user")
+            .then(function (response) {
+                return response.json()
+            })
     }
 
 }
