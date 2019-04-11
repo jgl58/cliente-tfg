@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import API from './API/API'
-import { Button } from "react-bootstrap"
-import { Modal } from "react-bootstrap"
+import '../App.css';
+import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { timingSafeEqual } from 'crypto';
 
 class Muro extends Component {
 
@@ -24,7 +21,7 @@ class Muro extends Component {
 
   }
 
-  crearOferta(){
+  crearOferta() {
     this.props.crearOferta();
   }
 
@@ -35,10 +32,19 @@ class Muro extends Component {
       ofertas = <label>No has creado ninguna oferta todavía</label>
     } else {
       for (let i = 0; i < this.state.ofertas.length; i++) {
+
+        let estado
+        if (this.state.ofertas[i].estado) {
+          estado = <span className="badge badge-success float-right">Seleccionada</span>
+        } else {
+          estado = <span className="badge badge-danger float-right">No seleccionada</span>
+        }
+
+
         let elem = <div className="col-sm-6 col-md-4">
           <div className="card">
-            <div className="card-header">{this.state.ofertas[i].titulo}<span className="badge badge-success float-right">Acabada</span></div>
-            <div className="card-body">{this.state.ofertas[i].descripcion}</div>
+            <div className="card-header">{this.state.ofertas[i].titulo}{estado}</div>
+            <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right"><i class="fa fa-plus"></i></a></div>
           </div>
         </div>
 
@@ -53,13 +59,23 @@ class Muro extends Component {
           <div className="card mt-3">
             <div className="card-header">
               Tus ofertas
-                <a className="float-right" onClick={this.crearOferta}><i class="fa fa-plus fa-lg"></i></a>         
+                <a className="float-right" onClick={this.crearOferta}><i class="fa fa-plus fa-lg"></i></a>
             </div>
             <div className="card-body">
-              {ofertas}
+              <div className="row">
+                {ofertas}
+              </div>
             </div>
           </div>
-
+          <div className="card mt-3">
+            <div className="card-header">
+              Historial de profesionales
+            </div>
+            <div className="card-body">
+              <div className="row">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import API from './API/API'
+import '../App.css';
+import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 
 class CrearOferta extends Component {

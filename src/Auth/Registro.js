@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import API from './API/API'
+import '../App.css';
+import API from '../API/API'
 import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 

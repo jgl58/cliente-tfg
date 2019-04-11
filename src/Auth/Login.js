@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import API from './API/API'
+import '../App.css';
+import API from '../API/API'
 import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 import {reactLocalStorage} from 'reactjs-localstorage'
@@ -64,6 +64,8 @@ class Login extends Component {
         reactLocalStorage.set('idUser',json.idUser)
         reactLocalStorage.set('nombre',json.nombre)
         this.goToMuro()
+      }).catch(function(err){
+        
       })
   }
 

@@ -1,10 +1,10 @@
 import React from 'react'
-import Login from './Login'
-import Registro from './Registro'
-import Muro from './Muro'
-import Perfil from './Perfil'
-import Navbar from './Navbar'
-import CrearOferta from './CrearOferta'
+import Login from './Auth/Login'
+import Registro from './Auth/Registro'
+import Muro from './Usuarios/Muro'
+import Perfil from './Usuarios/Perfil'
+import Navbar from './Usuarios/Navbar'
+import CrearOferta from './Ofertas/CrearOferta'
 class App extends React.Component {
 
     constructor(props) {

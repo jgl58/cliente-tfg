@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import API from './API/API'
-import { Button } from "react-bootstrap"
-import { Modal } from "react-bootstrap"
+import '../App.css'
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { timingSafeEqual } from 'crypto';
 
 class Navbar extends Component {
 
