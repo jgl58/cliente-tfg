@@ -3,6 +3,7 @@ import Login from './Login'
 import Registro from './Registro'
 import Muro from './Muro'
 import Perfil from './Perfil'
+import Navbar from './Navbar'
 class App extends React.Component{
 
     constructor(props) {
@@ -36,20 +37,22 @@ class App extends React.Component{
         switch(this.state.mostrar){
 
             case 'login':
-                return <div>
+                return <div id="ui-view">
                         <Login reg={this.registro} muro={this.muro}/>
                     </div>
             case 'registro':
-                return <div>
+                return <div id="ui-view">
                         <Registro log={this.login} />
                     </div>
             case 'muro':
-                return <div>
-                        <Muro logout={this.login} perfil={this.perfil}/>
+                return <div id="ui-view">
+                        <Navbar logout={this.login} perfil={this.perfil} muro={this.muro}/>
+                        <Muro />
                     </div>
             case 'perfil':
-                return <div>
-                    <Perfil />
+                return <div id="ui-view">
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro}/>
+                    <Perfil/>
                 </div>
         
             default:

@@ -40,6 +40,16 @@ class API {
         })
     }
 
+    updateCliente(json){
+        return fetch("http://localhost:3030/users/"+reactLocalStorage.get('idUser'), {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body:json
+        })
+    }
+
 }
 
 export default API
