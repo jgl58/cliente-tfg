@@ -12,12 +12,14 @@ class Perfil extends Component {
     }
 
     componentWillMount() {
-        if(reactLocalStorage.get("isProfesional")){
+        if(reactLocalStorage.get("isProfesional") == 'true'){
+            console.log("Soy profesional")
             new API().getProfesional().then((json) => {
                 this.setState({ user: json.user })
                 console.log(this.state.user)
             })
         }else{
+            console.log("Soy cliente")
             new API().getCliente().then((json) => {
                 this.setState({ user: json.user })
                 console.log(this.state.user)
@@ -55,7 +57,7 @@ class Perfil extends Component {
         var json = JSON.stringify(us)
         console.log("Enviando: "+json)
 
-        if(reactLocalStorage.get("isProfesional")){
+        if(reactLocalStorage.get("isProfesional") == 'true'){
             new API().updateProfesional(json).then((response) => {
                 if (response.ok) {
                     this.setState({user: us})
