@@ -90,19 +90,19 @@ class Oferta extends Component {
                                 <div className="card-body">
                                     <div className="form-horizontal">
                                         <div className="form-group row">
-                                            <label className="col-md-3 col-form-label" for="text-input">Titulo</label>
+                                            <label className="col-md-3 col-form-label">Titulo</label>
                                             <div className="col-md-9">
                                                 <input className="form-control" id="titulo" type="text" name="text-input" placeholder={this.state.oferta.titulo} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-md-3 col-form-label" for="text-input">Descripción</label>
+                                            <label className="col-md-3 col-form-label">Descripción</label>
                                             <div className="col-md-9">
                                                 <textarea className="form-control" id="descripcion" type="text" name="textarea-input" placeholder={this.state.oferta.descripcion} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-md-3 col-form-label" for="text-input">Estado</label>
+                                            <label className="col-md-3 col-form-label">Estado</label>
                                             <div className="col-md-9">
                                                 {estado}
                                             </div>

@@ -1,11 +1,12 @@
 
 import { reactLocalStorage } from 'reactjs-localstorage';
+const API_URL = 'http://jonaygilabert.ddns.net:3030/'
 class API {
     constructor() {
-        this.API_URL = 'http://localhost:3030/'
+        this.API_URL = 'http://jonaygilabert.ddns.net:3030/'
     }
     login(json) {
-        return fetch('http://localhost:3030/login', {
+        return fetch(API_URL+'login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -16,7 +17,7 @@ class API {
     }
 
     registro(json) {
-        return fetch('http://localhost:3030/registro', {
+        return fetch(API_URL+'registro', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -27,7 +28,15 @@ class API {
 
     getOfertasCreadas() {
 
-        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas")
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas")
+            .then(function (response) {
+                return response.json()
+            })
+    }
+
+    getTrabajos() {
+
+        return fetch(API_URL+"profesional/" + reactLocalStorage.get('idUser') + "/trabajos")
             .then(function (response) {
                 return response.json()
             })
@@ -35,28 +44,28 @@ class API {
 
     getOferta(id) {
 
-        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id)
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id)
             .then(function (response) {
                 return response.json()
             })
     }
 
     getCliente() {
-        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser'))
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser'))
             .then(function (response) {
                 return response.json()
             })
     }
 
     getProfesional() {
-        return fetch("http://localhost:3030/profesionales/" + reactLocalStorage.get('idUser'))
+        return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser'))
             .then(function (response) {
                 return response.json()
             })
     }
 
     updateCliente(json) {
-        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser'), {
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser'), {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json'
@@ -66,7 +75,7 @@ class API {
     }
 
     updateProfesional(json) {
-        return fetch("http://localhost:3030/profesionales/" + reactLocalStorage.get('idUser'), {
+        return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser'), {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json'
@@ -76,7 +85,7 @@ class API {
     }
 
     crearOferta(json) {
-        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas", {
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas", {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -87,7 +96,14 @@ class API {
 
     getProfesionalOferta(id) {
 
-        return fetch("http://localhost:3030/users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id + "/user")
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id + "/user")
+            .then(function (response) {
+                return response.json()
+            })
+    }
+    getHistorialProfesionales(id) {
+
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/profesionales")
             .then(function (response) {
                 return response.json()
             })

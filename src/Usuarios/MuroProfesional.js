@@ -15,7 +15,7 @@ class MuroProfesional extends Component {
   componentWillMount() {
     this.setState({ nick: reactLocalStorage.get('nombre') })
 
-    new API().getOfertasCreadas()
+    new API().getTrabajos()
       .then((json) => {
         this.setState({ ofertas: json.ofertas })
       })
@@ -64,8 +64,7 @@ class MuroProfesional extends Component {
         <div className="container-fluid">
           <div className="card mt-3">
             <div className="card-header">
-              Tus ofertas
-                <a className="float-right" onClick={this.crearOferta}><i class="fa fa-plus fa-lg"></i></a>
+              Tus trabajos aceptados
             </div>
             <div className="card-body">
               <div className="row">

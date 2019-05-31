@@ -62,6 +62,7 @@ class Perfil extends Component {
                 if (response.ok) {
                     this.setState({user: us})
                     reactLocalStorage.set('nombre', us.nombre)
+                    reactLocalStorage.set('provincia',us.provincia)
                     alert('Datos actualizados')
                 } else {
                     alert('Datos incorrectos')
@@ -72,6 +73,7 @@ class Perfil extends Component {
                 if (response.ok) {
                     this.setState({user: us})
                     reactLocalStorage.set('nombre', us.nombre)
+                    reactLocalStorage.set('provincia',us.provincia)
                     alert('Datos actualizados')
                 } else {
                     alert('Datos incorrectos')

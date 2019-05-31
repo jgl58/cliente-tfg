@@ -64,6 +64,7 @@ class Login extends Component {
         reactLocalStorage.set('idUser',json.idUser)
         reactLocalStorage.set('isProfesional',this.state.profesional)
         reactLocalStorage.set('nombre',json.nombre)
+        reactLocalStorage.set('provincia',json.provincia)
         if(!this.state.profesional)
           this.goToMuro()
         else

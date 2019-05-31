@@ -7,14 +7,19 @@ class CrearOferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { titulo: "", descripcion: ""}
+        this.state = { titulo: "", descripcion: "", provincia:""}
         this.crearOferta = this.crearOferta.bind(this)
+    }
+
+    componentWillMount(){
+        this.setState({provincia: reactLocalStorage.get("provincia")})
     }
 
     crearOferta() {
         var oferta = {
             titulo: this.state.titulo,
-            descripcion: this.state.descripcion
+            descripcion: this.state.descripcion,
+            provincia: this.state.provincia
         }
         var json = JSON.stringify(oferta)
 
@@ -51,6 +56,12 @@ class CrearOferta extends Component {
                                     <label className="col-md-3 col-form-label" for="text-input">Descripción</label>
                                     <div className="col-md-9">
                                         <textarea className="form-control" id="descripcion" type="text" name="textarea-input" onChange={(event) => this.setState({ descripcion: event.target.value })} />
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-md-3 col-form-label" for="text-input">Provincia</label>
+                                    <div className="col-md-9">
+                                    <input className="form-control" id="provincia" type="text" name="text-input" placeholder={this.state.provincia} value={this.state.provincia} />
                                     </div>
                                 </div>
                             </div>
