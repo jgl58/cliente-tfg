@@ -38,7 +38,7 @@ class Navbar extends Component {
         <div className="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Hola {this.state.nick}
         </div>
-        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
           <a className="dropdown-item" href="#" onClick={this.perfil}>Perfil</a>
           <div className="dropdown-divider"></div>
           <a className="dropdown-item" onClick={this.logout} href="#">Cerrar sesión</a>
