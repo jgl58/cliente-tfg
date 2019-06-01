@@ -151,6 +151,18 @@ class API {
             })
     }
 
+    getHistorialClientes(id) {
+
+        return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser') + "/clientes",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+            .then(function (response) {
+                return response.json()
+            })
+    }
+
 }
 
 export default API

@@ -13,6 +13,7 @@ class MuroCiente extends Component {
   }
 
   componentWillMount() {
+    console.log("Muro Cliente")
     this.setState({ nick: reactLocalStorage.get('nombre') })
 
     new API().getOfertasCreadas()

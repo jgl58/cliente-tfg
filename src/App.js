@@ -7,6 +7,7 @@ import Perfil from './Usuarios/Perfil'
 import Navbar from './Usuarios/Navbar'
 import CrearOferta from './Ofertas/CrearOferta'
 import Oferta from './Ofertas/Oferta'
+import { reactLocalStorage } from 'reactjs-localstorage';
 class App extends React.Component {
 
     constructor(props) {
@@ -41,7 +42,12 @@ class App extends React.Component {
     }
 
     muro() {
-        this.setState({ mostrar: 'muro' })
+        if(reactLocalStorage.get('isProfesional') == 'true'){
+            this.setState({ mostrar: 'muro-p' })
+        }else{
+            this.setState({ mostrar: 'muro' })
+        }
+        
     }
 
     muroProfesional() {

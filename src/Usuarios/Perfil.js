@@ -12,6 +12,7 @@ class Perfil extends Component {
     }
 
     componentWillMount() {
+        console.log(reactLocalStorage.get("isProfesional"))
         if(reactLocalStorage.get("isProfesional") === 'true'){
             console.log("Soy profesional")
             new API().getProfesional().then((json) => {
@@ -64,6 +65,7 @@ class Perfil extends Component {
                     reactLocalStorage.set('nombre', us.nombre)
                     reactLocalStorage.set('provincia',us.provincia)
                     alert('Datos actualizados')
+                    console.log("Actualizado profesional")
                 } else {
                     alert('Datos incorrectos')
                 }

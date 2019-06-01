@@ -7,17 +7,22 @@ class MuroProfesional extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { nick: '', ofertas: [] }
+    this.state = { nick: '', ofertas: [], clientes: [] }
     this.crearOferta = this.crearOferta.bind(this)
     this.goOferta = this.goOferta.bind(this)
   }
 
   componentWillMount() {
+    console.log("Muro Profesional")
     this.setState({ nick: reactLocalStorage.get('nombre') })
 
     new API().getTrabajos()
       .then((json) => {
         this.setState({ ofertas: json.ofertas })
+         
+        new API().getHistorialClientes().then((json) => {
+          this.setState({ clientes: json.clientes })
+        })
       })
 
   }
@@ -35,6 +40,7 @@ class MuroProfesional extends Component {
   render() {
 
     let ofertas = []
+    let clientes = []
     if (this.state.ofertas.length == 0) {
       ofertas = <label>No has creado ninguna oferta todavía</label>
     } else {
@@ -59,6 +65,24 @@ class MuroProfesional extends Component {
 
     }
 
+    if (this.state.clientes.length == 0) {
+      clientes = <label>No tienes clientes todavía</label>
+    } else {
+      for (let i = 0; i < this.state.clientes.length; i++) {
+
+        let elem = <div className="col-sm-6 col-md-3">
+                <div className="card">
+                  <div className="card-header">{this.state.clientes[i].nombre} {this.state.clientes[i].apellidos}</div>
+                  <div className="card-body">
+                    <div className="btn btn-primary">Contactar</div>
+                  </div>
+                </div>
+              </div>
+
+clientes.push(elem)
+      }
+    }
+
     return (
       <div>
         <div className="container-fluid">
@@ -78,6 +102,7 @@ class MuroProfesional extends Component {
             </div>
             <div className="card-body">
               <div className="row">
+                {clientes}
               </div>
             </div>
           </div>
