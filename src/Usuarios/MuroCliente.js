@@ -18,7 +18,7 @@ class MuroCiente extends Component {
     new API().getOfertasCreadas()
       .then((json) => {
         this.setState({ ofertas: json.ofertas })
-
+        
         new API().getHistorialProfesionales().then((json) => {
           this.setState({ profesionales: json.profesionales })
         })
@@ -39,12 +39,14 @@ class MuroCiente extends Component {
 
   render() {
 
-    let ofertas = []
+    var ofertas = []
+    var profesionales = []
     if (this.state.ofertas.length == 0) {
+      
       ofertas = <label>No has creado ninguna oferta todavía</label>
     } else {
       for (let i = 0; i < this.state.ofertas.length; i++) {
-
+        console.log(this.state.ofertas[i])
         let estado
         if (this.state.ofertas[i].estado) {
           estado = <span className="badge badge-success float-right">Seleccionada</span>
@@ -63,10 +65,10 @@ class MuroCiente extends Component {
       }
 
     }
-
-    let profesionales = []
+    
+    
     if (this.state.profesionales.length == 0) {
-      ofertas = <label>No tienes profesionales todavía</label>
+      profesionales = <label>No tienes profesionales todavía</label>
     } else {
       for (let i = 0; i < this.state.profesionales.length; i++) {
 
@@ -81,12 +83,9 @@ class MuroCiente extends Component {
 
         profesionales.push(elem)
       }
-
     }
 
     
-    
-
     return (
       <div>
         <div className="container-fluid">
@@ -107,7 +106,7 @@ class MuroCiente extends Component {
             </div>
             <div className="card-body">
               <div className="row">
-                {profesionales}
+              {profesionales}
               </div>
             </div>
           </div>

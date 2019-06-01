@@ -28,15 +28,22 @@ class API {
 
     getOfertasCreadas() {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas")
-            .then(function (response) {
-                return response.json()
-            })
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        }).then(function (response) {
+            return response.json()
+        })
     }
 
     getTrabajos() {
 
-        return fetch(API_URL+"profesional/" + reactLocalStorage.get('idUser') + "/trabajos")
+        return fetch(API_URL+"profesional/" + reactLocalStorage.get('idUser') + "/trabajos",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
             .then(function (response) {
                 return response.json()
             })
@@ -44,21 +51,33 @@ class API {
 
     getOferta(id) {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id)
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id,{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
             .then(function (response) {
                 return response.json()
             })
     }
 
     getCliente() {
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser'))
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser'),{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
             .then(function (response) {
                 return response.json()
             })
     }
 
     getProfesional() {
-        return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser'))
+        return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser'),{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
             .then(function (response) {
                 return response.json()
             })
@@ -68,7 +87,8 @@ class API {
         return fetch(API_URL+"users/" + reactLocalStorage.get('idUser'), {
             method: 'PUT',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': reactLocalStorage.get('token')
             },
             body: json
         })
@@ -78,7 +98,8 @@ class API {
         return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser'), {
             method: 'PUT',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': reactLocalStorage.get('token')
             },
             body: json
         })
@@ -88,7 +109,8 @@ class API {
         return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas", {
             method: 'POST',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': reactLocalStorage.get('token')
             },
             body: json
         })
@@ -96,14 +118,34 @@ class API {
 
     getProfesionalOferta(id) {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id + "/user")
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id + "/profesional",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+            .then(function (response) {
+                return response.json()
+            })
+    }
+
+    getClienteTrabajo(id) {
+
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id + "/user",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
             .then(function (response) {
                 return response.json()
             })
     }
     getHistorialProfesionales(id) {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/profesionales")
+        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/profesionales",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
             .then(function (response) {
                 return response.json()
             })

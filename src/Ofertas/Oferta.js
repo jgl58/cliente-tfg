@@ -18,10 +18,19 @@ class Oferta extends Component {
             this.setState({ oferta: json.oferta })
 
             if (json.oferta.estado) {
-                new API().getProfesionalOferta(reactLocalStorage.get("idOferta")).then((json) => {
 
-                    this.setState({ user: json.profesional })
-                })
+                if(reactLocalStorage.get("isProfesional") === 'false'){
+                    new API().getProfesionalOferta(reactLocalStorage.get("idOferta")).then((json) => {
+
+                        this.setState({ user: json.profesional })
+                    })
+                }else{
+                    new API().getClienteTrabajo(reactLocalStorage.get("idOferta")).then((json) => {
+
+                        this.setState({ user: json.cliente })
+                    })
+                }
+                
             }
         })
     }
@@ -53,10 +62,16 @@ class Oferta extends Component {
             estado = <span className="badge badge-danger ">No seleccionada</span>
         }
 
+        let titulo = ""
+        if(reactLocalStorage.get("isProfesional") === 'false'){
+            titulo = "Profesional"
+        }else{
+            titulo = "Cliente"
+        }
         let profesional
-        if (this.state.user.nombre != undefined) {
+        if (this.state.user.nombre !== undefined) {
             profesional = <div className="card mt-3">
-                <div className="card-header">Profesional</div>
+                <div className="card-header">{titulo}</div>
                 <div className="card-body">
                     <div className="form-horizontal">
                         <div className="form-group row">
@@ -112,10 +127,9 @@ class Oferta extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col-md-6">
                             {profesional}
                         </div>
-                        <div className="col-md-3"></div>
 
                     </div>
 

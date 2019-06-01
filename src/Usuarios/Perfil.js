@@ -12,7 +12,7 @@ class Perfil extends Component {
     }
 
     componentWillMount() {
-        if(reactLocalStorage.get("isProfesional") == 'true'){
+        if(reactLocalStorage.get("isProfesional") === 'true'){
             console.log("Soy profesional")
             new API().getProfesional().then((json) => {
                 this.setState({ user: json.user })
@@ -33,31 +33,31 @@ class Perfil extends Component {
 
         var us = this.state.user;
 
-        if(this.state.nombre != ""){
+        if(this.state.nombre !== ""){
             us.nombre = this.state.nombre
         }
-        if(this.state.apellidos != ""){
+        if(this.state.apellidos !== ""){
             us.apellidos = this.state.apellidos
         }
-        if(this.state.direccion != ""){
+        if(this.state.direccion !== ""){
             us.direccion = this.state.direccion
         }
-        if(this.state.poblacion != ""){
+        if(this.state.poblacion !== ""){
             us.poblacion = this.state.poblacion
         }
-        if(this.state.provincia != ""){
+        if(this.state.provincia !== ""){
             us.provincia = this.state.provincia
         }
-        if(this.state.pais != ""){
+        if(this.state.pais !== ""){
             us.pais = this.state.pais
         }
-        if(this.state.telefono != ""){
+        if(this.state.telefono !== ""){
             us.telefono = this.state.telefono
         }
         var json = JSON.stringify(us)
         console.log("Enviando: "+json)
 
-        if(reactLocalStorage.get("isProfesional") == 'true'){
+        if(reactLocalStorage.get("isProfesional") === 'true'){
             new API().updateProfesional(json).then((response) => {
                 if (response.ok) {
                     this.setState({user: us})

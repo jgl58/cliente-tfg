@@ -63,7 +63,7 @@ class Registro extends Component {
     return <div className="App">
       <div className="container">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-12 mt-5">
 
             <Modal show={this.state.show} onHide={this.handleClose}>
               <Modal.Header closeButton>

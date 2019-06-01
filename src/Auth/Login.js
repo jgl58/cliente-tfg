@@ -61,6 +61,8 @@ class Login extends Component {
           this.handleShow()
         }
       }).then((json) => {
+        console.log(json.token)
+        reactLocalStorage.set('token',json.token)
         reactLocalStorage.set('idUser',json.idUser)
         reactLocalStorage.set('isProfesional',this.state.profesional)
         reactLocalStorage.set('nombre',json.nombre)
@@ -92,7 +94,7 @@ class Login extends Component {
       <div className="App">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-12 mt-5">
 
               <Modal show={this.state.show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
