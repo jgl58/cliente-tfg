@@ -9,7 +9,7 @@ class Login extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { email: '', pass: '', show: false , profesional: false}
+    this.state = { email: '', pass: '', show: false , profesional: true}
     this.login = this.login.bind(this)
     this.goToRegistro = this.goToRegistro.bind(this);
     this.goToMuro = this.goToMuro.bind(this);

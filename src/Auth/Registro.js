@@ -3,16 +3,24 @@ import '../App.css';
 import API from '../API/API'
 import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 class Registro extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { email: '', pass: '', confirmpassword: '', nombre: '', apellidos: '', provincia:'',poblacion:'', direccion: '', pais: '', isProfesional: false }
+    this.state = { email: '', pass: '', confirmpassword: '', nombre: '', apellidos: '', provincias:[],selectedProvincia: '',poblacion:'', direccion: '', pais: '', isProfesional: false }
     this.registrar = this.registrar.bind(this)
     this.goToLogin = this.goToLogin.bind(this);
     this.registroCliente = this.registroCliente.bind(this);
     this.registroProfesional = this.registroProfesional.bind(this);
+  }
+
+  componentWillMount(){
+
+    new API().getProvincias().then((json) => {
+      this.setState({ provincias: json.provincias })
+    })
   }
 
   goToLogin() {
@@ -28,14 +36,14 @@ class Registro extends Component {
 
   registrar(event) {
     if (this.state.pass === '' && this.state.confirmpassword === '' && this.state.email === '' && this.state.nombre === '' 
-    && this.state.poblacion === ''&& this.state.provincia === ''&& this.state.direccion === ''&& this.state.pais === '') {
+    && this.state.poblacion === ''&& this.state.selectedProvincia === ''&& this.state.direccion === ''&& this.state.pais === '') {
       alert("Introduce todos los datos")
     }
     else if (this.state.pass !== this.state.confirmpassword) {
       alert("Las contraseñas son distintas")
     } else {
       var pet = { isProfesional: this.state.isProfesional, email: this.state.email, pass: this.state.pass, nombre: this.state.nombre, apellidos: this.state.apellidos,
-      provincia: this.state.provincia, poblacion: this.state.poblacion, pais: this.state.pais, direccion: this.state.direccion };
+      provincia: this.state.selectedProvincia, poblacion: this.state.poblacion, pais: this.state.pais, direccion: this.state.direccion };
 
       var json = JSON.stringify(pet)
 
@@ -54,12 +62,18 @@ class Registro extends Component {
   render() {
     let titulo
     let enlace
+    let prov = []
     if (this.state.isProfesional) {
       titulo = <strong>Registro profesionales</strong>
       enlace = <a href="#" onClick={this.registroCliente}>Registrarse como cliente</a>
     } else {
       titulo = <strong>Registro clientes</strong>
       enlace = <a href="#" onClick={this.registroProfesional}>Registrarse como profesional</a>
+    }
+
+    for(let i=0;i<this.state.provincias.length;i++){
+      let elem = <option key={i+1} value={i+1}>{this.state.provincias[i].provincia}</option>
+      prov.push(elem)
     }
 
     return <div className="App">
@@ -151,7 +165,10 @@ class Registro extends Component {
                       <label className="">Provincia</label>
                     </div>
                     <div className="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ provincia: event.target.value })} />                 
+                      <select class="form-control" id="provincia" value={this.state.selectedProvincia} 
+              onChange={(e) => this.setState({selectedProvincia: e.target.value})}>
+                        {prov}
+                      </select>
                     </div>
                   </div>
                   <div className="position-relative row form-group">

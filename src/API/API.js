@@ -28,6 +28,17 @@ class API {
         })
     }
 
+    getProvincias() {
+
+        return fetch(API_URL+"provincias",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        }).then(function (response) {
+            return response.json()
+        })
+    }
+
     getOfertasCreadas() {
 
         return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas",{
