@@ -1,9 +1,11 @@
 
 import { reactLocalStorage } from 'reactjs-localstorage';
-const API_URL = 'http://jonaygilabert.ddns.net:3030/'
+//const API_URL = 'http://jonaygilabert.ddns.net:3030/'
+const API_URL = 'http://localhost:3030/'
 class API {
     constructor() {
-        this.API_URL = 'http://jonaygilabert.ddns.net:3030/'
+        //this.API_URL = 'http://jonaygilabert.ddns.net:3030/'
+        this.API_URL = 'http://localhost:3030/'
     }
     login(json) {
         return fetch(API_URL+'login', {

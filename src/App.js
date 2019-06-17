@@ -67,7 +67,7 @@ class App extends React.Component {
                 </div>
             case 'registro':
                 return <div id="ui-view">
-                    <Registro log={this.login} />
+                    <Registro log={this.login}/>
                 </div>
             case 'muro':
                 return <div id="ui-view">

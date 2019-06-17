@@ -8,7 +8,7 @@ class Registro extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { email: '', pass: '', confirmpassword: '', nombre: '', apellidos: '', isProfesional: false }
+    this.state = { email: '', pass: '', confirmpassword: '', nombre: '', apellidos: '', provincia:'',poblacion:'', direccion: '', pais: '', isProfesional: false }
     this.registrar = this.registrar.bind(this)
     this.goToLogin = this.goToLogin.bind(this);
     this.registroCliente = this.registroCliente.bind(this);
@@ -27,13 +27,15 @@ class Registro extends Component {
   }
 
   registrar(event) {
-    if (this.state.pass === '' && this.state.confirmpassword === '' && this.state.email === '' && this.state.nombre === '' && this.state.apellidos === '') {
+    if (this.state.pass === '' && this.state.confirmpassword === '' && this.state.email === '' && this.state.nombre === '' 
+    && this.state.poblacion === ''&& this.state.provincia === ''&& this.state.direccion === ''&& this.state.pais === '') {
       alert("Introduce todos los datos")
     }
     else if (this.state.pass !== this.state.confirmpassword) {
       alert("Las contraseñas son distintas")
     } else {
-      var pet = { isProfesional: this.state.isProfesional, email: this.state.email, pass: this.state.pass, nombre: this.state.nombre, apellidos: this.state.apellidos };
+      var pet = { isProfesional: this.state.isProfesional, email: this.state.email, pass: this.state.pass, nombre: this.state.nombre, apellidos: this.state.apellidos,
+      provincia: this.state.provincia, poblacion: this.state.poblacion, pais: this.state.pais, direccion: this.state.direccion };
 
       var json = JSON.stringify(pet)
 
@@ -126,6 +128,38 @@ class Registro extends Component {
                     <div className="col-12 col-md-9">
                       <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ apellidos: event.target.value })} />
                       <small className="help-block form-text text-muted">Introduce tus apellidos</small>
+                    </div>
+                  </div>
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Direccion</label>
+                    </div>
+                    <div className="col-12 col-md-9">
+                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ direccion: event.target.value })} />  
+                    </div>
+                  </div>
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Población</label>
+                    </div>
+                    <div className="col-12 col-md-9">
+                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ poblacion: event.target.value })} />  
+                    </div>
+                  </div>
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Provincia</label>
+                    </div>
+                    <div className="col-12 col-md-9">
+                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ provincia: event.target.value })} />                 
+                    </div>
+                  </div>
+                  <div className="position-relative row form-group">
+                    <div className="col-md-3">
+                      <label className="">Pais</label>
+                    </div>
+                    <div className="col-12 col-md-9">
+                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ pais: event.target.value })} />  
                     </div>
                   </div>
                   <div className="position-relative row form-group">
