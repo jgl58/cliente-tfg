@@ -77,7 +77,7 @@ class App extends React.Component {
             case 'muro-p':
                 return <div id="ui-view">
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
-                    <MuroProfesional crearOferta={this.crearOferta} oferta={this.oferta} />
+                    <MuroProfesional crearOferta={this.crearOferta} oferta={this.oferta} goToPerfil={this.perfil} />
                 </div>
             case 'perfil':
                 return <div id="ui-view">

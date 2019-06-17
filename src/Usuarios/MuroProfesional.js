@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
+import Perfil from './Perfil';
 
 class MuroProfesional extends Component {
 
@@ -10,6 +11,7 @@ class MuroProfesional extends Component {
     this.state = { nick: '', ofertas: [], clientes: [] }
     this.crearOferta = this.crearOferta.bind(this)
     this.goOferta = this.goOferta.bind(this)
+    this.perfil = this.perfil.bind(this)
   }
 
   componentWillMount() {
@@ -35,6 +37,9 @@ class MuroProfesional extends Component {
 
   crearOferta() {
     this.props.crearOferta();
+  }
+  perfil(){
+    this.props.goToPerfil()
   }
 
   render() {
@@ -83,8 +88,18 @@ clientes.push(elem)
       }
     }
 
+    
+
     return (
+      
       <div>
+        
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Atención</strong> Por favor, debes de acabar tu <a href="#" onClick={this.perfil} >perfil</a>.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div className="container-fluid">
           <div className="card mt-3">
             <div className="card-header">
