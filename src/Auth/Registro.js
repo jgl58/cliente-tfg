@@ -9,7 +9,7 @@ class Registro extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { email: '', pass: '', confirmpassword: '', nombre: '', apellidos: '', provincias:[],selectedProvincia: '',poblacion:'', direccion: '', pais: '', isProfesional: false }
+    this.state = { email: '', pass: '', confirmpassword: '', nombre: '', apellidos: '', provincias:[],selectedProvincia: '',poblacion:'', direccion: '', pais: '', isProfesional: true }
     this.registrar = this.registrar.bind(this)
     this.goToLogin = this.goToLogin.bind(this);
     this.registroCliente = this.registroCliente.bind(this);
@@ -42,8 +42,10 @@ class Registro extends Component {
     else if (this.state.pass !== this.state.confirmpassword) {
       alert("Las contraseñas son distintas")
     } else {
+
+      let elem = this.state.provincias.find(element => element.id == this.state.selectedProvincia)
       var pet = { isProfesional: this.state.isProfesional, email: this.state.email, pass: this.state.pass, nombre: this.state.nombre, apellidos: this.state.apellidos,
-      provincia: this.state.selectedProvincia, poblacion: this.state.poblacion, pais: this.state.pais, direccion: this.state.direccion };
+      provincia: elem.id, poblacion: this.state.poblacion, pais: this.state.pais, direccion: this.state.direccion };
 
       var json = JSON.stringify(pet)
 
@@ -72,7 +74,7 @@ class Registro extends Component {
     }
 
     for(let i=0;i<this.state.provincias.length;i++){
-      let elem = <option key={i+1} value={i+1}>{this.state.provincias[i].provincia}</option>
+      let elem = <option key={i+1} value={this.state.provincias[i].id}>{this.state.provincias[i].provincia}</option>
       prov.push(elem)
     }
 
@@ -105,7 +107,7 @@ class Registro extends Component {
                     </div>
                     <div className="col-12 col-md-9">
                       <input id="hf-email" name="hf-email" placeholder="" type="email" className="form-control" onChange={(event) => this.setState({ email: event.target.value })} />
-                      <small className="help-block form-text text-muted">Introduce tu email</small>
+                      
                     </div>
                   </div>
                   <div className="position-relative row form-group">
@@ -114,7 +116,7 @@ class Registro extends Component {
                     </div>
                     <div className="col-12 col-md-9">
                       <input id="hf-password" name="hf-password" placeholder="" type="password" className="form-control" onChange={(event) => this.setState({ pass: event.target.value })} />
-                      <small className="help-block form-text text-muted">Introduce tu contraseña</small>
+                      
                     </div>
                   </div>
                   <div className="position-relative row form-group">
@@ -123,7 +125,7 @@ class Registro extends Component {
                     </div>
                     <div className="col-12 col-md-9">
                       <input id="hf-password" name="hf-password" placeholder="" type="password" className="form-control" onChange={(event) => this.setState({ confirmpassword: event.target.value })} />
-                      <small className="help-block form-text text-muted">Repite la contraseña</small>
+                      
                     </div>
                   </div>
                   <div className="position-relative row form-group">
@@ -132,7 +134,7 @@ class Registro extends Component {
                     </div>
                     <div className="col-12 col-md-9">
                       <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ nombre: event.target.value })} />
-                      <small className="help-block form-text text-muted">Introduce tu nombre</small>
+                     
                     </div>
                   </div>
                   <div className="position-relative row form-group">
@@ -141,12 +143,12 @@ class Registro extends Component {
                     </div>
                     <div className="col-12 col-md-9">
                       <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ apellidos: event.target.value })} />
-                      <small className="help-block form-text text-muted">Introduce tus apellidos</small>
+                      
                     </div>
                   </div>
                   <div className="position-relative row form-group">
                     <div className="col-md-3">
-                      <label className="">Direccion</label>
+                      <label className="">Dirección</label>
                     </div>
                     <div className="col-12 col-md-9">
                       <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ direccion: event.target.value })} />  
@@ -192,11 +194,13 @@ class Registro extends Component {
                 </div>
               </div>
               <div className="card-footer">
-
-                <button type="reset" className="btn btn-ghost-danger" onClick={this.goToLogin}>
-                  <i className="fa fa-ban"></i> Ir a inicio de sesion</button>
-
-                {enlace}
+                <div className="col-md-12">
+                <button type="reset" className="btn btn-info" onClick={this.goToLogin}>Ir a inicio de sesion</button>
+                </div>
+                <div className="col-md-12 mt-2">
+                  {enlace}
+                </div>
+                
               </div>
             </div>
 

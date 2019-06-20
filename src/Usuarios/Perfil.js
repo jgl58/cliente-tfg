@@ -7,25 +7,30 @@ class Perfil extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { user: {}, nombre: "", apellidos: "", direccion: "", poblacion: "", provincia: "", pais: "", telefono: "" }
+        this.state = {provincias:[], user: {}, nombre: "", apellidos: "", direccion: "", poblacion: "",newProvincia:"", provincia: {}, pais: "", telefono: "" }
         this.editarUsuario = this.editarUsuario.bind(this)
     }
 
     componentWillMount() {
-        console.log(reactLocalStorage.get("isProfesional"))
-        if(reactLocalStorage.get("isProfesional") === 'true'){
-            console.log("Soy profesional")
-            new API().getProfesional().then((json) => {
-                this.setState({ user: json.user })
-                console.log(this.state.user)
+        new API().getProvincias().then((json) => {
+            this.setState({ provincias: json.provincias })
+
+            new API().getProvincia(reactLocalStorage.get("provincia")).then((json) => {
+                this.setState({ provincia: json.provincia })
+                if(reactLocalStorage.get("isProfesional") === 'true'){
+                    new API().getProfesional().then((json) => {
+                        this.setState({ user: json.user })
+                    })
+                }else{
+                    new API().getCliente().then((json) => {
+                        this.setState({ user: json.user })
+                    })
+                }
             })
-        }else{
-            console.log("Soy cliente")
-            new API().getCliente().then((json) => {
-                this.setState({ user: json.user })
-                console.log(this.state.user)
-            })
-        }
+
+            
+            
+        })
         
         
     }
@@ -46,8 +51,12 @@ class Perfil extends Component {
         if(this.state.poblacion !== ""){
             us.poblacion = this.state.poblacion
         }
-        if(this.state.provincia !== ""){
-            us.provincia = this.state.provincia
+        console.log(this.state.newProvincia)
+        console.log(this.state.provincia)
+        if(this.state.newProvincia != "" && this.state.newProvincia != this.state.provincia.id){
+            console.log("Actualizando provincia ")
+            let elem = this.state.provincias.find(element => element.id == this.state.newProvincia)
+            us.provincia = this.state.newProvincia
         }
         if(this.state.pais !== ""){
             us.pais = this.state.pais
@@ -56,7 +65,6 @@ class Perfil extends Component {
             us.telefono = this.state.telefono
         }
         var json = JSON.stringify(us)
-        console.log("Enviando: "+json)
 
         if(reactLocalStorage.get("isProfesional") === 'true'){
             new API().updateProfesional(json).then((response) => {
@@ -65,7 +73,6 @@ class Perfil extends Component {
                     reactLocalStorage.set('nombre', us.nombre)
                     reactLocalStorage.set('provincia',us.provincia)
                     alert('Datos actualizados')
-                    console.log("Actualizado profesional")
                 } else {
                     alert('Datos incorrectos')
                 }
@@ -87,6 +94,16 @@ class Perfil extends Component {
     }
 
     render() {
+        let prov = []
+        for(let i=0;i<this.state.provincias.length;i++){
+            let elem
+            if(this.state.provincias[i].provincia != this.state.user.provincia){
+                elem = <option key={i+1} value={this.state.provincias[i].id}>{this.state.provincias[i].provincia}</option>
+            }
+            
+            prov.push(elem)
+        }
+        
 
         return (
             <div>
@@ -124,8 +141,11 @@ class Perfil extends Component {
                                 <div className="form-group row">
                                     <label className="col-md-3 col-form-label" for="text-input">Provincia</label>
                                     <div className="col-md-9">
-                                        <input className="form-control" id="provincia" type="text" name="text-input" placeholder={this.state.user.provincia} onChange={(event) => this.setState({ provincia: event.target.value })} />
-                                    </div>
+                                    <select class="form-control" id="provincia" value={this.state.newProvincia} 
+                                        onChange={(e) => this.setState({newProvincia: e.target.value})}>
+                                                <option selected>{this.state.provincia.provincia}</option>
+                                                    {prov}
+                                    </select></div>
                                 </div>
                                 <div className="form-group row">
                                     <label className="col-md-3 col-form-label" for="text-input">Pais</label>

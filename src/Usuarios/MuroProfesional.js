@@ -15,7 +15,6 @@ class MuroProfesional extends Component {
   }
 
   componentWillMount() {
-    console.log("Muro Profesional")
     this.setState({ nick: reactLocalStorage.get('nombre') })
 
     new API().getTrabajos()

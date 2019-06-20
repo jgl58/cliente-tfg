@@ -3,7 +3,7 @@ import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 
-class MuroCiente extends Component {
+class MuroCliente extends Component {
 
   constructor(props) {
     super(props)
@@ -13,7 +13,6 @@ class MuroCiente extends Component {
   }
 
   componentWillMount() {
-    console.log("Muro Cliente")
     this.setState({ nick: reactLocalStorage.get('nombre') })
 
     new API().getOfertasCreadas()
@@ -29,7 +28,6 @@ class MuroCiente extends Component {
   }
 
   goOferta(id){
-    console.log("Visitando oferta "+id)
     reactLocalStorage.set('idOferta',id)
     this.props.oferta()
   }
@@ -47,7 +45,6 @@ class MuroCiente extends Component {
       ofertas = <label>No has creado ninguna oferta todavía</label>
     } else {
       for (let i = 0; i < this.state.ofertas.length; i++) {
-        console.log(this.state.ofertas[i])
         let estado
         if (this.state.ofertas[i].estado) {
           estado = <span className="badge badge-success float-right">Seleccionada</span>
@@ -117,5 +114,5 @@ class MuroCiente extends Component {
   }
 }
 
-export default MuroCiente;
+export default MuroCliente;
 

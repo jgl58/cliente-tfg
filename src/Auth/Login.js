@@ -61,7 +61,6 @@ class Login extends Component {
           this.handleShow()
         }
       }).then((json) => {
-        console.log(json.token)
         reactLocalStorage.set('token',json.token)
         reactLocalStorage.set('idUser',json.idUser)
         reactLocalStorage.set('isProfesional',this.state.profesional)
@@ -144,11 +143,12 @@ class Login extends Component {
                   </div>
                 </div>
                 <div className="card-footer">
-                  
-                  <button type="reset" className="btn btn-ghost-danger" onClick={this.goToRegistro}>
-                    <i className="fa fa-ban"></i> Registrarse</button>
-
-                  {enlace}
+                    <div className="col-md-12">
+                    <button type="reset" className="btn btn-info" onClick={this.goToRegistro}>Registrarse</button>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                      {enlace}
+                    </div>
                 </div>
               </div>
 
