@@ -12,14 +12,17 @@ class CrearOferta extends Component {
     }
 
     componentWillMount(){
-        this.setState({provincia: reactLocalStorage.get("provincia")})
+        new API().getProvincia(reactLocalStorage.get("provincia")).then((json) => {
+            this.setState({ provincia: json.provincia })
+            console.log(this.state.provincia)
+        })
     }
 
     crearOferta() {
         var oferta = {
             titulo: this.state.titulo,
             descripcion: this.state.descripcion,
-            provincia: this.state.provincia
+            provincia: this.state.provincia.id
         }
         var json = JSON.stringify(oferta)
 
@@ -61,7 +64,7 @@ class CrearOferta extends Component {
                                 <div className="form-group row">
                                     <label className="col-md-3 col-form-label" for="text-input">Provincia</label>
                                     <div className="col-md-9">
-                                    <input className="form-control" id="provincia" type="text" name="text-input" placeholder={this.state.provincia} value={this.state.provincia} />
+                                    <input className="form-control" id="provincia" type="text" name="text-input" value={this.state.provincia.provincia} />
                                     </div>
                                 </div>
                             </div>
