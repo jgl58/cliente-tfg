@@ -18,6 +18,14 @@ class Login extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.loginCliente = this.loginCliente.bind(this);
     this.loginProfesional = this.loginProfesional.bind(this);
+    
+   
+  }
+  componentWillMount(){
+    if(reactLocalStorage.get('token') != undefined){
+      console.log("Token: "+ reactLocalStorage.get("token"))
+      console.log("Hay un token guardado")
+    }
   }
 
   loginProfesional(){
@@ -48,7 +56,7 @@ class Login extends Component {
 
 
   login(event) {
-
+    
     var pet = {profesional:this.state.profesional, email: this.state.email, pass: this.state.pass };
     var json = JSON.stringify(pet)
     

@@ -7,6 +7,7 @@ import Perfil from './Usuarios/Perfil'
 import Navbar from './Usuarios/Navbar'
 import CrearOferta from './Ofertas/CrearOferta'
 import Oferta from './Ofertas/Oferta'
+import Buscador from './Buscador/Buscador'
 import { reactLocalStorage } from 'reactjs-localstorage';
 class App extends React.Component {
 
@@ -22,6 +23,7 @@ class App extends React.Component {
         this.perfil = this.perfil.bind(this)
         this.crearOferta = this.crearOferta.bind(this)
         this.oferta = this.oferta.bind(this)
+        this.buscador = this.buscador.bind(this)
 
     }
 
@@ -39,6 +41,10 @@ class App extends React.Component {
 
     login() {
         this.setState({ mostrar: 'login' })
+    }
+
+    buscador() {
+        this.setState({ mostrar: 'buscador' })
     }
 
     muro() {
@@ -62,39 +68,45 @@ class App extends React.Component {
         switch (this.state.mostrar) {
 
             case 'login':
-                return <div id="ui-view">
+                return <div>
                     <Login reg={this.registro} muro={this.muro} muroP={this.muroProfesional}/>
                 </div>
             case 'registro':
-                return <div id="ui-view">
+                return <div>
                     <Registro log={this.login}/>
                 </div>
             case 'muro':
-                return <div id="ui-view">
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
                     <MuroCiente crearOferta={this.crearOferta} oferta={this.oferta} />
                 </div>
             case 'muro-p':
-                return <div id="ui-view">
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
                     <MuroProfesional crearOferta={this.crearOferta} oferta={this.oferta} goToPerfil={this.perfil} />
                 </div>
             case 'perfil':
-                return <div id="ui-view">
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
                     <Perfil />
                 </div>
 
             case 'crear-oferta':
-                return <div id="ui-view">
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
                     <CrearOferta muro={this.muro} />
                 </div>
 
             case 'oferta':
-                return <div id="ui-view">
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} />
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
                     <Oferta muro={this.muro} />
+                </div>
+
+            case 'buscador':
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
+                    <Buscador/>
                 </div>
             default:
                 return <div>

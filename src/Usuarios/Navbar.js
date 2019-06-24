@@ -10,6 +10,7 @@ class Navbar extends Component {
     this.logout = this.logout.bind(this)
     this.perfil = this.perfil.bind(this)
     this.muro = this.muro.bind(this)
+    this.buscador = this.buscador.bind(this)
   }
 
   componentWillMount() {
@@ -29,22 +30,48 @@ class Navbar extends Component {
     this.props.perfil();
   }
 
+  buscador(){
+    this.props.buscador();
+  }
+
 
   render() {
-    return (
-        <nav className="navbar navbar-light bg-light">
-      <span className="navbar-brand mb-0 h1"><a href="#" onClick={this.muro}>Home</a></span>
-      <div className="dropdown pull-right">
-        <div className="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Hola {this.state.nick}
-        </div>
-        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-          <a className="dropdown-item" href="#" onClick={this.perfil}>Perfil</a>
-          <div className="dropdown-divider"></div>
-          <a className="dropdown-item" onClick={this.logout} href="#">Cerrar sesión</a>
-        </div>
-      </div>
-    </nav>
+
+    let elem
+    if(reactLocalStorage.get('isProfesional')=='true'){
+      elem =<li className="nav-item">
+        <a className="nav-link" href="#"onClick={this.buscador}>Buscar</a>
+      </li>
+    }
+    return (<nav className="navbar navbar-expand-lg navbar-dark primary-color">
+  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+    aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span className="navbar-toggler-icon"></span>
+  </button>
+
+  <div className="collapse navbar-collapse" id="basicExampleNav">
+
+    <ul className="navbar-nav mr-auto">
+      <li className="nav-item active">
+        <a className="nav-link" href="#"  onClick={this.muro}>Home
+          <span className="sr-only">(current)</span>
+        </a>
+      </li>
+      {elem}
+  
+    </ul>
+  </div> 
+  <div className="nav-item dropdown">
+    <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" 
+      aria-haspopup="true" aria-expanded="false">Hola {this.state.nick}</a>
+    <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+    <a className="dropdown-item" href="#" onClick={this.perfil}>Perfil</a>
+      <div className="dropdown-divider"></div>
+      <a className="dropdown-item" onClick={this.logout} href="#">Cerrar sesión</a>
+    </div>
+  </div>
+
+</nav>
     );
   }
 }
