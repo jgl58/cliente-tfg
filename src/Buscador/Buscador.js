@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import '../App.css';
 import API from '../API/API'
+import BuscadorItem from './BuscadorItem'
 import { reactLocalStorage } from 'reactjs-localstorage';
 
 class Buscador extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { provincias: [], selectedProvincia: '' }  
+    this.state = {ofertas: [], provincias: [], selectedProvincia: '' }  
     this.buscar = this.buscar.bind(this)
   }
 
@@ -18,7 +19,10 @@ class Buscador extends Component {
   }
 
   buscar(){
-    
+    let elem = this.state.provincias.find(element => element.id == this.state.selectedProvincia)
+    new API().buscadorPorProvincias(elem.id).then((json) => {
+      this.setState({ ofertas: json.ofertas })
+    })
   }
 
   render() {
@@ -29,6 +33,12 @@ class Buscador extends Component {
       prov.push(elem)
     }
     
+
+    let ofertas = []
+    for(let i=0;i<this.state.ofertas.length;i++){
+      let elem = <BuscadorItem oferta={this.state.ofertas[i]}></BuscadorItem>
+      ofertas.push(elem)
+    }
     return (
       <div>
         <div className="container-fluid">
@@ -48,7 +58,9 @@ class Buscador extends Component {
             <div className="col-md-3"></div>
           
           </div>
-          
+          <div className="row">
+            {ofertas}
+          </div>
         </div>
       </div>
     );

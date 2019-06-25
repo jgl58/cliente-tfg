@@ -94,7 +94,7 @@ clientes.push(elem)
       <div>
         
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong>Atención</strong> Por favor, debes de acabar tu <a href="#" onClick={this.perfil} >perfil</a>.
+          <strong>Atención</strong> Por favor, debes de completar tu <a href="#" onClick={this.perfil} >perfil</a>.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

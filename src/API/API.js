@@ -1,11 +1,11 @@
 
 import { reactLocalStorage } from 'reactjs-localstorage';
-const API_URL = 'http://jonaygilabert.ddns.net:3030/'
-//const API_URL = 'http://localhost:3030/'
+//const API_URL = 'http://jonaygilabert.ddns.net:3030/'
+const API_URL = 'http://localhost:3030/'
 class API {
     constructor() {
-        this.API_URL = 'http://jonaygilabert.ddns.net:3030/'
-        //this.API_URL = 'http://localhost:3030/'
+        //this.API_URL = 'http://jonaygilabert.ddns.net:3030/'
+        this.API_URL = 'http://localhost:3030/'
     }
     login(json) {
         return fetch(API_URL+'login', {
@@ -178,6 +178,18 @@ class API {
     getHistorialClientes(id) {
 
         return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser') + "/clientes",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+            .then(function (response) {
+                return response.json()
+            })
+    }
+
+    buscadorPorProvincias(id) {
+
+        return fetch(API_URL+"buscador/" + id,{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
