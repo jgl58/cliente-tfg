@@ -36,16 +36,19 @@ class Buscador extends Component {
 
     let ofertas = []
     for(let i=0;i<this.state.ofertas.length;i++){
-      let elem = <BuscadorItem oferta={this.state.ofertas[i]}></BuscadorItem>
+      let elem = <div className="col-md-4 mb-2">
+        <BuscadorItem oferta={this.state.ofertas[i]}></BuscadorItem>
+      </div> 
+      
       ofertas.push(elem)
     }
     return (
       <div>
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-3"></div>
-            <div className="col-md-6">
-            <form class="form-inline mt-5">
+          <div className="row mb-2">
+            <div className="col-md-2"></div>
+            <div className="col-md-8">
+            <form class="form-inline mt-5 mb-3">
               <select class="browser-default custom-select" id="provincia" value={this.state.selectedProvincia} 
               onChange={(e) => this.setState({selectedProvincia: e.target.value})}>
                         {prov}
@@ -55,11 +58,19 @@ class Buscador extends Component {
               <i class="fas fa-search" aria-hidden="true" onClick={this.buscar}></i>
             </form>
             </div>
-            <div className="col-md-3"></div>
+            <div className="col-md-2"></div>
           
           </div>
           <div className="row">
-            {ofertas}
+            <div className="col-md-2"></div>
+            <div className="col-md-8">
+              <div className="row">
+                {ofertas}
+              </div>
+              
+            </div>
+            <div className="col-md-2"></div>
+           
           </div>
         </div>
       </div>
