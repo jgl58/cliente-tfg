@@ -106,7 +106,7 @@ class App extends React.Component {
             case 'buscador':
                 return <div >
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
-                    <Buscador/>
+                    <Buscador oferta={this.oferta}/>
                 </div>
             default:
                 return <div>

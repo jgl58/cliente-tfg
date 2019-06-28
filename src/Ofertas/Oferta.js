@@ -13,9 +13,13 @@ class Oferta extends Component {
 
 
     componentWillMount() {
+        console.log(reactLocalStorage.get("idOferta"))
         new API().getOferta(reactLocalStorage.get("idOferta")).then((json) => {
 
+            console.log("Oferta: "+json.oferta)
+
             this.setState({ oferta: json.oferta })
+            
 
             if (json.oferta.estado) {
 

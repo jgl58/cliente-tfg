@@ -8,7 +8,7 @@ class Buscador extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {ofertas: [], provincias: [], selectedProvincia: '' }  
+    this.state = {ofertas: [], provincias: [], selectedProvincia: '9' }  
     this.buscar = this.buscar.bind(this)
   }
 
@@ -18,12 +18,15 @@ class Buscador extends Component {
     })
   }
 
+
   buscar(){
     let elem = this.state.provincias.find(element => element.id == this.state.selectedProvincia)
     new API().buscadorPorProvincias(elem.id).then((json) => {
+      console.log(json.ofertas)
       this.setState({ ofertas: json.ofertas })
     })
   }
+
 
   render() {
 
@@ -36,11 +39,14 @@ class Buscador extends Component {
 
     let ofertas = []
     for(let i=0;i<this.state.ofertas.length;i++){
-      let elem = <div className="col-md-4 mb-2">
-        <BuscadorItem oferta={this.state.ofertas[i]}></BuscadorItem>
-      </div> 
       
-      ofertas.push(elem)
+      let elem = <div className="col-md-4 mb-2">
+          <BuscadorItem oferta={this.state.ofertas[i]} goOferta={this.props.oferta}></BuscadorItem>
+        </div> 
+        ofertas.push(elem)
+      
+      
+      
     }
     return (
       <div>
