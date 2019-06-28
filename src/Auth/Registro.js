@@ -167,10 +167,12 @@ class Registro extends Component {
                       <label className="">Provincia</label>
                     </div>
                     <div className="col-12 col-md-9">
+                    <div data-role="fieldcontain">
                       <select class="form-control" id="provincia" value={this.state.selectedProvincia} 
               onChange={(e) => this.setState({selectedProvincia: e.target.value})}>
                         {prov}
                       </select>
+                      </div>
                     </div>
                   </div>
                   <div className="position-relative row form-group">
