@@ -1,11 +1,11 @@
 
 import { reactLocalStorage } from 'reactjs-localstorage';
-const API_URL = 'http://192.168.1.120:3030/'
-//const API_URL = 'http://localhost:3030/'
+//const API_URL = 'http://192.168.1.120:3030/'
+const API_URL = 'http://localhost:3030/'
 class API {
     constructor() {
-        this.API_URL = 'http://192.168.1.120:3030/'
-        //this.API_URL = 'http://localhost:3030/'
+        //this.API_URL = 'http://192.168.1.120:3030/'
+        this.API_URL = 'http://localhost:3030/'
     }
     login(json) {
         return fetch(API_URL+'login', {
@@ -197,6 +197,19 @@ class API {
             .then(function (response) {
                 return response.json()
             })
+    }
+
+    aceptarOferta(oferta) {
+        return fetch(API_URL+"profesional/" + reactLocalStorage.get('idUser')+"/trabajos/"+oferta, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': reactLocalStorage.get('token')
+            },
+            body: JSON.stringify({
+                estado: true
+            })
+        })
     }
 
 }

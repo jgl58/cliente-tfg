@@ -9,6 +9,7 @@ class Oferta extends Component {
         super(props)
         this.state = { oferta: {}, user: {} }
         this.crearOferta = this.crearOferta.bind(this)
+        this.aceptarOferta = this.aceptarOferta.bind(this)
     }
 
 
@@ -56,6 +57,18 @@ class Oferta extends Component {
 
     }
 
+    aceptarOferta(){
+
+        var oferta = this.state.oferta.id
+        new API().aceptarOferta(oferta).then((response) => {
+            if (response.ok) {
+                alert('Oferta de trabajo aceptada')
+                this.props.muro();
+            } else {
+                alert('Ha habido un problema al aceptar la oferta')
+            }
+        })
+    }
 
     render() {
 
@@ -72,6 +85,12 @@ class Oferta extends Component {
         }else{
             titulo = "Cliente"
         }
+
+        let btnSeleccionar = ""
+        if(this.state.oferta.estado == false && reactLocalStorage.get("isProfesional") === 'true'){
+            btnSeleccionar = <button type="button" class="btn btn-primary" onClick={this.aceptarOferta}>Aceptar Oferta</button>
+        }
+
         let profesional
         if (this.state.user.nombre !== undefined) {
             profesional = <div className="card mt-3">
@@ -122,8 +141,11 @@ class Oferta extends Component {
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-md-3 col-form-label">Estado</label>
-                                            <div className="col-md-9">
+                                            <div className="col-md-6">
                                                 {estado}
+                                            </div>
+                                            <div className="col-md-3">
+                                            {btnSeleccionar}
                                             </div>
                                         </div>
                                     </div>

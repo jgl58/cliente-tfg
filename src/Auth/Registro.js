@@ -168,7 +168,7 @@ class Registro extends Component {
                     </div>
                     <div className="col-12 col-md-9">
                     <div data-role="fieldcontain">
-                      <select class="form-control" id="provincia" value={this.state.selectedProvincia} 
+                      <select className="form-control" id="provincia" value={this.state.selectedProvincia} 
               onChange={(e) => this.setState({selectedProvincia: e.target.value})}>
                         {prov}
                       </select>
