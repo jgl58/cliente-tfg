@@ -11,6 +11,7 @@ class Navbar extends Component {
     this.perfil = this.perfil.bind(this)
     this.muro = this.muro.bind(this)
     this.buscador = this.buscador.bind(this)
+    this.horario = this.horario.bind(this)
   }
 
   componentWillMount() {
@@ -33,15 +34,22 @@ class Navbar extends Component {
   buscador(){
     this.props.buscador();
   }
+  horario(){
+    this.props.horario();
+  }
 
 
   render() {
-
+    
+    let horario
     let elem
     if(reactLocalStorage.get('isProfesional')=='true'){
       elem =<li className="nav-item">
         <a className="nav-link" href="#"onClick={this.buscador}>Buscar</a>
       </li>
+      horario =<li className="nav-item">
+      <a className="nav-link" href="#" onClick={this.horario}>Horario</a>
+    </li>
     }
     return (<nav className="navbar navbar-expand-lg navbar-dark primary-color">
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -58,6 +66,7 @@ class Navbar extends Component {
         </a>
       </li>
       {elem}
+      {horario}
   
     </ul>
   </div> 

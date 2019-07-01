@@ -8,6 +8,7 @@ import Navbar from './Usuarios/Navbar'
 import CrearOferta from './Ofertas/CrearOferta'
 import Oferta from './Ofertas/Oferta'
 import Buscador from './Buscador/Buscador'
+import Horario from './Usuarios/Horario'
 import { reactLocalStorage } from 'reactjs-localstorage';
 class App extends React.Component {
 
@@ -24,6 +25,7 @@ class App extends React.Component {
         this.crearOferta = this.crearOferta.bind(this)
         this.oferta = this.oferta.bind(this)
         this.buscador = this.buscador.bind(this)
+        this.horario = this.horario.bind(this)
 
     }
 
@@ -46,6 +48,10 @@ class App extends React.Component {
     buscador() {
         this.setState({ mostrar: 'buscador' })
     }
+    horario() {
+        this.setState({ mostrar: 'horario' })
+    }
+
 
     muro() {
         if(reactLocalStorage.get('isProfesional') == 'true'){
@@ -77,35 +83,40 @@ class App extends React.Component {
                 </div>
             case 'muro':
                 return <div >
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
                     <MuroCiente crearOferta={this.crearOferta} oferta={this.oferta} />
                 </div>
             case 'muro-p':
                 return <div >
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
                     <MuroProfesional crearOferta={this.crearOferta} oferta={this.oferta} goToPerfil={this.perfil} />
+                </div>
+            case 'horario':
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
+                    <Horario />
                 </div>
             case 'perfil':
                 return <div >
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
                     <Perfil />
                 </div>
 
             case 'crear-oferta':
                 return <div >
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
                     <CrearOferta muro={this.muro} />
                 </div>
 
             case 'oferta':
                 return <div >
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
                     <Oferta muro={this.muro} />
                 </div>
 
             case 'buscador':
                 return <div >
-                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador}/>
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
                     <Buscador oferta={this.oferta}/>
                 </div>
             default:

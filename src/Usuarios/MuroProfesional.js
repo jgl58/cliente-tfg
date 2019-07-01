@@ -83,7 +83,7 @@ class MuroProfesional extends Component {
                 </div>
               </div>
 
-clientes.push(elem)
+        clientes.push(elem)
       }
     }
 
