@@ -7,10 +7,33 @@ class Oferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { oferta: {}, user: {} }
+        this.state = { oferta: {}, user: {}, fecha:"", hora:"" }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
     }
+
+    formatDate(date) {
+        var monthNames = [
+          "Enero", "Febrero", "Marzo",
+          "Abril", "Mayo", "Junio", "Julio",
+          "Agosto", "Septiembre", "Octubre",
+          "Noviembre", "Diciembre"
+        ];
+      
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        var hour = date.getHours();
+        var min = date.getMinutes();
+
+        var d = day + '/' + monthNames[monthIndex] + '/' + year;
+        var h = hour+":"+min
+
+        this.setState({fecha: d})
+        this.setState({hora: h})
+      }
+      
 
 
     componentWillMount() {
@@ -21,6 +44,8 @@ class Oferta extends Component {
 
             this.setState({ oferta: json.oferta })
             
+            
+            this.formatDate(new Date(json.oferta.fecha))
 
             if (json.oferta.estado) {
 
@@ -146,6 +171,18 @@ class Oferta extends Component {
                                             </div>
                                             <div className="col-md-3">
                                             {btnSeleccionar}
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-md-3 col-form-label">Hora</label>
+                                            <div className="col-md-9">
+                                                <label className="col-md-3 col-form-label">{this.state.hora}</label>
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-md-3 col-form-label">Fecha</label>
+                                            <div className="col-md-9">
+                                                <label className="col-md-3 col-form-label">{this.state.fecha}</label>
                                             </div>
                                         </div>
                                     </div>
