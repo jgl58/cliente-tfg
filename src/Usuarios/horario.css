@@ -2,3 +2,15 @@
     margin-left: 2%;
     margin-right: 2%;
 }
+
+
+@media (max-width: 768px){
+
+    .fc-toolbar.fc-header-toolbar {
+        display: inline-block !important;
+    }
+    .fc-toolbar .fc-left, .fc-toolbar .fc-center, .fc-toolbar .fc-right {
+        display: inline-block !important;
+        float: none !important;
+    }
+}

@@ -40,7 +40,6 @@ class Horario extends Component {
 
                 })
             }
-            console.log(this.state.calendarEvents[0])
         })
     }
 
@@ -51,7 +50,7 @@ class Horario extends Component {
         return (
             <div>
                 <div className="col-md-12 mt-5 mb-5">
-                    <div className="card">
+                    <div className="card mt-1 mb-1">
                     <FullCalendar
                         defaultView="timeGridWeek"
                         header={{
@@ -67,6 +66,8 @@ class Horario extends Component {
                         themeSystem='bootstrap'
                         locales={[esLocale]}
                         locale='es'
+                        height={"auto"}
+                        handleWindowResize='true'
                     />
                     </div>
                 </div>
