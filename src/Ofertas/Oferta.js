@@ -65,7 +65,7 @@ class Oferta extends Component {
                 alert('Oferta de trabajo aceptada')
                 this.props.muro();
             } else {
-                alert('Ha habido un problema al aceptar la oferta')
+                console.log(response)
             }
         })
     }

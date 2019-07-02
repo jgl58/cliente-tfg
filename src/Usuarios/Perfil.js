@@ -16,6 +16,7 @@ class Perfil extends Component {
             this.setState({ provincias: json.provincias })
 
             new API().getProvincia(reactLocalStorage.get("provincia")).then((json) => {
+
                 this.setState({ provincia: json.provincia })
                 if(reactLocalStorage.get("isProfesional") === 'true'){
                     new API().getProfesional().then((json) => {
@@ -38,6 +39,8 @@ class Perfil extends Component {
     editarUsuario() {
 
         var us = this.state.user;
+        console.log(this.state.user.provincia)
+        console.log(this.state.newProvincia)
 
         if(this.state.nombre !== ""){
             us.nombre = this.state.nombre
@@ -55,8 +58,11 @@ class Perfil extends Component {
         console.log(this.state.provincia)
         if(this.state.newProvincia != "" && this.state.newProvincia != this.state.provincia.id){
             console.log("Actualizando provincia ")
-            let elem = this.state.provincias.find(element => element.id == this.state.newProvincia)
+
+            
             us.provincia = this.state.newProvincia
+        }else{
+            us.provincia = reactLocalStorage.get("provincia")
         }
         if(this.state.pais !== ""){
             us.pais = this.state.pais

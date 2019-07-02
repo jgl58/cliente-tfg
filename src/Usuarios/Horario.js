@@ -14,7 +14,6 @@ import esLocale from '@fullcalendar/core/locales/es';
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
-
 class Horario extends Component {
 
     calendarComponentRef = React.createRef();
@@ -23,17 +22,31 @@ class Horario extends Component {
         this.state = {
             calendarWeekends: true,
             calendarEvents: [
-              // initial event data
-              { title: "Event Now", start: new Date() },
-              { title: "Evento prueba", start: new Date("Wed Jul 3 2019 20:36:00 GMT+0200"), end: new Date("Wed Jul 3 2019 23:36:00 GMT+0200")}
             ]
         }
+    }
+
+    componentWillMount(){
+        new API().getHorario(reactLocalStorage.get("idUser")).then((response) => {
+            let arrayEventos = []
+            for(let i=0;i<response.horario.length;i++){
+                new API().getOferta(response.horario[i].trabajo).then((response) => {
+                   this.setState({
+                       calendarEvents: this.state.calendarEvents.concat({
+                        title: response.oferta.titulo,
+                        start: new Date(response.oferta.fecha)
+                       })
+                   })
+
+                })
+            }
+            console.log(this.state.calendarEvents[0])
+        })
     }
 
 
 
     render() {
-        console.log(new Date())
 
         return (
             <div>
