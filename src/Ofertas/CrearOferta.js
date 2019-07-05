@@ -42,7 +42,7 @@ class CrearOferta extends Component {
         var json = JSON.stringify(oferta)
         console.log(json)
 
-        new API().crearOferta(json).then((response) => {
+        new API().crearOferta(reactLocalStorage.get("idUser"),json).then((response) => {
             if (response.ok) {         
                 alert('Oferta creada')
                 this.props.muro();

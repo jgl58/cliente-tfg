@@ -9,7 +9,9 @@ import CrearOferta from './Ofertas/CrearOferta'
 import Oferta from './Ofertas/Oferta'
 import Buscador from './Buscador/Buscador'
 import Horario from './Usuarios/Horario'
+import Chat from  './Chat/Chat'
 import { reactLocalStorage } from 'reactjs-localstorage';
+import PerfilPublico from './Usuarios/PerfilPublico';
 class App extends React.Component {
 
     constructor(props) {
@@ -26,6 +28,7 @@ class App extends React.Component {
         this.oferta = this.oferta.bind(this)
         this.buscador = this.buscador.bind(this)
         this.horario = this.horario.bind(this)
+        this.chat = this.chat.bind(this)
 
     }
 
@@ -50,6 +53,9 @@ class App extends React.Component {
     }
     horario() {
         this.setState({ mostrar: 'horario' })
+    }
+    chat() {
+        this.setState({ mostrar: 'perfil-publico' })
     }
 
 
@@ -84,12 +90,12 @@ class App extends React.Component {
             case 'muro':
                 return <div >
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
-                    <MuroCiente crearOferta={this.crearOferta} oferta={this.oferta} />
+                    <MuroCiente crearOferta={this.crearOferta} oferta={this.oferta} chat={this.chat}/>
                 </div>
             case 'muro-p':
                 return <div >
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
-                    <MuroProfesional crearOferta={this.crearOferta} oferta={this.oferta} goToPerfil={this.perfil} />
+                    <MuroProfesional crearOferta={this.crearOferta} oferta={this.oferta} goToPerfil={this.perfil} chat={this.chat}/>
                 </div>
             case 'horario':
                 return <div >
@@ -101,6 +107,12 @@ class App extends React.Component {
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
                     <Perfil />
                 </div>
+            
+            case 'perfil-publico':
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
+                    <PerfilPublico />
+                </div>
 
             case 'crear-oferta':
                 return <div >
@@ -111,13 +123,18 @@ class App extends React.Component {
             case 'oferta':
                 return <div >
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
-                    <Oferta muro={this.muro} />
+                    <Oferta muro={this.muro} chat={this.chat}/>
                 </div>
 
             case 'buscador':
                 return <div >
                     <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
                     <Buscador oferta={this.oferta}/>
+                </div>
+            case 'chat':
+                return <div >
+                    <Navbar logout={this.login} perfil={this.perfil} muro={this.muro} buscador={this.buscador} horario={this.horario}/>
+                    <Chat/>
                 </div>
             default:
                 return <div>

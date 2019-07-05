@@ -51,9 +51,9 @@ class API {
         })
     }
 
-    getOfertasCreadas() {
+    getOfertasCreadas(idUser) {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas",{
+        return fetch(API_URL+"users/" + idUser + "/ofertas",{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -62,9 +62,9 @@ class API {
         })
     }
 
-    getTrabajos() {
+    getTrabajos(idUser) {
 
-        return fetch(API_URL+"profesional/" + reactLocalStorage.get('idUser') + "/trabajos",{
+        return fetch(API_URL+"profesional/" + idUser + "/trabajos",{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -74,9 +74,9 @@ class API {
             })
     }
 
-    getOferta(id) {
+    getOferta(idUser,id) {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id,{
+        return fetch(API_URL+"users/" + idUser + "/ofertas/" + id,{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -86,8 +86,8 @@ class API {
             })
     }
 
-    getCliente() {
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser'),{
+    getCliente(idUser) {
+        return fetch(API_URL+"users/" + idUser,{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -97,8 +97,8 @@ class API {
             })
     }
 
-    getProfesional() {
-        return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser'),{
+    getProfesional(idUser) {
+        return fetch(API_URL+"profesionales/" + idUser,{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -108,8 +108,8 @@ class API {
             })
     }
 
-    updateCliente(json) {
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser'), {
+    updateCliente(idUser,json) {
+        return fetch(API_URL+"users/" + idUser, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -119,8 +119,8 @@ class API {
         })
     }
 
-    updateProfesional(json) {
-        return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser'), {
+    updateProfesional(idUser,json) {
+        return fetch(API_URL+"profesionales/" + idUser, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -130,8 +130,8 @@ class API {
         })
     }
 
-    crearOferta(json) {
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas", {
+    crearOferta(idUser,json) {
+        return fetch(API_URL+"users/" + idUser + "/ofertas", {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -141,9 +141,9 @@ class API {
         })
     }
 
-    getProfesionalOferta(id) {
+    getProfesionalOferta(idUser,id) {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id + "/profesional",{
+        return fetch(API_URL+"users/" + idUser + "/ofertas/" + id + "/profesional",{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -153,9 +153,9 @@ class API {
             })
     }
 
-    getClienteTrabajo(id) {
+    getClienteTrabajo(idUser,id) {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/ofertas/" + id + "/user",{
+        return fetch(API_URL+"users/" + idUser + "/ofertas/" + id + "/user",{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -164,9 +164,9 @@ class API {
                 return response.json()
             })
     }
-    getHistorialProfesionales(id) {
+    getHistorialProfesionales(idUser) {
 
-        return fetch(API_URL+"users/" + reactLocalStorage.get('idUser') + "/profesionales",{
+        return fetch(API_URL+"users/" + idUser + "/profesionales",{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -176,9 +176,9 @@ class API {
             })
     }
 
-    getHistorialClientes(id) {
+    getHistorialClientes(idUser) {
 
-        return fetch(API_URL+"profesionales/" + reactLocalStorage.get('idUser') + "/clientes",{
+        return fetch(API_URL+"profesionales/" + idUser + "/clientes",{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -200,8 +200,8 @@ class API {
             })
     }
 
-    aceptarOferta(oferta) {
-        return fetch(API_URL+"profesional/" + reactLocalStorage.get('idUser')+"/trabajos/"+oferta, {
+    aceptarOferta(idUser,oferta) {
+        return fetch(API_URL+"profesional/" + idUser+"/trabajos/"+oferta, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',

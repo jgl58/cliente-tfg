@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css'
 import { reactLocalStorage } from 'reactjs-localstorage';
+import './Navbar.css'
 
 class Navbar extends Component {
 

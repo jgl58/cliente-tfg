@@ -10,21 +10,28 @@ class MuroCliente extends Component {
     this.state = { nick: '', ofertas: [], profesionales: [] }
     this.crearOferta = this.crearOferta.bind(this)
     this.goOferta = this.goOferta.bind(this)
+    this.chat = this.chat.bind(this)
   }
 
   componentWillMount() {
     this.setState({ nick: reactLocalStorage.get('nombre') })
 
-    new API().getOfertasCreadas()
+    new API().getOfertasCreadas(reactLocalStorage.get("idUser"))
       .then((json) => {
         this.setState({ ofertas: json.ofertas })
         
-        new API().getHistorialProfesionales().then((json) => {
+        new API().getHistorialProfesionales(reactLocalStorage.get("idUser")).then((json) => {
           this.setState({ profesionales: json.profesionales })
         })
       })
   
 
+  }
+
+  chat(id){
+    reactLocalStorage.set("visitarProfesional", true)
+    reactLocalStorage.set("visitar",id)
+    this.props.chat()
   }
 
   goOferta(id){
@@ -74,7 +81,7 @@ class MuroCliente extends Component {
                 <div className="card">
                   <div className="card-header">{this.state.profesionales[i].nombre} {this.state.profesionales[i].apellidos}</div>
                   <div className="card-body">
-                    <div className="btn btn-primary">Contactar</div>
+                    <div className="btn btn-primary" onClick={() => this.chat(this.state.profesionales[i].id)}>Contactar</div>
                   </div>
                 </div>
               </div>

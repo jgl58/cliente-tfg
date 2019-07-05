@@ -10,6 +10,7 @@ class Oferta extends Component {
         this.state = { oferta: {}, user: {}, fecha:"", hora:"" }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
+        this.chat = this.chat.bind(this)
     }
 
     formatDate(date) {
@@ -38,7 +39,7 @@ class Oferta extends Component {
 
     componentWillMount() {
         console.log(reactLocalStorage.get("idOferta"))
-        new API().getOferta(reactLocalStorage.get("idOferta")).then((json) => {
+        new API().getOferta(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
 
             console.log("Oferta: "+json.oferta)
 
@@ -50,12 +51,12 @@ class Oferta extends Component {
             if (json.oferta.estado) {
 
                 if(reactLocalStorage.get("isProfesional") === 'false'){
-                    new API().getProfesionalOferta(reactLocalStorage.get("idOferta")).then((json) => {
+                    new API().getProfesionalOferta(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
 
                         this.setState({ user: json.profesional })
                     })
                 }else{
-                    new API().getClienteTrabajo(reactLocalStorage.get("idOferta")).then((json) => {
+                    new API().getClienteTrabajo(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
 
                         this.setState({ user: json.cliente })
                     })
@@ -71,7 +72,7 @@ class Oferta extends Component {
         }
         var json = JSON.stringify(oferta)
 
-        new API().crearOferta(json).then((response) => {
+        new API().crearOferta(reactLocalStorage.get("idUser"),json).then((response) => {
             if (response.ok) {
                 alert('Oferta creada')
                 this.props.muro();
@@ -85,7 +86,7 @@ class Oferta extends Component {
     aceptarOferta(){
 
         var oferta = this.state.oferta.id
-        new API().aceptarOferta(oferta).then((response) => {
+        new API().aceptarOferta(reactLocalStorage.get("idUser"),oferta).then((response) => {
             if (response.ok) {
                 alert('Oferta de trabajo aceptada')
                 this.props.muro();
@@ -93,6 +94,16 @@ class Oferta extends Component {
                 console.log(response)
             }
         })
+    }
+
+    chat(id){
+        if(reactLocalStorage.get("isProfesional") === 'false'){
+            reactLocalStorage.set("visitarProfesional", true)
+        }else{
+            reactLocalStorage.set("visitarProfesional", false)
+        }
+        reactLocalStorage.set("visitar",id)
+        this.props.chat()
     }
 
     render() {
@@ -131,7 +142,7 @@ class Oferta extends Component {
                     </div>
                     <div className="row">
                         <div className="col">
-                            <div className="btn btn-primary">Contactar</div>
+                            <div className="btn btn-primary" onClick={() => this.chat(this.state.user.id)}>Contactar</div>
                         </div>
 
                     </div>

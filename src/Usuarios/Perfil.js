@@ -19,11 +19,11 @@ class Perfil extends Component {
 
                 this.setState({ provincia: json.provincia })
                 if(reactLocalStorage.get("isProfesional") === 'true'){
-                    new API().getProfesional().then((json) => {
+                    new API().getProfesional(reactLocalStorage.get("idUser")).then((json) => {
                         this.setState({ user: json.user })
                     })
                 }else{
-                    new API().getCliente().then((json) => {
+                    new API().getCliente(reactLocalStorage.get("idUser")).then((json) => {
                         this.setState({ user: json.user })
                     })
                 }
@@ -39,9 +39,6 @@ class Perfil extends Component {
     editarUsuario() {
 
         var us = this.state.user;
-        console.log(this.state.user.provincia)
-        console.log(this.state.newProvincia)
-
         if(this.state.nombre !== ""){
             us.nombre = this.state.nombre
         }
@@ -54,12 +51,7 @@ class Perfil extends Component {
         if(this.state.poblacion !== ""){
             us.poblacion = this.state.poblacion
         }
-        console.log(this.state.newProvincia)
-        console.log(this.state.provincia)
         if(this.state.newProvincia != "" && this.state.newProvincia != this.state.provincia.id){
-            console.log("Actualizando provincia ")
-
-            
             us.provincia = this.state.newProvincia
         }else{
             us.provincia = reactLocalStorage.get("provincia")
@@ -73,7 +65,7 @@ class Perfil extends Component {
         var json = JSON.stringify(us)
 
         if(reactLocalStorage.get("isProfesional") === 'true'){
-            new API().updateProfesional(json).then((response) => {
+            new API().updateProfesional(reactLocalStorage.get("idUser"),json).then((response) => {
                 if (response.ok) {
                     this.setState({user: us})
                     reactLocalStorage.set('nombre', us.nombre)
@@ -84,7 +76,7 @@ class Perfil extends Component {
                 }
             })
         }else{
-            new API().updateCliente(json).then((response) => {
+            new API().updateCliente(reactLocalStorage.get("idUser"),json).then((response) => {
                 if (response.ok) {
                     this.setState({user: us})
                     reactLocalStorage.set('nombre', us.nombre)
