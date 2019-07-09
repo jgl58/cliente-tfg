@@ -4,11 +4,14 @@ import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import Perfil from './Perfil';
 
+import socketIOClient from 'socket.io-client';
+
 class MuroProfesional extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { nick: '', ofertas: [], clientes: [] }
+    this.state = { nick: '', ofertas: [], clientes: [] ,response: "",
+    endpoint: "http://jonaygilabert.ddns.net:4001" }
     this.crearOferta = this.crearOferta.bind(this)
     this.goOferta = this.goOferta.bind(this)
     this.perfil = this.perfil.bind(this)
@@ -28,6 +31,30 @@ class MuroProfesional extends Component {
       })
 
   }
+
+  
+  componentDidMount(){
+    const {endpoint} = this.state;
+    const socket = socketIOClient(endpoint);
+
+    
+
+    socket.on('connect', function(){
+        var r = ""
+        if(reactLocalStorage.get("visitarProfesional") == 'true'){
+            r = reactLocalStorage.get("idUser")+"-"+reactLocalStorage.get("visitar")
+        }else{
+            r = reactLocalStorage.get("visitar")+"-"+reactLocalStorage.get("idUser")
+        }
+        socket.emit('room', r);
+        socket.on("notificacion",(data)=>{
+                console.log(data)  
+        })
+    })
+
+
+}
+
 
   goOferta(id){
     console.log("Visitando oferta "+id)

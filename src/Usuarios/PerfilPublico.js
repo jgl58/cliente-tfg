@@ -4,7 +4,7 @@ import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import './Chat.css'
 import { Widget, addResponseMessage  } from 'react-chat-widget';
-import socketIOClient from 'socket.io-client';
+import io from 'socket.io-client';
 import 'react-chat-widget/lib/styles.css';
 
 class PerfilPublico extends Component {
@@ -12,7 +12,13 @@ class PerfilPublico extends Component {
     constructor(props) {
         super(props)
         this.state = {user: {}, nombre: "", apellidos: "", direccion: "", poblacion: "", provincia: {}, pais: "", telefono: "",response: "",
-        endpoint: "http://jonaygilabert.ddns.net:4001" }
+        endpoint: "http://localhost:4001" }
+
+        this.socket = io("http://localhost:4001")
+
+        this.socket.on("mensaje",(data)=>{
+                addResponseMessage(data.msg)   
+        })
     }
 
     handleNewUserMessage = (newMessage) => {
@@ -21,7 +27,7 @@ class PerfilPublico extends Component {
 
         
         const {endpoint} = this.state;
-        const socket = socketIOClient(endpoint);
+        const socket = io.connect(endpoint);
 
 
         var r = ""
@@ -34,35 +40,32 @@ class PerfilPublico extends Component {
 
         var data = {
             room: r,
-            control: reactLocalStorage.get("isProfesional"),
             msg: newMessage
         }
         
         console.log(data)
-        socket.emit("mensajeEnviar",JSON.stringify(data))
+
+        this.socket.emit('room', data.room);
+        this.socket.emit("mensaje",JSON.stringify(data))
       }
 
-    componentDidMount(){
-        const {endpoint} = this.state;
-        const socket = socketIOClient(endpoint);
+   /* componentDidMount(){
 
         
 
-        socket.on('connect', function(){
+        this.socket.on('connect', function(){
             var r = ""
             if(reactLocalStorage.get("visitarProfesional") == 'true'){
                 r = reactLocalStorage.get("idUser")+"-"+reactLocalStorage.get("visitar")
             }else{
                 r = reactLocalStorage.get("visitar")+"-"+reactLocalStorage.get("idUser")
             }
-            socket.emit('room', r);
-            socket.on("mensajeRecibir",(data)=>{
-                    addResponseMessage(data.msg)   
-            })
+            this.socket.emit('room', r);
+            
         })
     
     
-    }
+    }*/
 
     
 
