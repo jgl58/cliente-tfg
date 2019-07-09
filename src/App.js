@@ -1,7 +1,6 @@
 import React from 'react'
 import Login from './Auth/Login'
 import Registro from './Auth/Registro'
-import MuroCiente from './Usuarios/MuroCliente'
 import MuroProfesional from './Usuarios/MuroProfesional'
 import Perfil from './Usuarios/Perfil'
 import Navbar from './Usuarios/Navbar'
@@ -12,6 +11,8 @@ import Horario from './Usuarios/Horario'
 import Chat from  './Chat/Chat'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import PerfilPublico from './Usuarios/PerfilPublico';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import MuroCliente from './Usuarios/MuroCliente';
 class App extends React.Component {
 
     constructor(props) {
@@ -41,7 +42,8 @@ class App extends React.Component {
     }
 
     registro() {
-        this.setState({ mostrar: 'registro' })
+        this.RouterRegistro()
+        //this.setState({ mostrar: 'registro' })
     }
 
     login() {
@@ -75,9 +77,32 @@ class App extends React.Component {
         this.setState({ mostrar: 'perfil' })
     }
 
+    RouterRegistro() {
+        return (
+            <div>
+               <Registro log={this.login}/>
+            </div>
+          );
+        
+    }
+
     render() {
 
-        switch (this.state.mostrar) {
+
+        return <Switch>
+            <Route exact path='/' component={Login}/>
+            <Route path='/registrar' component={Registro}/>
+            <Route path='/muroCliente' component={MuroCliente}/>
+            <Route path='/muroProfesional' component={MuroProfesional}/>
+            <Route path='/horario' component={Horario}/>
+            <Route path='/perfil' component={Perfil}/>
+            <Route path='/publico' component={PerfilPublico}/>
+            <Route path='/crearOferta' component={CrearOferta}/>
+            <Route path='/oferta' component={Oferta}/>
+            <Route path='/buscador' component={Buscador}/>
+        </Switch>
+
+      /*  switch (this.state.mostrar) {
 
             case 'login':
                 return <div>
@@ -140,7 +165,7 @@ class App extends React.Component {
                 return <div>
 
                 </div>
-        }
+        }*/
 
 
     }

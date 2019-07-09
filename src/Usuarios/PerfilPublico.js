@@ -49,26 +49,6 @@ class PerfilPublico extends Component {
         this.socket.emit("mensaje",JSON.stringify(data))
       }
 
-   /* componentDidMount(){
-
-        
-
-        this.socket.on('connect', function(){
-            var r = ""
-            if(reactLocalStorage.get("visitarProfesional") == 'true'){
-                r = reactLocalStorage.get("idUser")+"-"+reactLocalStorage.get("visitar")
-            }else{
-                r = reactLocalStorage.get("visitar")+"-"+reactLocalStorage.get("idUser")
-            }
-            this.socket.emit('room', r);
-            
-        })
-    
-    
-    }*/
-
-    
-
     componentWillMount() {
 
         if(reactLocalStorage.get("visitarProfesional") == 'true'){
