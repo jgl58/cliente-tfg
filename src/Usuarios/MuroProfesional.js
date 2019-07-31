@@ -3,6 +3,9 @@ import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import Perfil from './Perfil';
+import Navbar from './Navbar'
+
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 import socketIOClient from 'socket.io-client';
 
@@ -11,8 +14,10 @@ class MuroProfesional extends Component {
   constructor(props) {
     super(props)
     this.state = { nick: '', ofertas: [], clientes: [] ,response: "",
-    endpoint: "http://jonaygilabert.ddns.net:4001" }
-    this.crearOferta = this.crearOferta.bind(this)
+    endpoint: "http://jonaygilabert.ddns.net:4001",
+    oferta: false,
+    perfilPublico: false
+  }
     this.goOferta = this.goOferta.bind(this)
     this.perfil = this.perfil.bind(this)
     this.chat = this.chat.bind(this)
@@ -59,12 +64,9 @@ class MuroProfesional extends Component {
   goOferta(id){
     console.log("Visitando oferta "+id)
     reactLocalStorage.set('idOferta',id)
-    this.props.oferta()
+    this.setState({oferta: true})
   }
 
-  crearOferta() {
-    this.props.crearOferta();
-  }
   perfil(){
     this.props.goToPerfil()
   }
@@ -72,11 +74,19 @@ class MuroProfesional extends Component {
   chat(id){
     reactLocalStorage.set("visitarProfesional", false)
     reactLocalStorage.set("visitar",id)
-    this.props.chat()
+    this.setState({perfilPublico: true})
   }
 
   render() {
 
+    
+
+    if(this.state.oferta == true){
+      return <Redirect push to='/oferta'/>
+    }
+    if(this.state.perfilPublico == true){
+      return <Redirect push to='/publico'/>
+    }
     let ofertas = []
     let clientes = []
     if (this.state.ofertas.length == 0) {
@@ -126,9 +136,9 @@ class MuroProfesional extends Component {
     return (
       
       <div>
-        
+        <Navbar></Navbar>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong>Atención</strong> Por favor, debes de completar tu <a href="#" onClick={this.perfil} >perfil</a>.
+          <strong>Atención</strong> Por favor, debes de completar tu <a href="/perfil" >perfil</a>.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

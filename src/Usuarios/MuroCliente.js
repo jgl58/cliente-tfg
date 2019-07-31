@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
+import Navbar from './Navbar'
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 class MuroCliente extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { nick: '', ofertas: [], profesionales: [] }
+    this.state = { nick: '', ofertas: [], profesionales: [] ,
+    perfilPublico: false,
+    crearOferta: false,
+    oferta: false
+  }
     this.crearOferta = this.crearOferta.bind(this)
     this.goOferta = this.goOferta.bind(this)
     this.chat = this.chat.bind(this)
@@ -31,19 +37,29 @@ class MuroCliente extends Component {
   chat(id){
     reactLocalStorage.set("visitarProfesional", true)
     reactLocalStorage.set("visitar",id)
-    this.props.chat()
+    this.setState({perfilPublico: true})
   }
 
   goOferta(id){
     reactLocalStorage.set('idOferta',id)
-    this.props.oferta()
+    this.setState({oferta: true})
   }
 
   crearOferta() {
-    this.props.crearOferta();
+    this.setState({crearOferta: true})
   }
 
   render() {
+
+    if(this.state.perfilPublico == true){
+      return <Redirect push to='/publico'/>
+    }
+    if(this.state.crearOferta == true){
+      return <Redirect to='/crearOferta'/>
+    }
+    if(this.state.oferta == true){
+      return <Redirect push to='/oferta'/>
+    }
 
     var ofertas = []
     var profesionales = []
@@ -93,6 +109,7 @@ class MuroCliente extends Component {
     
     return (
       <div>
+        <Navbar></Navbar>
         <div className="container-fluid">
           <div className="card mt-3">
             <div className="card-header">

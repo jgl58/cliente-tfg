@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
-
+import Navbar from './Navbar'
 import './horario.css';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -49,6 +49,7 @@ class Horario extends Component {
 
         return (
             <div>
+                <Navbar></Navbar>
                 <div className="col-md-12 mt-5 mb-5">
                     <div className="card mt-1 mb-1">
                     <FullCalendar

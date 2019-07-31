@@ -6,6 +6,7 @@ import './Chat.css'
 import { Widget, addResponseMessage  } from 'react-chat-widget';
 import io from 'socket.io-client';
 import 'react-chat-widget/lib/styles.css';
+import Navbar from './Navbar'
 
 class PerfilPublico extends Component {
 
@@ -69,6 +70,7 @@ class PerfilPublico extends Component {
     render() {
         return (
             <div>
+                <Navbar></Navbar>
                 <div className="container-fluid">
                     <div className="card mt-3">
                         <div className="card-header">

@@ -4,6 +4,9 @@ import API from '../API/API'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import es from 'date-fns/locale/es';
+import Navbar from '../Usuarios/Navbar'
+
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,7 +15,7 @@ class CrearOferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { titulo: "", descripcion: "", provincia:"",startDate: new Date(), duracion: "1"}
+        this.state = { titulo: "", descripcion: "", provincia:"",startDate: new Date(), duracion: "1", volver: false}
         this.crearOferta = this.crearOferta.bind(this)
         this.handleChange = this.handleChange.bind(this);
     }
@@ -45,7 +48,8 @@ class CrearOferta extends Component {
         new API().crearOferta(reactLocalStorage.get("idUser"),json).then((response) => {
             if (response.ok) {         
                 alert('Oferta creada')
-                this.props.muro();
+                //his.props.muro();
+                this.setState({volver: true})
             } else {
                 alert('Datos incorrectos')
             }
@@ -56,8 +60,12 @@ class CrearOferta extends Component {
 
     render() {
 
+        if(this.state.volver == true){
+            return <Redirect to='/muroCliente'></Redirect>
+        }
         return (
             <div>
+                <Navbar></Navbar>
                 <div className="container-fluid">
                     <div className="card mt-3">
                         <div className="card-header">

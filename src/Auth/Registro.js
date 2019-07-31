@@ -4,6 +4,7 @@ import API from '../API/API'
 import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 import { reactLocalStorage } from 'reactjs-localstorage';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Registro extends Component {
 
@@ -197,7 +198,7 @@ class Registro extends Component {
               </div>
               <div className="card-footer">
                 <div className="col-md-12">
-                <button type="reset" className="btn btn-info" onClick={this.goToLogin}>Ir a inicio de sesion</button>
+                <Link to='/'><button type="reset" className="btn btn-info">Ir a inicio de sesion</button></Link>
                 </div>
                 <div className="col-md-12 mt-2">
                   {enlace}

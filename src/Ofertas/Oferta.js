@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
+import Navbar from '../Usuarios/Navbar'
+
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 class Oferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { oferta: {}, user: {}, fecha:"", hora:"" }
+        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"" }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
         this.chat = this.chat.bind(this)
@@ -104,10 +107,14 @@ class Oferta extends Component {
             reactLocalStorage.set("visitarProfesional", false)
         }
         reactLocalStorage.set("visitar",id)
-        this.props.chat()
+        this.setState({perfilPublico: true})
     }
 
     render() {
+
+        if(this.state.perfilPublico == true){
+            return <Redirect push to='/publico'/>
+          }
 
         let estado
         if (this.state.oferta.estado) {
@@ -155,6 +162,7 @@ class Oferta extends Component {
 
         return (
             <div>
+                <Navbar></Navbar>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6">

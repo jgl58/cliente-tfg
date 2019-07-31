@@ -4,13 +4,13 @@ import API from '../API/API'
 import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 import {reactLocalStorage} from 'reactjs-localstorage'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 class Login extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { email: '', pass: '', show: false , profesional: true}
+    this.state = { email: '', pass: '', show: false , profesional: true, logeado: false}
     this.login = this.login.bind(this)
     this.goToRegistro = this.goToRegistro.bind(this);
     this.goToMuro = this.goToMuro.bind(this);
@@ -58,7 +58,12 @@ class Login extends Component {
 
   login(event) {
     
-    var pet = {profesional:this.state.profesional, email: this.state.email, pass: this.state.pass };
+    var pet = {
+      profesional:this.state.profesional, 
+      email: this.state.email, 
+      pass: this.state.pass 
+    };
+    
     var json = JSON.stringify(pet)
     
     new API().login(json)
@@ -76,9 +81,11 @@ class Login extends Component {
         reactLocalStorage.set('nombre',json.nombre)
         reactLocalStorage.set('provincia',json.provincia)
         if(!this.state.profesional)
-          this.goToMuro()
+          this.setState({logeado: true})
+         // this.goToMuro()
         else
-          this.props.muroP()
+          this.setState({logeado: true})
+//          this.props.muroP()
       }).catch(function(err){
         
       })
@@ -87,6 +94,13 @@ class Login extends Component {
 
   render() {
 
+    if(this.state.logeado == true && this.state.profesional == true){
+      return <Redirect to='/muroProfesional'></Redirect>
+    }
+
+    if(this.state.logeado == true && this.state.profesional == false){
+      return <Redirect to='/muroCliente'></Redirect>
+    }
 
     let titulo
     let enlace 
@@ -153,7 +167,7 @@ class Login extends Component {
                 </div>
                 <div className="card-footer">
                     <div className="col-md-12">
-                    <button type="reset" className="btn btn-info"><Link to='/registrar'>Registrarse</Link></button>
+                    <Link to='/registrar'><button type="reset" className="btn btn-info">Registrarse</button></Link>
                     </div>
                     <div className="col-md-12 mt-2">
                       {enlace}

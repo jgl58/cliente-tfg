@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
+import Navbar from './Navbar'
 
 class Perfil extends Component {
 
@@ -105,6 +106,7 @@ class Perfil extends Component {
 
         return (
             <div>
+                <Navbar></Navbar>
                 <div className="container-fluid">
                     <div className="card mt-3">
                         <div className="card-header">

@@ -3,6 +3,7 @@ import '../App.css';
 import API from '../API/API'
 import BuscadorItem from './BuscadorItem'
 import { reactLocalStorage } from 'reactjs-localstorage';
+import Navbar from '../Usuarios/Navbar'
 
 class Buscador extends Component {
 
@@ -50,6 +51,7 @@ class Buscador extends Component {
     }
     return (
       <div>
+        <Navbar></Navbar>
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col-md-2"></div>

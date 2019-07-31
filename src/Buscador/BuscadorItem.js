@@ -3,19 +3,30 @@ import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+
 class BuscadorItem extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      oferta: false
+    }
   }
 
   goOferta(id){
     reactLocalStorage.set('idOferta',id)
-    this.props.goOferta()
+    this.setState({oferta: true})
+    
   }
 
   render() {
     console.log(this.props.oferta)
+
+    if(this.state.oferta == true){
+      return <Redirect push to='/oferta'/>
+    }
+
     return (
     <div class="card booking-card">
 
@@ -46,7 +57,7 @@ class BuscadorItem extends Component {
                 <div class="chip mr-0">{this.props.oferta.hora}</div>
             </li>
             </ul>
-            <a href="#" class="btn btn-flat deep-purple-text p-1 mx-0 mb-0" onClick={() => this.goOferta(this.props.oferta.id)}>Ver más</a>
+            <a class="btn btn-flat deep-purple-text p-1 mx-0 mb-0" onClick={() => this.goOferta(this.props.oferta.id)}>Ver más</a>
 
         </div>
 
