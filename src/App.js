@@ -9,6 +9,7 @@ import Oferta from './Ofertas/Oferta'
 import Buscador from './Buscador/Buscador'
 import Horario from './Usuarios/Horario'
 import Chat from  './Chat/Chat'
+import Aceptar from './Static/Aceptar'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import PerfilPublico from './Usuarios/PerfilPublico';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
@@ -100,6 +101,7 @@ class App extends React.Component {
             <Route path='/crearOferta' component={CrearOferta}/>
             <Route path='/oferta' component={Oferta}/>
             <Route path='/buscador' component={Buscador}/>
+            <Route path='/aceptar' component={Aceptar}/>
         </Switch>
 
       /*  switch (this.state.mostrar) {
