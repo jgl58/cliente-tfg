@@ -86,6 +86,18 @@ class API {
             })
     }
 
+    getOfertaSola(id) {
+
+        return fetch(API_URL+"ofertas/" + id,{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+            .then(function (response) {
+                return response.json()
+            })
+    }
+
     getCliente(idUser) {
         return fetch(API_URL+"users/" + idUser,{
             headers: {
