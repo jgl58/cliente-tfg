@@ -80,11 +80,17 @@ class Login extends Component {
         reactLocalStorage.set('isProfesional',this.state.profesional)
         reactLocalStorage.set('nombre',json.nombre)
         reactLocalStorage.set('provincia',json.provincia)
-        if(!this.state.profesional)
+        if(!this.state.profesional){
           this.setState({logeado: true})
          // this.goToMuro()
-        else
+        }else{
           this.setState({logeado: true})
+          new API().getNotificaciones(json.idUser).then(function(d){
+              if(d.notificaciones.length != 0)
+                reactLocalStorage.set("notificaciones",d.notificaciones)        
+          })
+        }
+          
 //          this.props.muroP()
       }).catch(function(err){
         

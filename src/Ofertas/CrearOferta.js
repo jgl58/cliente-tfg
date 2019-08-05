@@ -40,10 +40,7 @@ class CrearOferta extends Component {
             fecha: this.state.startDate,
             duracion: this.state.duracion
         }
-        console.log(oferta.fecha)
-        console.log(String(oferta.fecha))
         var json = JSON.stringify(oferta)
-        console.log(json)
 
         new API().crearOferta(reactLocalStorage.get("idUser"),json).then((response) => {
             if (response.ok) {         

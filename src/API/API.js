@@ -236,6 +236,17 @@ class API {
         })
     }
 
+    getNotificaciones(id){
+        return fetch(API_URL+"profesionales/" + id+"/notificaciones",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+        .then(function (response) {
+            return response.json()
+        })
+    }
+
 }
 
 export default API

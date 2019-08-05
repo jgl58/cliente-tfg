@@ -2,31 +2,62 @@ import React, { Component } from 'react';
 import '../App.css'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import './Navbar.css'
+import io from 'socket.io-client';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import API from '../API/API';
+import { MDBNotification } from "mdbreact";
+
 
 class Navbar extends Component {
 
   constructor(props) {
     super(props)
     this.state = { 
+      noti: [],
       nick: '', 
-      ofertas: [], 
       home: false,
       logout: false,
       perfil: false,
       buscador: false,
-      horario: false 
+      goOferta: false,
+      horario: false,response: "",
+      endpoint: "http://localhost:4001"
     }
     this.logout = this.logout.bind(this)
     this.perfil = this.perfil.bind(this)
     this.muro = this.muro.bind(this)
     this.buscador = this.buscador.bind(this)
     this.horario = this.horario.bind(this)
+    this.socket = io("http://localhost:4001")
+    this.socket.emit('room', "profesional"+reactLocalStorage.get("idUser"));
+
+    this.socket.on("n",(data)=>{
+      new API().getNotificaciones(data.profesional_id).then(function(d){
+        //  console.log(Array.isArray(this.state.notificaciones))
+          if(d.notificaciones.length != 0){
+            console.log(d.notificaciones)
+            this.setState({noti:d.notificaciones})
+            reactLocalStorage.set("notificaciones",this.state.noti)
+          }
+            
+        }.bind(this))
+      
+    })
+    
   }
 
   componentWillMount() {
     this.setState({ nick: reactLocalStorage.get('nombre') })
+
+    new API().getNotificaciones(reactLocalStorage.get('idUser')).then(function(d){
+        if(d.notificaciones.length != 0){
+          this.setState({noti:d.notificaciones})
+          reactLocalStorage.set("notificaciones",this.state.noti)
+        }
+          
+      }.bind(this))
   }
+
 
   muro(){
     this.setState({home: true})
@@ -49,10 +80,20 @@ class Navbar extends Component {
     this.setState({horario: true})
   }
 
+  goOferta(id){
+    reactLocalStorage.set('idOferta',id)
+    //this.setState({goOferta: true})
+  }
+
 
   render() {
-    console.log(this.state)
+
+    if(this.state.goOferta == true && reactLocalStorage.get('isProfesional') == 'true'){ 
+      return <Redirect to='/oferta'></Redirect>
+    }
+
     if(this.state.logout == true  && window.location.pathname != '/'){ 
+      reactLocalStorage.clear()
       return <Redirect to='/'></Redirect>
     }
     if(this.state.horario == true && window.location.pathname != '/horario'){ 
@@ -71,6 +112,8 @@ class Navbar extends Component {
     if(reactLocalStorage.get('isProfesional') == 'false' && this.state.home == true && window.location.pathname != '/muroCliente'){
       return <Redirect to="/muroCliente"></Redirect>
     }
+
+   
     
     let horario
     let elem
@@ -82,7 +125,39 @@ class Navbar extends Component {
       <a className="nav-link" onClick={this.horario}>Horario</a>
     </li>
     }
-    return (<nav className="navbar navbar-expand-lg navbar-dark primary-color">
+
+    let mensaje
+    if(this.state.noti.length != 0 ){
+      let oferta = this.state.noti.slice(-1).pop()
+      reactLocalStorage.set("idOferta",oferta.mensaje)
+
+   /*   mensaje = <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                  <div class="toast-header">
+                    <svg class=" rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                      <rect fill="#007aff" width="100%" height="100%" /></svg>
+                    <strong class="mr-auto">Oferta asignada</strong>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="toast-body">
+                    {"Tienes una oferta asignada. "}<Link to="/oferta">Oferta {oferta.mensaje}</Link>
+                  </div>
+                </div>*/
+      let m = <div>Tienes una oferta asignada. <Link to="/oferta">Ver oferta</Link></div>
+      mensaje = <MDBNotification
+                  show
+                  fade
+                  iconClassName="text-primary"
+                  title="Oferta asignada"
+                  message={m}
+                  text=""
+                />
+    }
+
+    return (
+    <nav className="navbar navbar-expand-lg navbar-dark primary-color">
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
     aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"></span>
@@ -110,8 +185,9 @@ class Navbar extends Component {
       <a className="dropdown-item" onClick={this.logout} >Cerrar sesión</a>
     </div>
   </div>
-
+{mensaje}
 </nav>
+
     );
   }
 }

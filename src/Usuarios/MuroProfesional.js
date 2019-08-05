@@ -137,12 +137,6 @@ class MuroProfesional extends Component {
       
       <div>
         <Navbar></Navbar>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong>Atención</strong> Por favor, debes de completar tu <a href="/perfil" >perfil</a>.
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
         <div className="container-fluid">
           <div className="card mt-3">
             <div className="card-header">

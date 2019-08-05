@@ -1,3 +1,12 @@
 a#navbarDropdownMenuLink {
     color: white;
 }
+
+.toast {
+    position: fixed;
+    display: block;
+    opacity: 1;
+    top: 100px;
+    z-index: 100;
+    right: 10px;
+}

@@ -10,7 +10,7 @@ class Oferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"" }
+        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"",muro: false }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
         this.chat = this.chat.bind(this)
@@ -78,7 +78,7 @@ class Oferta extends Component {
         new API().crearOferta(reactLocalStorage.get("idUser"),json).then((response) => {
             if (response.ok) {
                 alert('Oferta creada')
-                this.props.muro();
+                this.setState({muro: true})
             } else {
                 alert('Datos incorrectos')
             }
@@ -92,7 +92,7 @@ class Oferta extends Component {
         new API().aceptarOferta(reactLocalStorage.get("idUser"),oferta).then((response) => {
             if (response.ok) {
                 alert('Oferta de trabajo aceptada')
-                this.props.muro();
+                this.setState({muro: true})
             } else {
                 alert('No se ha podido aceptar la oferta, revisa tu horario')
                 console.log(response)
@@ -112,9 +112,17 @@ class Oferta extends Component {
 
     render() {
 
+        if(this.state.muro == true && reactLocalStorage.get("isProfesional") == "true"){
+            return <Redirect push to='/muroProfesional'/>
+        }
+
+        if(this.state.muro == true && reactLocalStorage.get("isProfesional") == "false"){
+            return <Redirect push to='/muroCliente'/>
+        }
+
         if(this.state.perfilPublico == true){
             return <Redirect push to='/publico'/>
-          }
+        }
 
         let estado
         if (this.state.oferta.estado) {
