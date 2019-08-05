@@ -44,7 +44,6 @@ class Oferta extends Component {
         console.log(reactLocalStorage.get("idOferta"))
         new API().getOferta(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
 
-            console.log("Oferta: "+json.oferta)
 
             this.setState({ oferta: json.oferta })
             
@@ -150,10 +149,10 @@ class Oferta extends Component {
                 <div className="card-body">
                     <div className="form-horizontal">
                         <div className="form-group row">
-                            <label className="col-md-6 col-form-label" for="text-input">{this.state.user.nombre} {this.state.user.apellidos}</label>
+                            <label className="col-md-6 col-form-label" htmlFor="text-input">{this.state.user.nombre} {this.state.user.apellidos}</label>
                         </div>
                         <div className="form-group row">
-                            <label className="col-md-6 col-form-label" for="text-input"> Tlf: {this.state.user.telefono}</label>
+                            <label className="col-md-6 col-form-label" htmlFor="text-input"> Tlf: {this.state.user.telefono}</label>
                         </div>
                     </div>
                     <div className="row">

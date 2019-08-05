@@ -2,6 +2,12 @@ a#navbarDropdownMenuLink {
     color: white;
 }
 
+#menu {
+    right: 0 !important;
+    left: initial !important;
+}
+
+
 .toast {
     position: fixed;
     display: block;
@@ -10,3 +16,4 @@ a#navbarDropdownMenuLink {
     z-index: 100;
     right: 10px;
 }
+

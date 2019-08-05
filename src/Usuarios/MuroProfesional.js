@@ -101,10 +101,10 @@ class MuroProfesional extends Component {
           estado = <span className="badge badge-danger float-right">No seleccionada</span>
         }
 
-        let elem = <div className="col-sm-6 col-md-4">
+        let elem = <div className="col-sm-6 col-md-4" key={i}>
           <div className="card">
             <div className="card-header">{this.state.ofertas[i].titulo}{estado}</div>
-            <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right" onClick={() => this.goOferta(this.state.ofertas[i].id)}><i class="fa fa-plus"></i></a></div>
+            <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right" onClick={() => this.goOferta(this.state.ofertas[i].id)}><i className="fa fa-plus"></i></a></div>
           </div>
         </div>
 
@@ -118,7 +118,7 @@ class MuroProfesional extends Component {
     } else {
       for (let i = 0; i < this.state.clientes.length; i++) {
 
-        let elem = <div className="col-sm-6 col-md-3">
+        let elem = <div className="col-sm-6 col-md-3" key={i}>
                 <div className="card">
                   <div className="card-header">{this.state.clientes[i].nombre} {this.state.clientes[i].apellidos}</div>
                   <div className="card-body">

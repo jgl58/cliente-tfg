@@ -56,14 +56,14 @@ class Buscador extends Component {
           <div className="row mb-2">
             <div className="col-md-2"></div>
             <div className="col-md-8">
-            <form class="form-inline mt-5 mb-3">
-              <select class="browser-default custom-select" id="provincia" value={this.state.selectedProvincia} 
+            <form className="form-inline mt-5 mb-3">
+              <select className="browser-default custom-select" id="provincia" value={this.state.selectedProvincia} 
               onChange={(e) => this.setState({selectedProvincia: e.target.value})}>
                         {prov}
                       </select>
-              <input class="form-control mr-3 w-75" type="text" placeholder="Buscar..."
+              <input className="form-control mr-3 w-75" type="text" placeholder="Buscar..."
                 aria-label="Search"/>
-              <i class="fas fa-search" aria-hidden="true" onClick={this.buscar}></i>
+              <i className="fas fa-search" aria-hidden="true" onClick={this.buscar}></i>
             </form>
             </div>
             <div className="col-md-2"></div>
