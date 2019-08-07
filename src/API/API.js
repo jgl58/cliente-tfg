@@ -164,6 +164,16 @@ class API {
         })
     }
 
+    borrarOferta(idUser,idOferta) {
+        return fetch(API_URL+"users/" + idUser+"/ofertas/"+idOferta, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': reactLocalStorage.get('token')
+            }
+        })
+    }
+
     getProfesionalOferta(idUser,id) {
 
         return fetch(API_URL+"users/" + idUser + "/ofertas/" + id + "/profesional",{

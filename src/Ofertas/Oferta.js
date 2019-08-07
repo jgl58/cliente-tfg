@@ -13,6 +13,7 @@ class Oferta extends Component {
         this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"",muro: false }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
+        this.borrarOferta = this.borrarOferta.bind(this)
         this.chat = this.chat.bind(this)
     }
 
@@ -80,6 +81,18 @@ class Oferta extends Component {
                 this.setState({muro: true})
             } else {
                 alert('Datos incorrectos')
+            }
+        })
+
+    }
+
+    borrarOferta() {
+        new API().borrarOferta(reactLocalStorage.get("idUser"),this.state.oferta.id).then((response) => {
+            if (response.ok) {
+                alert('Oferta borrada')
+                return <Redirect to="/muroCliente"></Redirect>
+            } else {
+                alert('Ha habido un problema al borrar la oferta')
             }
         })
 
@@ -166,17 +179,38 @@ class Oferta extends Component {
 
         }
 
-        let editar  
+        let editar
+        let borrar  
         if(reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id){
             console.log("Esta oferta es mia")
             editar = <Link to="/editarOferta"><i className="fas fa-edit"></i></Link>
+            borrar=<i class="fas fa-trash-alt" data-toggle="modal" data-target="#basicExampleModal"></i>
                 
         }
-
 
         return (
             <div>
                 <Navbar></Navbar>
+                <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Borrar oferta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Quieres borrar esta oferta?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                        <button type="button" class="btn btn-primary" onClick={this.borrarOferta} data-dismiss="modal">Si</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6">
@@ -188,6 +222,7 @@ class Oferta extends Component {
                                     </div>
                                     <div class="col-md-2 float-right">
                                         {editar}
+                                        {borrar}
                                     </div>
                                 </div>
                                 </div>
