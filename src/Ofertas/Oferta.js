@@ -18,10 +18,10 @@ class Oferta extends Component {
 
     formatDate(date) {
         var monthNames = [
-          "Enero", "Febrero", "Marzo",
-          "Abril", "Mayo", "Junio", "Julio",
-          "Agosto", "Septiembre", "Octubre",
-          "Noviembre", "Diciembre"
+          "enero", "febrero", "marzo",
+          "abril", "mayo", "junio", "julio",
+          "agosto", "septiembre", "octubre",
+          "noviembre", "diciembre"
         ];
       
         var day = date.getDate();
@@ -43,7 +43,7 @@ class Oferta extends Component {
     componentWillMount() {
         console.log(reactLocalStorage.get("idOferta"))
         new API().getOferta(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
-
+            console.log(json.oferta)
 
             this.setState({ oferta: json.oferta })
             
@@ -166,6 +166,13 @@ class Oferta extends Component {
 
         }
 
+        let editar  
+        if(reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id){
+            console.log("Esta oferta es mia")
+            editar = <Link to="/editarOferta"><i className="fas fa-edit"></i></Link>
+                
+        }
+
 
         return (
             <div>
@@ -175,8 +182,15 @@ class Oferta extends Component {
                         <div className="col-md-6">
                             <div className="card mt-3">
                                 <div className="card-header">
-                                    Oferta
-                        </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        Oferta
+                                    </div>
+                                    <div class="col-md-2 float-right">
+                                        {editar}
+                                    </div>
+                                </div>
+                                </div>
                                 <div className="card-body">
                                     <div className="form-horizontal">
                                         <div className="form-group row">

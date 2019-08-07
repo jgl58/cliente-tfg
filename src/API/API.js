@@ -153,6 +153,17 @@ class API {
         })
     }
 
+    updateOferta(idUser,idOferta,json) {
+        return fetch(API_URL+"users/" + idUser+"/ofertas/"+idOferta, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': reactLocalStorage.get('token')
+            },
+            body: json
+        })
+    }
+
     getProfesionalOferta(idUser,id) {
 
         return fetch(API_URL+"users/" + idUser + "/ofertas/" + id + "/profesional",{
