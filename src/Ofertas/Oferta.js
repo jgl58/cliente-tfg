@@ -10,7 +10,7 @@ class Oferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"",muro: false }
+        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"", direccion:"",muro: false }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
         this.borrarOferta = this.borrarOferta.bind(this)
@@ -48,6 +48,18 @@ class Oferta extends Component {
 
             this.setState({ oferta: json.oferta })
             
+
+            var dir = json.oferta.direccion
+            dir = dir.replace(" ","+");
+
+            let pob = this.state.oferta.poblacion
+            pob = pob.replace(" ","+");
+
+            
+
+            let src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAYS8EDyWG-GGFK80V2bwJ3atV68WninOI&q="`+pob+dir+`"`
+
+            this.setState({direccion: src})
             
             this.formatDate(new Date(json.oferta.fecha))
 
@@ -188,6 +200,7 @@ class Oferta extends Component {
                 
         }
 
+
         return (
             <div>
                 <Navbar></Navbar>
@@ -267,6 +280,12 @@ class Oferta extends Component {
                             </div>
                         </div>
                         <div className="col-md-6">
+                        <iframe
+                        width="600"
+                        height="450"
+                        frameborder="0" style={{border: 0}}
+                        src={this.state.direccion} allowfullscreen>
+                        </iframe>
                             {profesional}
                         </div>
 
