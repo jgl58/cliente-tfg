@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
+import StarRatingComponent from 'react-star-rating-component';
 import Navbar from '../Usuarios/Navbar'
 
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
@@ -10,11 +11,12 @@ class Oferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"", direccion:"",muro: false }
+        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"", direccion:"", valoracion: "", rating: 0, muro: false }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
         this.borrarOferta = this.borrarOferta.bind(this)
         this.chat = this.chat.bind(this)
+        this.valorar = this.valorar.bind(this)
     }
 
     formatDate(date) {
@@ -80,6 +82,9 @@ class Oferta extends Component {
             }
         })
     }
+    onStarClick(nextValue, prevValue, name) {
+        this.setState({rating: nextValue});
+    }
     crearOferta() {
         var oferta = {
             titulo: this.state.titulo,
@@ -122,6 +127,26 @@ class Oferta extends Component {
                 console.log(response)
             }
         })
+    }
+
+    valorar(){
+
+        var valoracion = {
+            id: this.state.user.id,
+            valoracion: this.state.rating
+        }
+
+        console.log(valoracion)
+
+        new API().valorarProfesional(this.state.user.id,JSON.stringify(valoracion))
+        .then(function(response){
+            if(response.ok){
+                alert('Valoracion realizada con exito')
+            }else{
+                alert('Problema al valorar')
+            }
+        })
+
     }
 
     chat(id){
@@ -193,13 +218,20 @@ class Oferta extends Component {
 
         let editar
         let borrar  
+        let valorarBtn
         if(reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id){
             console.log("Esta oferta es mia")
             editar = <Link to="/editarOferta"><i className="fas fa-edit"></i></Link>
             borrar=<i class="fas fa-trash-alt" data-toggle="modal" data-target="#basicExampleModal"></i>
+
+            valorarBtn = <div><StarRatingComponent 
+                            name="rate1" 
+                            starCount={5} 
+                            value={this.state.rating} 
+                            onStarClick={this.onStarClick.bind(this)}/><br/>
+                            <button className="btn btn-primary" onClick={this.valorar}>Valorar servicio</button></div>
                 
         }
-
 
         return (
             <div>
@@ -279,16 +311,22 @@ class Oferta extends Component {
                                 </div>
                             </div>
                         </div>
+                        <div className="col-md-4 mt-3">
+                            <iframe
+                            width="100%"
+                            height="100%"
+                            frameborder="0" style={{border: 0}}
+                            src={this.state.direccion} allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <div className="row">
                         <div className="col-md-6">
-                        <iframe
-                        width="600"
-                        height="450"
-                        frameborder="0" style={{border: 0}}
-                        src={this.state.direccion} allowfullscreen>
-                        </iframe>
                             {profesional}
                         </div>
-
+                        <div className="col-md-6 mt-3">
+                            {valorarBtn}
+                        </div>
                     </div>
 
 
