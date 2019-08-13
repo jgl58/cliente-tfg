@@ -90,7 +90,7 @@ class MuroProfesional extends Component {
     let ofertas = []
     let clientes = []
     if (this.state.ofertas.length == 0) {
-      ofertas = <label>No has creado ninguna oferta todavía</label>
+      ofertas = <label>No has aceptado ninguna oferta todavía</label>
     } else {
       for (let i = 0; i < this.state.ofertas.length; i++) {
 

@@ -280,6 +280,17 @@ class API {
         })
     }
 
+    getValoracionProfesional(id){
+        return fetch(API_URL+"profesionales/" + id+"/valoracion",{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+        .then(function (response) {
+            return response.json()
+        })
+    }
+
 }
 
 export default API

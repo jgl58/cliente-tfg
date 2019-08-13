@@ -56,9 +56,6 @@ class Oferta extends Component {
 
             let pob = this.state.oferta.poblacion
             pob = pob.replace(" ","+");
-
-            
-
             let src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAYS8EDyWG-GGFK80V2bwJ3atV68WninOI&q="`+pob+dir+`"`
 
             this.setState({direccion: src})
@@ -71,6 +68,10 @@ class Oferta extends Component {
                     new API().getProfesionalOferta(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
 
                         this.setState({ user: json.profesional })
+                        new API().getValoracionProfesional(json.profesional.id).then((valoracion) => {
+
+                            this.setState({ valoracionMedia: valoracion.valoracion })
+                        })
                     })
                 }else{
                     new API().getClienteTrabajo(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
@@ -203,6 +204,9 @@ class Oferta extends Component {
                         </div>
                         <div className="form-group row">
                             <label className="col-md-6 col-form-label" htmlFor="text-input"> Tlf: {this.state.user.telefono}</label>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-md-6 col-form-label" htmlFor="text-input"> Valoracion: {this.state.valoracionMedia}</label>
                         </div>
                     </div>
                     <div className="row">
