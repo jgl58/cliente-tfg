@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 import {reactLocalStorage} from 'reactjs-localstorage'
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+var sha512 = require('js-sha512');
 
 class Login extends Component {
 
@@ -63,38 +64,37 @@ class Login extends Component {
       email: this.state.email, 
       pass: this.state.pass 
     };
-    
+    var hash = sha512(pet.pass)
+      pet.pass = hash
+    pet.pass = hash
     var json = JSON.stringify(pet)
-    
+
     new API().login(json)
-      .then((response) => {
-        
-        if (response.ok) {
-          return response.json();
-        } else {
-          this.handleShow()
-        }
-      }).then((json) => {
-        reactLocalStorage.set('token',json.token)
-        reactLocalStorage.set('idUser',json.idUser)
-        reactLocalStorage.set('isProfesional',this.state.profesional)
-        reactLocalStorage.set('nombre',json.nombre)
-        reactLocalStorage.set('provincia',json.provincia)
-        if(!this.state.profesional){
-          this.setState({logeado: true})
-         // this.goToMuro()
-        }else{
-          this.setState({logeado: true})
-          new API().getNotificaciones(json.idUser).then(function(d){
-              if(d.notificaciones.length != 0)
-                reactLocalStorage.set("notificaciones",d.notificaciones)        
-          })
-        }
-          
-//          this.props.muroP()
-      }).catch(function(err){
-        
-      })
+    .then((response) => {
+      
+      if (response.ok) {
+        return response.json();
+      } else {
+        this.handleShow()
+      }
+    }).then((json) => {
+      reactLocalStorage.set('token',json.token)
+      reactLocalStorage.set('idUser',json.idUser)
+      reactLocalStorage.set('isProfesional',this.state.profesional)
+      reactLocalStorage.set('nombre',json.nombre)
+      reactLocalStorage.set('provincia',json.provincia)
+      if(!this.state.profesional){
+        this.setState({logeado: true})
+      }else{
+        this.setState({logeado: true})
+        new API().getNotificaciones(json.idUser).then(function(d){
+            if(d.notificaciones.length != 0)
+              reactLocalStorage.set("notificaciones",d.notificaciones)        
+        })
+      }
+    }).catch(function(err){
+      
+    })
   }
 
 

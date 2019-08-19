@@ -13,8 +13,7 @@ class MuroProfesional extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { nick: '', ofertas: [], clientes: [] ,response: "",
-    endpoint: "http://jonaygilabert.ddns.net:4001",
+    this.state = { nick: '', ofertas: [], clientes: [] ,
     oferta: false,
     perfilPublico: false
   }
@@ -24,6 +23,9 @@ class MuroProfesional extends Component {
   }
 
   componentWillMount() {
+
+    console.log(reactLocalStorage.get("token"))
+
     this.setState({ nick: reactLocalStorage.get('nombre') })
 
     new API().getTrabajos(reactLocalStorage.get("idUser"))
@@ -36,29 +38,6 @@ class MuroProfesional extends Component {
       })
 
   }
-
-  
-  componentDidMount(){
-    const {endpoint} = this.state;
-    const socket = socketIOClient(endpoint);
-
-    
-
-    socket.on('connect', function(){
-        var r = ""
-        if(reactLocalStorage.get("visitarProfesional") == 'true'){
-            r = reactLocalStorage.get("idUser")+"-"+reactLocalStorage.get("visitar")
-        }else{
-            r = reactLocalStorage.get("visitar")+"-"+reactLocalStorage.get("idUser")
-        }
-        socket.emit('room', r);
-        socket.on("notificacion",(data)=>{
-                console.log(data)  
-        })
-    })
-
-
-}
 
 
   goOferta(id){

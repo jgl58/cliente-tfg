@@ -107,8 +107,7 @@ class Oferta extends Component {
     borrarOferta() {
         new API().borrarOferta(reactLocalStorage.get("idUser"),this.state.oferta.id).then((response) => {
             if (response.ok) {
-                alert('Oferta borrada')
-                return <Redirect to="/muroCliente"></Redirect>
+                this.setState({muro: true})
             } else {
                 alert('Ha habido un problema al borrar la oferta')
             }

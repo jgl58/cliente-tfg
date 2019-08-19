@@ -3,16 +3,18 @@ import '../App.css';
 import API from '../API/API'
 import { Button } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
+
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link,Redirect} from "react-router-dom";
+import { isThisSecond } from 'date-fns/esm';
+var sha512 = require('js-sha512');
 
 class Registro extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { email: '', pass: '', confirmpassword: '', nombre: '', apellidos: '', provincias:[],selectedProvincia: '',poblacion:'', direccion: '', pais: '', isProfesional: true }
+    this.state = { email: '', pass: '', confirmpassword: '', nombre: '', apellidos: '', provincias:[],selectedProvincia: '9',poblacion:'', direccion: '', pais: '', isProfesional: true, login: false }
     this.registrar = this.registrar.bind(this)
-    this.goToLogin = this.goToLogin.bind(this);
     this.registroCliente = this.registroCliente.bind(this);
     this.registroProfesional = this.registroProfesional.bind(this);
   }
@@ -24,9 +26,6 @@ class Registro extends Component {
     })
   }
 
-  goToLogin() {
-    this.props.log()
-  }
   registroProfesional() {
     this.setState({ isProfesional: true })
   }
@@ -36,8 +35,8 @@ class Registro extends Component {
   }
 
   registrar(event) {
-    if (this.state.pass === '' && this.state.confirmpassword === '' && this.state.email === '' && this.state.nombre === '' 
-    && this.state.poblacion === ''&& this.state.selectedProvincia === ''&& this.state.direccion === ''&& this.state.pais === '') {
+    if (this.state.pass === ''|| this.state.confirmpassword === '' || this.state.email === '' || this.state.nombre === '' 
+    && this.state.poblacion === '' || this.state.selectedProvincia === '' || this.state.direccion === '' || this.state.pais === '') {
       alert("Introduce todos los datos")
     }
     else if (this.state.pass !== this.state.confirmpassword) {
@@ -48,21 +47,31 @@ class Registro extends Component {
       var pet = { isProfesional: this.state.isProfesional, email: this.state.email, pass: this.state.pass, nombre: this.state.nombre, apellidos: this.state.apellidos,
       provincia: elem.id, poblacion: this.state.poblacion, pais: this.state.pais, direccion: this.state.direccion };
 
-      var json = JSON.stringify(pet)
 
+      var hash = sha512(pet.pass)
+      pet.pass = hash
+      var json = JSON.stringify(pet)
       new API().registro(json)
-        .then((response) => {
-          if (response.ok) {
-            this.props.log()
-          } else {
-            alert("Email ya en uso")
-          }
-        })
+      .then((response)=>{
+        if (response.ok) {     
+          this.setState({login: true})
+          console.log(this.state)
+        } else {
+          alert("Email ya en uso")
+        }
+      })
+
+      
     }
 
   }
 
   render() {
+
+    if(this.state.login == true){
+      return <Redirect to="/"></Redirect>
+    }
+
     let titulo
     let enlace
     let prov = []
@@ -84,18 +93,6 @@ class Registro extends Component {
         <div className="row">
           <div className="col-md-12 mt-5">
 
-            <Modal show={this.state.show} onHide={this.handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Error al registrarse</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>El usuario o la contraseña ya existen</Modal.Body>
-              <Modal.Footer>
-                <Button variant="primary" onClick={this.handleClose}>
-                  Cerrar
-              </Button>
-              </Modal.Footer>
-            </Modal>
-
             <div className="card">
               <div className="card-header">
                 {titulo}
@@ -116,7 +113,7 @@ class Registro extends Component {
                       <label className="">Contraseña</label>
                     </div>
                     <div className="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" type="password" className="form-control" onChange={(event) => this.setState({ pass: event.target.value })} />
+                      <input id="hf-1" name="hf-password" placeholder="" type="password" className="form-control" onChange={(event) => this.setState({ pass: event.target.value })} />
                       
                     </div>
                   </div>
@@ -125,7 +122,7 @@ class Registro extends Component {
                       <label className="">Repite la contraseña</label>
                     </div>
                     <div className="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" type="password" className="form-control" onChange={(event) => this.setState({ confirmpassword: event.target.value })} />
+                      <input id="hf-2" name="hf-password" placeholder="" type="password" className="form-control" onChange={(event) => this.setState({ confirmpassword: event.target.value })} />
                       
                     </div>
                   </div>
@@ -134,7 +131,7 @@ class Registro extends Component {
                       <label className="">Nombre</label>
                     </div>
                     <div className="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ nombre: event.target.value })} />
+                      <input id="hf-3" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ nombre: event.target.value })} />
                      
                     </div>
                   </div>
@@ -143,7 +140,7 @@ class Registro extends Component {
                       <label className="">Apellidos</label>
                     </div>
                     <div className="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ apellidos: event.target.value })} />
+                      <input id="hf-4" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ apellidos: event.target.value })} />
                       
                     </div>
                   </div>
@@ -152,7 +149,7 @@ class Registro extends Component {
                       <label className="">Dirección</label>
                     </div>
                     <div className="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ direccion: event.target.value })} />  
+                      <input id="hf-5" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ direccion: event.target.value })} />  
                     </div>
                   </div>
                   <div className="position-relative row form-group">
@@ -160,7 +157,7 @@ class Registro extends Component {
                       <label className="">Población</label>
                     </div>
                     <div className="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ poblacion: event.target.value })} />  
+                      <input id="hf-6" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ poblacion: event.target.value })} />  
                     </div>
                   </div>
                   <div className="position-relative row form-group">
@@ -181,7 +178,7 @@ class Registro extends Component {
                       <label className="">Pais</label>
                     </div>
                     <div className="col-12 col-md-9">
-                      <input id="hf-password" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ pais: event.target.value })} />  
+                      <input id="hf-77" name="hf-password" placeholder="" type="text" className="form-control" onChange={(event) => this.setState({ pais: event.target.value })} />  
                     </div>
                   </div>
                   <div className="position-relative row form-group">
