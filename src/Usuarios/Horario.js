@@ -11,6 +11,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import esLocale from '@fullcalendar/core/locales/es';
 
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
@@ -22,8 +23,10 @@ class Horario extends Component {
         this.state = {
             calendarWeekends: true,
             calendarEvents: [
-            ]
+            ],
+            oferta: false
         }
+        this.handleDateClick = this.handleDateClick.bind(this)
     }
 
     componentWillMount(){
@@ -33,6 +36,7 @@ class Horario extends Component {
                 new API().getOferta(reactLocalStorage.get("idUser"),response.horario[i].trabajo).then((response) => {
                    this.setState({
                        calendarEvents: this.state.calendarEvents.concat({
+                        id: response.oferta.id,
                         title: response.oferta.titulo,
                         start: new Date(response.oferta.fecha)
                        })
@@ -43,9 +47,19 @@ class Horario extends Component {
         })
     }
 
+    handleDateClick(info){
+        console.log(info.event)
+        reactLocalStorage.set('idOferta',info.event.id)
+        this.setState({oferta: true})
+    }
+
 
 
     render() {
+
+        if(this.state.oferta == true){
+            return <Redirect push to='/oferta'/>
+        }
 
         return (
             <div>
@@ -63,7 +77,7 @@ class Horario extends Component {
                         ref={this.calendarComponentRef}
                         weekends={this.state.calendarWeekends}
                         events={this.state.calendarEvents}
-                        dateClick={this.handleDateClick}
+                        eventClick={this.handleDateClick}
                         themeSystem='bootstrap'
                         locales={[esLocale]}
                         locale='es'
