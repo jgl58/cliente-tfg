@@ -70,8 +70,10 @@ class Oferta extends Component {
 
                         this.setState({ user: json.profesional })
                         new API().getValoracionProfesional(json.profesional.id).then((valoracion) => {
-
-                            this.setState({ valoracionMedia: valoracion.valoracion })
+                            if(valoracion.valoracion != null)
+                                this.setState({ valoracionMedia: valoracion.valoracion })
+                            else
+                                this.setState({valoracionMedia: 0})
                         })
                     })
                 }else{
@@ -215,6 +217,14 @@ class Oferta extends Component {
 
         let profesional
         if (this.state.user.nombre !== undefined) {
+
+
+            let valoracion
+            if(reactLocalStorage.get("isProfesional") == 'false'){
+                valoracion = <div className="form-group row">
+                <label className="col-md-6 col-form-label" htmlFor="text-input"> Valoracion: {this.state.valoracionMedia}</label>
+            </div>
+            }
             profesional = <div className="card mt-3">
                 <div className="card-header">{titulo}</div>
                 <div className="card-body">
@@ -225,9 +235,7 @@ class Oferta extends Component {
                         <div className="form-group row">
                             <label className="col-md-6 col-form-label" htmlFor="text-input"> Tlf: {this.state.user.telefono}</label>
                         </div>
-                        <div className="form-group row">
-                            <label className="col-md-6 col-form-label" htmlFor="text-input"> Valoracion: {this.state.valoracionMedia}</label>
-                        </div>
+                        {valoracion}
                     </div>
                     <div className="row">
                         <div className="col">
