@@ -9,7 +9,7 @@ class Buscador extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {ofertas: [], provincias: [], selectedProvincia: '9' }  
+    this.state = {ofertas: [], provincias: [], selectedProvincia: '9',selectedTitle:'' }  
     this.buscar = this.buscar.bind(this)
   }
 
@@ -22,12 +22,20 @@ class Buscador extends Component {
 
   buscar(){
     let elem = this.state.provincias.find(element => element.id == this.state.selectedProvincia)
-    new API().buscadorPorProvincias(elem.id).then((json) => {
-      console.log(json.ofertas)
-      this.setState({ ofertas: json.ofertas })
-    })
-  }
 
+    if(this.state.selectedTitle == ''){
+      new API().buscadorPorProvincias(elem.id).then((json) => {
+        console.log(json.ofertas)
+        this.setState({ ofertas: json.ofertas })
+      })
+    }else{
+      new API().buscadorPorProvinciasTitulo(elem.id,this.state.selectedTitle).then((json) => {
+        console.log(json.ofertas)
+        this.setState({ ofertas: json.ofertas })
+      })
+    }
+    
+  }
 
   render() {
 
@@ -62,7 +70,7 @@ class Buscador extends Component {
                         {prov}
                       </select>
               <input className="form-control mr-3 w-75" type="text" placeholder="Buscar..."
-                aria-label="Search"/>
+                aria-label="Search" onChange={(e) => this.setState({selectedTitle: e.target.value})}/>
               <i className="fas fa-search" aria-hidden="true" onClick={this.buscar}></i>
             </form>
             </div>

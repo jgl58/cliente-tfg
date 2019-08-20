@@ -221,6 +221,18 @@ class API {
             })
     }
 
+    buscadorPorProvinciasTitulo(id,title) {
+
+        return fetch(API_URL+"buscador/" + id+"?title="+title,{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+            .then(function (response) {
+                return response.json()
+            })
+    }
+
     aceptarOferta(idUser,oferta) {
         return fetch(API_URL+"profesional/" + idUser+"/trabajos/"+oferta, {
             method: 'PUT',
