@@ -67,7 +67,7 @@ class Registro extends Component {
   }
 
   render() {
-
+    
     if(this.state.login == true){
       return <Redirect to="/"></Redirect>
     }

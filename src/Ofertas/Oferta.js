@@ -14,6 +14,7 @@ class Oferta extends Component {
         this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"", direccion:"", valoracion: "", rating: 0, muro: false }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
+        this.cancelarOferta = this.cancelarOferta.bind(this)
         this.borrarOferta = this.borrarOferta.bind(this)
         this.chat = this.chat.bind(this)
         this.valorar = this.valorar.bind(this)
@@ -129,6 +130,24 @@ class Oferta extends Component {
         })
     }
 
+    cancelarOferta(){
+
+        var id
+        if(reactLocalStorage.get("isProfesional") == 'true'){
+            id = reactLocalStorage.get("idUser")
+        }else{
+            id = this.state.user.id
+        }
+
+        new API().cancelarOferta(id,this.state.oferta.id).then(function(response){
+            if(response.ok){
+                alert("Profesional cancelado")
+            }else{
+                alert("Problema al cancelar la oferta")
+            }
+        })
+    }
+
     valorar(){
 
         var valoracion = {
@@ -172,9 +191,10 @@ class Oferta extends Component {
         if(this.state.perfilPublico == true){
             return <Redirect push to='/publico'/>
         }
-
+        let btnCancelar = ""
         let estado
         if (this.state.oferta.estado) {
+            btnCancelar = <button type="button" class="btn btn-outline-danger waves-effect" onClick={this.cancelarOferta}>Cancelar</button>
             estado = <span className="badge badge-success ">Seleccionada</span>
         } else {
             estado = <span className="badge badge-danger ">No seleccionada</span>
@@ -191,6 +211,7 @@ class Oferta extends Component {
         if(this.state.oferta.estado == false && reactLocalStorage.get("isProfesional") === 'true'){
             btnSeleccionar = <button type="button" class="btn btn-primary" onClick={this.aceptarOferta}>Aceptar Oferta</button>
         }
+
 
         let profesional
         if (this.state.user.nombre !== undefined) {
@@ -222,7 +243,7 @@ class Oferta extends Component {
         let editar
         let borrar  
         let valorarBtn
-        if(reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id){
+        if(reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id && this.state.oferta.estado == true){
             console.log("Esta oferta es mia")
             editar = <Link to="/editarOferta"><i className="fas fa-edit"></i></Link>
             borrar=<i class="fas fa-trash-alt" data-toggle="modal" data-target="#basicExampleModal"></i>
@@ -290,12 +311,16 @@ class Oferta extends Component {
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-md-3 col-form-label">Estado</label>
-                                            <div className="col-md-6">
+                                            <div className="col-md-3">
                                                 {estado}
                                             </div>
                                             <div className="col-md-3">
                                             {btnSeleccionar}
                                             </div>
+                                            <div className="col-md-3">
+                                            {btnCancelar}
+                                            </div>
+
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-md-3 col-form-label">Hora</label>
