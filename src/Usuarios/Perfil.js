@@ -256,7 +256,7 @@ class Perfil extends Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-2"></div>
-                        <div className="col-md-7">
+                        <div className="col-md-8">
                             <div className="card mt-3">
                                 <div className="card-header">
                                     Tu Perfil
