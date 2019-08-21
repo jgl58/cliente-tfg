@@ -10,8 +10,46 @@ class BuscadorItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      oferta: false
+      oferta: false,
+      direccion: "",
+      fecha:"",
+      hora: ""
     }
+  }
+  formatDate(date) {
+    var monthNames = [
+      "enero", "febrero", "marzo",
+      "abril", "mayo", "junio", "julio",
+      "agosto", "septiembre", "octubre",
+      "noviembre", "diciembre"
+    ];
+  
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    var hour = date.getHours();
+    var min = date.getMinutes();
+
+    var d = day + '/' + monthNames[monthIndex] + '/' + year;
+    var h = hour+":"+min
+
+    this.setState({fecha: d})
+    this.setState({hora: h})
+  }
+
+  componentWillMount(){
+
+    var dir = this.props.oferta.direccion
+    dir = dir.replace(" ","+");
+
+    let pob = this.props.oferta.poblacion
+    pob = pob.replace(" ","+");
+    let src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAYS8EDyWG-GGFK80V2bwJ3atV68WninOI&q="`+pob+dir+`"`
+
+    this.setState({direccion: src})
+
+    this.formatDate(new Date(this.props.oferta.fecha))
   }
 
   goOferta(id){
@@ -28,37 +66,32 @@ class BuscadorItem extends Component {
     }
 
     return (
-    <div class="card booking-card">
-
-        <div class="view overlay">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/8-col/img (5).jpg" alt="Card image cap"/>
-            <a href="#!">
-            <div class="mask rgba-white-slight"></div>
-            </a>
-        </div>
-
+    <div class="card">
         <div class="card-body">
 
-            <h4 class="card-title font-weight-bold"><a>{this.props.oferta.titulo}</a></h4>
-            <ul class="list-unstyled list-inline rating mb-0">
-            <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"> </i></li>
-            <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
-            <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
-            <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
-            <li class="list-inline-item"><i class="fas fa-star-half-alt amber-text"></i></li>
-            <li class="list-inline-item"><p class="text-muted">4.5 (413)</p></li>
-            </ul>
+            <h4 class="card-title font-weight-bold">{this.props.oferta.titulo}</h4>
             <p class="mb-2">{this.props.oferta.provincia}</p>
             <p class="card-text">{this.props.oferta.descripcion}</p>
             <hr class="my-4"/>
-            <p class="lead"><strong>Hora</strong></p>
+            <p class="card-text">{this.props.oferta.direccion} {this.props.oferta.poblacion}</p>
             <ul class="list-unstyled list-inline d-flex justify-content-between mb-0">
             <li class="list-inline-item mr-0">
-                <div class="chip mr-0">{this.props.oferta.hora}</div>
+                <div class="chip mr-0">{this.state.hora}</div>
+            </li>
+            <li class="list-inline-item mr-0">
+                <div class="chip mr-0">{this.state.fecha}</div>
             </li>
             </ul>
-            <a class="btn btn-flat deep-purple-text p-1 mx-0 mb-0" onClick={() => this.goOferta(this.props.oferta.id)}>Ver más</a>
+            <a class="btn btn-default" onClick={() => this.goOferta(this.props.oferta.id)}>Ver más</a>
 
+        </div>
+        <div class="card-img-bottom">
+          <iframe
+            width="100%"
+            height="100%"
+            frameborder="0" style={{border: 0}}
+            src={this.state.direccion} allowfullscreen>
+          </iframe>
         </div>
 
     </div>

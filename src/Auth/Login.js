@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import API from '../API/API'
-import { Button } from "react-bootstrap"
+import { Button, Col } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 import {reactLocalStorage} from 'reactjs-localstorage'
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
@@ -180,7 +180,6 @@ class Login extends Component {
                     </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>

@@ -193,10 +193,16 @@ class Oferta extends Component {
         if(this.state.perfilPublico == true){
             return <Redirect push to='/publico'/>
         }
-        let btnCancelar = ""
+
+
+        let btnSeleccionar = ""
+        if(this.state.oferta.estado == false && reactLocalStorage.get("isProfesional") === 'true'){
+            btnSeleccionar = <button type="button" class="btn btn-primary" onClick={this.aceptarOferta}>Aceptar Oferta</button>
+        }
+
         let estado
         if (this.state.oferta.estado) {
-            btnCancelar = <button type="button" class="btn btn-outline-danger waves-effect" onClick={this.cancelarOferta}>Cancelar</button>
+            btnSeleccionar = <button type="button" class="btn btn-outline-danger waves-effect" onClick={this.cancelarOferta}>Cancelar</button>
             estado = <span className="badge badge-success ">Seleccionada</span>
         } else {
             estado = <span className="badge badge-danger ">No seleccionada</span>
@@ -209,10 +215,7 @@ class Oferta extends Component {
             titulo = "Cliente"
         }
 
-        let btnSeleccionar = ""
-        if(this.state.oferta.estado == false && reactLocalStorage.get("isProfesional") === 'true'){
-            btnSeleccionar = <button type="button" class="btn btn-primary" onClick={this.aceptarOferta}>Aceptar Oferta</button>
-        }
+        
 
 
         let profesional
@@ -226,35 +229,33 @@ class Oferta extends Component {
             </div>
             }
             profesional = <div className="card mt-3">
-                <div className="card-header">{titulo}</div>
+                <div className="card-header"><b>{titulo}</b></div>
                 <div className="card-body">
-                    <div className="form-horizontal">
-                        <div className="form-group row">
-                            <label className="col-md-6 col-form-label" htmlFor="text-input">{this.state.user.nombre} {this.state.user.apellidos}</label>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-md-6 col-form-label" htmlFor="text-input"> Tlf: {this.state.user.telefono}</label>
-                        </div>
-                        {valoracion}
+                <p class="card-text"><b>{this.state.user.nombre} {this.state.user.apellidos}</b></p>
+                <p class="card-text">Tlf: {this.state.user.telefono}</p>
+                <div className="row">
+                    <div className="col">
+                        <div className="btn btn-primary" onClick={() => this.chat(this.state.user.id)}>Contactar</div>
                     </div>
-                    <div className="row">
-                        <div className="col">
-                            <div className="btn btn-primary" onClick={() => this.chat(this.state.user.id)}>Contactar</div>
-                        </div>
 
-                    </div>
+                </div>
                 </div>
             </div>
 
         }
 
-        let editar
-        let borrar  
+        let menu
         let valorarBtn
         if(reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id && this.state.oferta.estado == true){
             console.log("Esta oferta es mia")
-            editar = <Link to="/editarOferta"><i className="fas fa-edit"></i></Link>
-            borrar=<i class="fas fa-trash-alt" data-toggle="modal" data-target="#basicExampleModal"></i>
+            menu = <div><a data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+
+            <div className="dropdown-menu dropdown-menu-right">
+            <a className="dropdown-item" href="/editarOferta">Editar</a>
+            <a className="dropdown-item" href="#" data-toggle="modal" data-target="#basicExampleModal">Borrar</a>
+            </div>
+            </div>
 
             valorarBtn = <div><StarRatingComponent 
                             name="rate1" 
@@ -288,66 +289,45 @@ class Oferta extends Component {
                     </div>
                 </div>
                 </div>
+                
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-1"></div>
+                        <div className="col-md-5">
                             <div className="card mt-3">
                                 <div className="card-header">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        Oferta
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <b>Oferta</b>
                                     </div>
-                                    <div class="col-md-2 float-right">
-                                        {editar}
-                                        {borrar}
+                                    <div className="col-md-5 ">
+                                        {estado}          
                                     </div>
+                                    <div className="col-md-1">
+                                        {menu}
+                                    </div>
+                                    
                                 </div>
                                 </div>
                                 <div className="card-body">
-                                    <div className="form-horizontal">
-                                        <div className="form-group row">
-                                            <label className="col-md-3 col-form-label">Titulo</label>
-                                            <div className="col-md-9">
-                                                <input className="form-control" id="titulo" type="text" name="text-input" placeholder={this.state.oferta.titulo} />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-md-3 col-form-label">Descripción</label>
-                                            <div className="col-md-9">
-                                                <textarea className="form-control" id="descripcion" type="text" name="textarea-input" placeholder={this.state.oferta.descripcion} />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-md-3 col-form-label">Estado</label>
-                                            <div className="col-md-3">
-                                                {estado}
-                                            </div>
-                                            <div className="col-md-3">
-                                            {btnSeleccionar}
-                                            </div>
-                                            <div className="col-md-3">
-                                            {btnCancelar}
-                                            </div>
 
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-md-3 col-form-label">Hora</label>
-                                            <div className="col-md-9">
-                                                <label className="col-md-3 col-form-label">{this.state.hora}</label>
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-md-3 col-form-label">Fecha</label>
-                                            <div className="col-md-9">
-                                                <label className="col-md-3 col-form-label">{this.state.fecha}</label>
-                                            </div>
-                                        </div>
+
+                                <h4 class="card-title font-weight-bold">{this.state.oferta.titulo}</h4>
+                                <p class="card-text">{this.state.oferta.descripcion}</p>
+                                <p class="card-text">{this.state.oferta.direccion}</p>
+                                <p class="card-text">{this.state.oferta.poblacion}</p>
+                                <p class="card-text">{this.state.hora} {this.state.fecha}</p>
+
+                                </div>
+
+                                <div className="card-footer">
+                                    <div className="row">
+                                    {btnSeleccionar}
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-4 mt-3">
+                        <div className="col-md-5 mt-3">
                             <iframe
                             width="100%"
                             height="100%"
@@ -355,14 +335,18 @@ class Oferta extends Component {
                             src={this.state.direccion} allowfullscreen>
                             </iframe>
                         </div>
+                        <div className="col-md-1"></div>
                     </div>
+                    
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-1"></div>
+                        <div className="col-md-5">
                             {profesional}
                         </div>
-                        <div className="col-md-6 mt-3">
+                        <div className="col-md-5 mt-3">
                             {valorarBtn}
                         </div>
+                        <div className="col-md-1"></div>
                     </div>
 
 
