@@ -21,6 +21,7 @@ class MuroCliente extends Component {
 
   componentWillMount() {
     this.setState({ nick: reactLocalStorage.get('nombre') })
+    console.log(reactLocalStorage.get("idUser"))
 
     new API().getOfertasCreadas(reactLocalStorage.get("idUser"))
       .then((json) => {

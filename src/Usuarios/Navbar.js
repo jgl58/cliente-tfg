@@ -56,7 +56,7 @@ class Navbar extends Component {
         }
           
       }.bind(this))
-  }
+  } 
 
 
   muro(){

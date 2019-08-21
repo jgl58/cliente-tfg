@@ -3,6 +3,8 @@ import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import Navbar from '../Usuarios/Navbar'
+import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
+import es from 'date-fns/locale/es';
 import { func } from 'prop-types';
 
 class EditarOferta extends Component {
@@ -15,39 +17,22 @@ class EditarOferta extends Component {
             titulo: "", 
             descripcion: "", 
             hora: "", 
-            fecha: ""
+            direccion:"",
+            poblacion:"",
+            fecha: "",
+            startDate: new Date()
         }
         this.editarOferta = this.editarOferta.bind(this)
     }
-    formatDate(date) {
-        var monthNames = [
-          "enero", "febrero", "marzo",
-          "abril", "mayo", "junio", "julio",
-          "agosto", "septiembre", "octubre",
-          "noviembre", "diciembre"
-        ];
-      
-        var day = date.getDate();
-        var monthIndex = date.getMonth();
-        var year = date.getFullYear();
-
-        var hour = date.getHours();
-        var min = date.getMinutes();
-
-        var d = day + '/' + monthNames[monthIndex] + '/' + year;
-        var h = hour+":"+min
-
-        this.setState({fecha: d})
-        this.setState({hora: h})
-        console.log(this.state.fecha)
-      }
 
     componentWillMount() {
+        registerLocale('es', es)
         new API().getOferta(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then(function(json){
             console.log(json.oferta)
             this.setState({ oferta: json.oferta })
+
+            this.setState({startDate: new Date(json.oferta.fecha)})
             
-            this.formatDate(new Date(json.oferta.fecha))
         }.bind(this))
         
         
@@ -64,9 +49,14 @@ class EditarOferta extends Component {
         if(this.state.descripcion !== ""){
             oferta.descripcion = this.state.descripcion
         }
-        if(this.state.fecha !== "" || this.state.hora !== ""){
-            oferta.fecha = this.state.fecha
+        oferta.fecha = this.state.startDate
+        if(this.state.direccion !== ""){
+            oferta.direccion = this.state.direccion
         }
+        if(this.state.poblacion !== ""){
+            oferta.poblacion = this.state.poblacion
+        }
+
         console.log(oferta)
         var json = JSON.stringify(oferta)
 
@@ -80,6 +70,11 @@ class EditarOferta extends Component {
         })
 
     }
+    handleChange(date) {
+        this.setState({
+          startDate: date
+        });
+      }
 
     render() {
 
@@ -88,6 +83,7 @@ class EditarOferta extends Component {
                 <Navbar></Navbar>
                 <div className="container-fluid">
                     <div className="row">
+                        <div className="col-md-3"></div>
                         <div className="col-md-6">
                             <div className="card mt-3">
                                 <div className="card-header">
@@ -112,26 +108,41 @@ class EditarOferta extends Component {
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-md-3 col-form-label">Hora</label>
+                                            <label className="col-md-3 col-form-label">Fecha</label>
                                             <div className="col-md-9">
-                                                <label className="col-md-3 col-form-label">{this.state.hora}</label>
+                                            <DatePicker
+                                                locale="es"
+                                                selected={this.state.startDate}
+                                                onChange={this.handleChange}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                dateFormat="MMMM d, yyyy h:mm aa"
+                                                timeCaption="time"
+                                            />
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-md-3 col-form-label">Fecha</label>
+                                            <label className="col-md-3 col-form-label">Dirección</label>
                                             <div className="col-md-9">
-                                                <label className="col-md-3 col-form-label">{this.state.fecha}</label>
+                                                <input className="form-control" id="descripcion" type="text" name="textarea-input" placeholder={this.state.oferta.direccion} onChange={(event) => this.setState({ direccion: event.target.value })} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-md-3 col-form-label">Población</label>
+                                            <div className="col-md-9">
+                                                <input className="form-control" id="descripcion" type="text" name="textarea-input" placeholder={this.state.oferta.poblacion} onChange={(event) => this.setState({ poblacion: event.target.value })} />
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
+                                <div className="card-footer">
+                                    <div className="btn btn-primary" onClick={this.editarOferta}>Guardar</div>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-md-6">
-                            <div className="btn btn-primary" onClick={this.editarOferta}>Guardar</div>
-                        </div>
-
+                        <div className="col-md-3 mb-1"></div>
                     </div>
 
 

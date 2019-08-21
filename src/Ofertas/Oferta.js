@@ -11,23 +11,24 @@ class Oferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha:"", hora:"", direccion:"", valoracion: "", rating: 0, muro: false }
+        this.state = { perfilPublico: false, oferta: {}, user: {}, fecha: "", hora: "", direccion: "", valoracion: "", rating: 0, muro: false }
         this.crearOferta = this.crearOferta.bind(this)
         this.aceptarOferta = this.aceptarOferta.bind(this)
         this.cancelarOferta = this.cancelarOferta.bind(this)
         this.borrarOferta = this.borrarOferta.bind(this)
         this.chat = this.chat.bind(this)
+        this.cargarValoracion = this.cargarValoracion.bind(this)
         this.valorar = this.valorar.bind(this)
     }
 
     formatDate(date) {
         var monthNames = [
-          "enero", "febrero", "marzo",
-          "abril", "mayo", "junio", "julio",
-          "agosto", "septiembre", "octubre",
-          "noviembre", "diciembre"
+            "enero", "febrero", "marzo",
+            "abril", "mayo", "junio", "julio",
+            "agosto", "septiembre", "octubre",
+            "noviembre", "diciembre"
         ];
-      
+
         var day = date.getDate();
         var monthIndex = date.getMonth();
         var year = date.getFullYear();
@@ -36,58 +37,58 @@ class Oferta extends Component {
         var min = date.getMinutes();
 
         var d = day + '/' + monthNames[monthIndex] + '/' + year;
-        var h = hour+":"+min
+        var h = hour + ":" + min
 
-        this.setState({fecha: d})
-        this.setState({hora: h})
-      }
-      
+        this.setState({ fecha: d })
+        this.setState({ hora: h })
+    }
+
 
 
     componentWillMount() {
         console.log(reactLocalStorage.get("idOferta"))
-        new API().getOferta(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
+        new API().getOferta(reactLocalStorage.get("idUser"), reactLocalStorage.get("idOferta")).then((json) => {
             console.log(json.oferta)
 
             this.setState({ oferta: json.oferta })
-            
+
 
             var dir = json.oferta.direccion
-            dir = dir.replace(" ","+");
+            dir = dir.replace(" ", "+");
 
             let pob = this.state.oferta.poblacion
-            pob = pob.replace(" ","+");
-            let src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAYS8EDyWG-GGFK80V2bwJ3atV68WninOI&q="`+pob+dir+`"`
+            pob = pob.replace(" ", "+");
+            let src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAYS8EDyWG-GGFK80V2bwJ3atV68WninOI&q="` + pob + dir + `"`
 
-            this.setState({direccion: src})
-            
+            this.setState({ direccion: src })
+
             this.formatDate(new Date(json.oferta.fecha))
 
             if (json.oferta.estado) {
 
-                if(reactLocalStorage.get("isProfesional") === 'false'){
-                    new API().getProfesionalOferta(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
+                if (reactLocalStorage.get("isProfesional") === 'false') {
+                    new API().getProfesionalOferta(reactLocalStorage.get("idUser"), reactLocalStorage.get("idOferta")).then((json) => {
 
                         this.setState({ user: json.profesional })
                         new API().getValoracionProfesional(json.profesional.id).then((valoracion) => {
-                            if(valoracion.valoracion != null)
+                            if (valoracion.valoracion != null)
                                 this.setState({ valoracionMedia: valoracion.valoracion })
                             else
-                                this.setState({valoracionMedia: 0})
+                                this.setState({ valoracionMedia: 0 })
                         })
                     })
-                }else{
-                    new API().getClienteTrabajo(reactLocalStorage.get("idUser"),reactLocalStorage.get("idOferta")).then((json) => {
+                } else {
+                    new API().getClienteTrabajo(reactLocalStorage.get("idUser"), reactLocalStorage.get("idOferta")).then((json) => {
 
                         this.setState({ user: json.cliente })
                     })
                 }
-                
+
             }
         })
     }
     onStarClick(nextValue, prevValue, name) {
-        this.setState({rating: nextValue});
+        this.setState({ rating: nextValue });
     }
     crearOferta() {
         var oferta = {
@@ -96,10 +97,10 @@ class Oferta extends Component {
         }
         var json = JSON.stringify(oferta)
 
-        new API().crearOferta(reactLocalStorage.get("idUser"),json).then((response) => {
+        new API().crearOferta(reactLocalStorage.get("idUser"), json).then((response) => {
             if (response.ok) {
                 alert('Oferta creada')
-                this.setState({muro: true})
+                this.setState({ muro: true })
             } else {
                 alert('Datos incorrectos')
             }
@@ -108,9 +109,9 @@ class Oferta extends Component {
     }
 
     borrarOferta() {
-        new API().borrarOferta(reactLocalStorage.get("idUser"),this.state.oferta.id).then((response) => {
+        new API().borrarOferta(reactLocalStorage.get("idUser"), this.state.oferta.id).then((response) => {
             if (response.ok) {
-                this.setState({muro: true})
+                this.setState({ muro: true })
             } else {
                 alert('Ha habido un problema al borrar la oferta')
             }
@@ -118,13 +119,13 @@ class Oferta extends Component {
 
     }
 
-    aceptarOferta(){
+    aceptarOferta() {
 
         var oferta = this.state.oferta.id
-        new API().aceptarOferta(reactLocalStorage.get("idUser"),oferta).then((response) => {
+        new API().aceptarOferta(reactLocalStorage.get("idUser"), oferta).then((response) => {
             if (response.ok) {
                 alert('Oferta de trabajo aceptada')
-                this.setState({muro: true})
+                this.setState({ muro: true })
             } else {
                 alert('No se ha podido aceptar la oferta, revisa tu horario')
                 console.log(response)
@@ -132,25 +133,25 @@ class Oferta extends Component {
         })
     }
 
-    cancelarOferta(){
+    cancelarOferta() {
 
         var id
-        if(reactLocalStorage.get("isProfesional") == 'true'){
+        if (reactLocalStorage.get("isProfesional") == 'true') {
             id = reactLocalStorage.get("idUser")
-        }else{
+        } else {
             id = this.state.user.id
         }
 
-        new API().cancelarOferta(id,this.state.oferta.id).then(function(response){
-            if(response.ok){
+        new API().cancelarOferta(id, this.state.oferta.id).then(function (response) {
+            if (response.ok) {
                 alert("Profesional cancelado")
-            }else{
+            } else {
                 alert("Problema al cancelar la oferta")
             }
         })
     }
 
-    valorar(){
+    valorar() {
 
         var valoracion = {
             id: this.state.user.id,
@@ -159,44 +160,150 @@ class Oferta extends Component {
 
         console.log(valoracion)
 
-        new API().valorarProfesional(this.state.user.id,JSON.stringify(valoracion))
-        .then(function(response){
-            if(response.ok){
-                alert('Valoracion realizada con exito')
-            }else{
-                alert('Problema al valorar')
-            }
-        })
+        new API().valorarProfesional(this.state.user.id, JSON.stringify(valoracion))
+            .then(function (response) {
+                if (response.ok) {
+                    alert('Valoracion realizada con exito')
+                } else {
+                    alert('Problema al valorar')
+                }
+            })
 
     }
 
-    chat(id){
-        if(reactLocalStorage.get("isProfesional") === 'false'){
+    chat(id) {
+        if (reactLocalStorage.get("isProfesional") === 'false') {
             reactLocalStorage.set("visitarProfesional", true)
-        }else{
+        } else {
             reactLocalStorage.set("visitarProfesional", false)
         }
-        reactLocalStorage.set("visitar",id)
-        this.setState({perfilPublico: true})
+        reactLocalStorage.set("visitar", id)
+        this.setState({ perfilPublico: true })
+    }
+
+    cargarValoracion() {
+        let valoracion = ''
+        switch (this.state.valoracionMedia) {
+            case 0:
+                valoracion = <div>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break
+            case 0.5:
+                valoracion = <div>
+                    <i class="fas fa-star-half-alt fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break
+            case 1:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break;
+            case 1.5:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star-half-alt fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break
+            case 2:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break;
+            case 2.5:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star-half-alt fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break
+            case 3:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break;
+            case 3.5:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star-half-alt fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break
+            case 4:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="far fa-star fa-3x"></i>
+                </div>
+                break;
+            case 4.5:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star-half-alt fa-3x"></i>
+                </div>
+                break
+            case 5:
+                valoracion = <div>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                </div>
+                break;
+        }
+        return valoracion
     }
 
     render() {
 
-        if(this.state.muro == true && reactLocalStorage.get("isProfesional") == "true"){
-            return <Redirect push to='/muroProfesional'/>
+        if (this.state.muro == true && reactLocalStorage.get("isProfesional") == "true") {
+            return <Redirect push to='/muroProfesional' />
         }
 
-        if(this.state.muro == true && reactLocalStorage.get("isProfesional") == "false"){
-            return <Redirect push to='/muroCliente'/>
+        if (this.state.muro == true && reactLocalStorage.get("isProfesional") == "false") {
+            return <Redirect push to='/muroCliente' />
         }
 
-        if(this.state.perfilPublico == true){
-            return <Redirect push to='/publico'/>
+        if (this.state.perfilPublico == true) {
+            return <Redirect push to='/publico' />
         }
 
 
         let btnSeleccionar = ""
-        if(this.state.oferta.estado == false && reactLocalStorage.get("isProfesional") === 'true'){
+        if (this.state.oferta.estado == false && reactLocalStorage.get("isProfesional") === 'true') {
             btnSeleccionar = <button type="button" class="btn btn-primary" onClick={this.aceptarOferta}>Aceptar Oferta</button>
         }
 
@@ -209,36 +316,42 @@ class Oferta extends Component {
         }
 
         let titulo = ""
-        if(reactLocalStorage.get("isProfesional") === 'false'){
+        if (reactLocalStorage.get("isProfesional") === 'false') {
             titulo = "Profesional"
-        }else{
+        } else {
             titulo = "Cliente"
         }
 
-        
+
 
 
         let profesional
         if (this.state.user.nombre !== undefined) {
-
-
-            let valoracion
-            if(reactLocalStorage.get("isProfesional") == 'false'){
-                valoracion = <div className="form-group row">
-                <label className="col-md-6 col-form-label" htmlFor="text-input"> Valoracion: {this.state.valoracionMedia}</label>
-            </div>
+            let valoracion = ""
+            let valoracionTitle =""
+            if (reactLocalStorage.get("isProfesional") == 'false') {
+                valoracionTitle = <h4>Tiene una valoracion de:</h4>
+                valoracion = this.cargarValoracion()
             }
             profesional = <div className="card mt-3">
                 <div className="card-header"><b>{titulo}</b></div>
                 <div className="card-body">
-                <p class="card-text"><b>{this.state.user.nombre} {this.state.user.apellidos}</b></p>
-                <p class="card-text">Tlf: {this.state.user.telefono}</p>
-                <div className="row">
-                    <div className="col">
-                        <div className="btn btn-primary" onClick={() => this.chat(this.state.user.id)}>Contactar</div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <p class="card-text"><b>{this.state.user.nombre} {this.state.user.apellidos}</b></p>
+                            <p class="card-text">Tlf: {this.state.user.telefono}</p>
+                        </div>
+                        <div className="col-md-6">
+                            {valoracionTitle}
+                            {valoracion}
+                        </div>
                     </div>
+                    <div className="row">
+                        <div className="col">
+                            <div className="btn btn-primary" onClick={() => this.chat(this.state.user.id)}>Contactar</div>
+                        </div>
 
-                </div>
+                    </div>
                 </div>
             </div>
 
@@ -246,98 +359,98 @@ class Oferta extends Component {
 
         let menu
         let valorarBtn
-        if(reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id && this.state.oferta.estado == true){
+        if (reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id && this.state.oferta.estado == true) {
             console.log("Esta oferta es mia")
             menu = <div><a data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
 
-            <div className="dropdown-menu dropdown-menu-right">
-            <a className="dropdown-item" href="/editarOferta">Editar</a>
-            <a className="dropdown-item" href="#" data-toggle="modal" data-target="#basicExampleModal">Borrar</a>
-            </div>
+                <div className="dropdown-menu dropdown-menu-right">
+                    <a className="dropdown-item" href="/editarOferta">Editar</a>
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#basicExampleModal">Borrar</a>
+                </div>
             </div>
 
-            valorarBtn = <div><StarRatingComponent 
-                            name="rate1" 
-                            starCount={5} 
-                            value={this.state.rating} 
-                            onStarClick={this.onStarClick.bind(this)}/><br/>
-                            <button className="btn btn-primary" onClick={this.valorar}>Valorar servicio</button></div>
-                
+            valorarBtn = <div><StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={this.state.rating}
+                onStarClick={this.onStarClick.bind(this)} /><br />
+                <button className="btn btn-primary" onClick={this.valorar}>Valorar servicio</button></div>
+
         }
 
         return (
             <div>
                 <Navbar></Navbar>
                 <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Borrar oferta</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Borrar oferta</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Quieres borrar esta oferta?
                     </div>
-                    <div class="modal-body">
-                        ¿Quieres borrar esta oferta?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
-                        <button type="button" class="btn btn-primary" onClick={this.borrarOferta} data-dismiss="modal">Si</button>
-                    </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                                <button type="button" class="btn btn-primary" onClick={this.borrarOferta} data-dismiss="modal">Si</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                </div>
-                
+
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-1"></div>
                         <div className="col-md-5">
                             <div className="card mt-3">
                                 <div className="card-header">
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <b>Oferta</b>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <b>Oferta</b>
+                                        </div>
+                                        <div className="col-md-5 ">
+                                            {estado}
+                                        </div>
+                                        <div className="col-md-1">
+                                            {menu}
+                                        </div>
+
                                     </div>
-                                    <div className="col-md-5 ">
-                                        {estado}          
-                                    </div>
-                                    <div className="col-md-1">
-                                        {menu}
-                                    </div>
-                                    
-                                </div>
                                 </div>
                                 <div className="card-body">
 
 
-                                <h4 class="card-title font-weight-bold">{this.state.oferta.titulo}</h4>
-                                <p class="card-text">{this.state.oferta.descripcion}</p>
-                                <p class="card-text">{this.state.oferta.direccion}</p>
-                                <p class="card-text">{this.state.oferta.poblacion}</p>
-                                <p class="card-text">{this.state.hora} {this.state.fecha}</p>
+                                    <h4 class="card-title font-weight-bold">{this.state.oferta.titulo}</h4>
+                                    <p class="card-text">{this.state.oferta.descripcion}</p>
+                                    <p class="card-text">{this.state.oferta.direccion}</p>
+                                    <p class="card-text">{this.state.oferta.poblacion}</p>
+                                    <p class="card-text">{this.state.hora} {this.state.fecha}</p>
 
                                 </div>
 
                                 <div className="card-footer">
                                     <div className="row">
-                                    {btnSeleccionar}
+                                        {btnSeleccionar}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-5 mt-3">
                             <iframe
-                            width="100%"
-                            height="100%"
-                            frameborder="0" style={{border: 0}}
-                            src={this.state.direccion} allowfullscreen>
+                                width="100%"
+                                height="100%"
+                                frameborder="0" style={{ border: 0 }}
+                                src={this.state.direccion} allowfullscreen>
                             </iframe>
                         </div>
                         <div className="col-md-1"></div>
                     </div>
-                    
+
                     <div className="row">
                         <div className="col-md-1"></div>
                         <div className="col-md-5">
