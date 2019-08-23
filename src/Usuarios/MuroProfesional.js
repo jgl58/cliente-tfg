@@ -13,10 +13,12 @@ class MuroProfesional extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { nick: '', ofertas: [], clientes: [] ,
-    oferta: false,
-    perfilPublico: false
-  }
+    this.state = {
+      nick: '', ofertas: [], clientes: [],
+      oferta: false,
+      perfilPublico: false,
+      tarjetasVisibles: 3
+    }
     this.goOferta = this.goOferta.bind(this)
     this.perfil = this.perfil.bind(this)
     this.chat = this.chat.bind(this)
@@ -31,7 +33,7 @@ class MuroProfesional extends Component {
     new API().getTrabajos(reactLocalStorage.get("idUser"))
       .then((json) => {
         this.setState({ ofertas: json.ofertas })
-         
+
         new API().getHistorialClientes(reactLocalStorage.get("idUser")).then((json) => {
           this.setState({ clientes: json.clientes })
         })
@@ -40,54 +42,57 @@ class MuroProfesional extends Component {
   }
 
 
-  goOferta(id){
-    console.log("Visitando oferta "+id)
-    reactLocalStorage.set('idOferta',id)
-    this.setState({oferta: true})
+  goOferta(id) {
+    console.log("Visitando oferta " + id)
+    reactLocalStorage.set('idOferta', id)
+    this.setState({ oferta: true })
   }
 
-  perfil(){
+  perfil() {
     this.props.goToPerfil()
   }
 
-  chat(id){
+  chat(id) {
     reactLocalStorage.set("visitarProfesional", false)
-    reactLocalStorage.set("visitar",id)
-    this.setState({perfilPublico: true})
+    reactLocalStorage.set("visitar", id)
+    this.setState({ perfilPublico: true })
   }
 
   render() {
 
-    
 
-    if(this.state.oferta == true){
-      return <Redirect push to='/oferta'/>
+
+    if (this.state.oferta == true) {
+      return <Redirect push to='/oferta' />
     }
-    if(this.state.perfilPublico == true){
-      return <Redirect push to='/publico'/>
+    if (this.state.perfilPublico == true) {
+      return <Redirect push to='/publico' />
     }
     let ofertas = []
     let clientes = []
     if (this.state.ofertas.length == 0) {
       ofertas = <label>No has aceptado ninguna oferta todavía</label>
     } else {
-      for (let i = 0; i < this.state.ofertas.length; i++) {
+      for (let i = 0; i < this.state.tarjetasVisibles; i++) {
 
-        let estado
-        if (this.state.ofertas[i].estado) {
-          estado = <span className="badge badge-success float-right">Seleccionada</span>
-        } else {
-          estado = <span className="badge badge-danger float-right">No seleccionada</span>
+        if (this.state.ofertas[i] != null) {
+          let estado
+          if (this.state.ofertas[i].estado) {
+            estado = <span className="badge badge-success float-right">Seleccionada</span>
+          } else {
+            estado = <span className="badge badge-danger float-right">No seleccionada</span>
+          }
+
+          let elem = <div className="col-sm-6 col-md-4" key={i}>
+            <div className="card mb-2">
+              <div className="card-header">{estado}{this.state.ofertas[i].titulo}</div>
+              <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right" onClick={() => this.goOferta(this.state.ofertas[i].id)}><i className="fa fa-plus"></i></a></div>
+            </div>
+          </div>
+
+          ofertas.push(elem)
         }
 
-        let elem = <div className="col-sm-6 col-md-4" key={i}>
-          <div className="card">
-            <div className="card-header">{this.state.ofertas[i].titulo}{estado}</div>
-            <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right" onClick={() => this.goOferta(this.state.ofertas[i].id)}><i className="fa fa-plus"></i></a></div>
-          </div>
-        </div>
-
-        ofertas.push(elem)
       }
 
     }
@@ -95,31 +100,46 @@ class MuroProfesional extends Component {
     if (this.state.clientes.length == 0) {
       clientes = <label>No tienes clientes todavía</label>
     } else {
-      for (let i = 0; i < this.state.clientes.length; i++) {
+      for (let i = 0; i < this.state.tarjetasVisibles; i++) {
 
-        let elem = <div className="col-sm-6 col-md-3" key={i}>
-                <div className="card">
-                  <div className="card-header">{this.state.clientes[i].nombre} {this.state.clientes[i].apellidos}</div>
-                  <div className="card-body">
-                    <div className="btn btn-primary" onClick={() => this.chat(this.state.clientes[i].id)}>Contactar</div>
+        if (this.state.clientes[i] != null) {
+          let elem = <div className="col-sm-6 col-md-4" key={i}>
+            <div className="card mb-2">
+              <div className="card-header"><b>Cliente</b></div>
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-md-6">
+                    <p class="card-text"><b>{this.state.clientes[i].nombre} {this.state.clientes[i].apellidos}</b></p>
+                    <p class="card-text">Tlf: {this.state.clientes[i].telefono}</p>
                   </div>
                 </div>
-              </div>
+                <div className="row">
+                  <div className="col">
+                    <div className="btn btn-primary" onClick={() => this.chat(this.state.clientes[i].id)}>Contactar</div>
+                  </div>
 
-        clientes.push(elem)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          clientes.push(elem)
+        }
+
       }
     }
 
-    
+
 
     return (
-      
+
       <div>
         <Navbar></Navbar>
         <div className="container-fluid">
           <div className="card mt-3">
             <div className="card-header">
               Tus trabajos aceptados
+              <a className="float-right" href="/listaOfertas">Ver más</a>
             </div>
             <div className="card-body">
               <div className="row">
@@ -130,6 +150,7 @@ class MuroProfesional extends Component {
           <div className="card mt-3">
             <div className="card-header">
               Historial de clientes
+              <a className="float-right" href="/listaUsuarios">Ver más</a>
             </div>
             <div className="card-body">
               <div className="row">

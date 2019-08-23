@@ -359,16 +359,20 @@ class Oferta extends Component {
 
         let menu
         let valorarBtn
-        if (reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id && this.state.oferta.estado == true) {
+        if (reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id) {
             console.log("Esta oferta es mia")
             menu = <div><a data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v float-right"></i></a>
 
                 <div className="dropdown-menu dropdown-menu-right">
                     <a className="dropdown-item" href="/editarOferta">Editar</a>
                     <a className="dropdown-item" href="#" data-toggle="modal" data-target="#basicExampleModal">Borrar</a>
                 </div>
             </div>
+
+        }
+        if (reactLocalStorage.get("isProfesional") == 'false' && reactLocalStorage.get("idUser") == this.state.oferta.user_id && this.state.oferta.estado == true) {
+            console.log("Esta oferta es mia")
 
             valorarBtn = <div><StarRatingComponent
                 name="rate1"
@@ -410,16 +414,11 @@ class Oferta extends Component {
                             <div className="card mt-3">
                                 <div className="card-header">
                                     <div className="row">
-                                        <div className="col-md-6">
-                                            <b>Oferta</b>
-                                        </div>
-                                        <div className="col-md-5 ">
-                                            {estado}
-                                        </div>
-                                        <div className="col-md-1">
+                                    <div className="col-md-12">
                                             {menu}
+                                            {estado}
+                                            <b> Oferta</b>    
                                         </div>
-
                                     </div>
                                 </div>
                                 <div className="card-body">

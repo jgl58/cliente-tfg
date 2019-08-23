@@ -195,8 +195,12 @@ class PerfilPublico extends Component {
 
         let valoracion = ""
         let valoracionTitle = ""
-        valoracionTitle = <h4>Tiene una valoracion de:</h4>
-        valoracion = this.cargarValoracion()
+
+        if(reactLocalStorage.get("isProfesional") == 'false'){
+            valoracionTitle = <h4>Tiene una valoracion de:</h4>
+            valoracion = this.cargarValoracion()
+        }
+        
         
         
         return (

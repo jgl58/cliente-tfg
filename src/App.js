@@ -16,6 +16,8 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import MuroCliente from './Usuarios/MuroCliente';
 import EditarOferta from './Ofertas/EditarOferta';
 import CambiarPassword from './Usuarios/CambiarPassword';
+import ListaOfertas from './Usuarios/ListaOfertas';
+import ListaUsuarios from './Usuarios/ListaUsuarios';
 class App extends React.Component {
 
     constructor(props) {
@@ -106,6 +108,8 @@ class App extends React.Component {
             <Route path='/aceptar' component={Aceptar}/>
             <Route path='/editarOferta' component={EditarOferta}/>
             <Route path='/cambiarContraseña' component={CambiarPassword}/>
+            <Route path='/listaOfertas' component={ListaOfertas}/>
+            <Route path='/listaUsuarios' component={ListaUsuarios}/>
         </Switch>
 
       /*  switch (this.state.mostrar) {

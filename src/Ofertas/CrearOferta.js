@@ -15,7 +15,7 @@ class CrearOferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { titulo: "", descripcion: "", provincia:"", direccion:"",poblacion:"",startDate: new Date(), duracion: "1", volver: false}
+        this.state = { titulo: "", descripcion: "", provincia:"", direccion:"",poblacion:"",startDate: new Date(), volver: false}
         this.crearOferta = this.crearOferta.bind(this)
         this.handleChange = this.handleChange.bind(this);
     }
@@ -38,7 +38,6 @@ class CrearOferta extends Component {
             descripcion: this.state.descripcion,
             provincia: this.state.provincia.id,
             fecha: this.state.startDate,
-            duracion: this.state.duracion,
             direccion: this.state.direccion,
             poblacion: this.state.poblacion
         }
@@ -115,12 +114,6 @@ class CrearOferta extends Component {
                                     <label className="col-md-3 col-form-label" for="text-input">Población</label>
                                     <div className="col-md-9">
                                     <input className="form-control" id="provincia" type="text" name="text-input" onChange={(event) => this.setState({ poblacion: event.target.value })} />
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label className="col-md-3 col-form-label" for="text-input">Duración (horas)</label>
-                                    <div className="col-md-9">
-                                    <input className="form-control" id="duracion" type="text" name="text-input" onChange={(event) => this.setState({ duracion: event.target.value })} />
                                     </div>
                                 </div>
                             </div>
