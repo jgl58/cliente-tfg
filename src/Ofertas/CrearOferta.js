@@ -15,7 +15,7 @@ class CrearOferta extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { titulo: "", descripcion: "", provincia:"", direccion:"",poblacion:"",startDate: new Date(), volver: false}
+        this.state = { titulo: "", descripcion: "", provincia:"", direccion:"",poblacion:"", precio:"", duracion:"",startDate: new Date(), volver: false}
         this.crearOferta = this.crearOferta.bind(this)
         this.handleChange = this.handleChange.bind(this);
     }
@@ -39,7 +39,9 @@ class CrearOferta extends Component {
             provincia: this.state.provincia.id,
             fecha: this.state.startDate,
             direccion: this.state.direccion,
-            poblacion: this.state.poblacion
+            poblacion: this.state.poblacion,
+            precio: this.state.precio,
+            duracion: this.state.duracion
         }
         var json = JSON.stringify(oferta)
 
@@ -105,6 +107,12 @@ class CrearOferta extends Component {
                                     </div>
                                 </div>
                                 <div className="form-group row">
+                                    <label className="col-md-3 col-form-label" for="text-input">Duración</label>
+                                    <div className="col-md-9">
+                                    <input className="form-control" id="provincia" type="text" name="text-input" onChange={(event) => this.setState({ duracion: event.target.value })} />
+                                    </div>
+                                </div>
+                                <div className="form-group row">
                                     <label className="col-md-3 col-form-label" for="text-input">Dirección</label>
                                     <div className="col-md-9">
                                     <input className="form-control" id="provincia" type="text" name="text-input" onChange={(event) => this.setState({ direccion: event.target.value })} />
@@ -114,6 +122,12 @@ class CrearOferta extends Component {
                                     <label className="col-md-3 col-form-label" for="text-input">Población</label>
                                     <div className="col-md-9">
                                     <input className="form-control" id="provincia" type="text" name="text-input" onChange={(event) => this.setState({ poblacion: event.target.value })} />
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-md-3 col-form-label" for="text-input">Precio €</label>
+                                    <div className="col-md-9">
+                                    <input className="form-control" id="provincia" type="text" name="text-input" onChange={(event) => this.setState({ precio: event.target.value })} />
                                     </div>
                                 </div>
                             </div>

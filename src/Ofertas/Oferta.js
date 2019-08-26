@@ -426,10 +426,11 @@ class Oferta extends Component {
 
                                     <h4 class="card-title font-weight-bold">{this.state.oferta.titulo}</h4>
                                     <p class="card-text">{this.state.oferta.descripcion}</p>
+                                    <p class="card-text"><b>{this.state.oferta.precio} €</b></p>
                                     <p class="card-text">{this.state.oferta.direccion}</p>
                                     <p class="card-text">{this.state.oferta.poblacion}</p>
                                     <p class="card-text">{this.state.hora} {this.state.fecha}</p>
-
+                                    <p class="card-text">Duración: {this.state.oferta.duracion}</p>
                                 </div>
 
                                 <div className="card-footer">

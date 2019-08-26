@@ -72,6 +72,8 @@ class BuscadorItem extends Component {
             <h4 class="card-title font-weight-bold">{this.props.oferta.titulo}</h4>
             <p class="mb-2">{this.props.oferta.provincia}</p>
             <p class="card-text">{this.props.oferta.descripcion}</p>
+            <p class="card-text"><b>{this.props.oferta.precio} €</b></p>
+            <p class="card-text"><b>{this.props.oferta.duracion} horas</b></p>
             <hr class="my-4"/>
             <p class="card-text">{this.props.oferta.direccion} {this.props.oferta.poblacion}</p>
             <ul class="list-unstyled list-inline d-flex justify-content-between mb-0">

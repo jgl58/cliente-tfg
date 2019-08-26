@@ -20,6 +20,8 @@ class EditarOferta extends Component {
             direccion:"",
             poblacion:"",
             fecha: "",
+            precio: "",
+            duracion:"",
             startDate: new Date()
         }
         this.editarOferta = this.editarOferta.bind(this)
@@ -55,6 +57,13 @@ class EditarOferta extends Component {
         }
         if(this.state.poblacion !== ""){
             oferta.poblacion = this.state.poblacion
+        }
+        if(this.state.precio !== ""){
+            oferta.precio = this.state.precio
+        }
+
+        if(this.state.duracion !== ""){
+            oferta.duracion = this.state.duracion
         }
 
         console.log(oferta)
@@ -123,6 +132,12 @@ class EditarOferta extends Component {
                                             </div>
                                         </div>
                                         <div className="form-group row">
+                                            <label className="col-md-3 col-form-label">Duración</label>
+                                            <div className="col-md-9">
+                                                <input className="form-control" id="descripcion" type="text" name="textarea-input" placeholder={this.state.oferta.duracion} onChange={(event) => this.setState({ duracion: event.target.value })} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
                                             <label className="col-md-3 col-form-label">Dirección</label>
                                             <div className="col-md-9">
                                                 <input className="form-control" id="descripcion" type="text" name="textarea-input" placeholder={this.state.oferta.direccion} onChange={(event) => this.setState({ direccion: event.target.value })} />
@@ -132,6 +147,12 @@ class EditarOferta extends Component {
                                             <label className="col-md-3 col-form-label">Población</label>
                                             <div className="col-md-9">
                                                 <input className="form-control" id="descripcion" type="text" name="textarea-input" placeholder={this.state.oferta.poblacion} onChange={(event) => this.setState({ poblacion: event.target.value })} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-md-3 col-form-label">Precio €</label>
+                                            <div className="col-md-9">
+                                                <input className="form-control" id="descripcion" type="text" name="textarea-input" placeholder={this.state.oferta.precio} onChange={(event) => this.setState({ precio: event.target.value })} />
                                             </div>
                                         </div>
                                     </div>
