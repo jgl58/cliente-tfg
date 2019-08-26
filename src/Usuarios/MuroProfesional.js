@@ -4,6 +4,7 @@ import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import Perfil from './Perfil';
 import Navbar from './Navbar'
+import BuscadorItem from '../Buscador/BuscadorItem'
 
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
@@ -76,19 +77,11 @@ class MuroProfesional extends Component {
       for (let i = 0; i < this.state.tarjetasVisibles; i++) {
 
         if (this.state.ofertas[i] != null) {
-          let estado
-          if (this.state.ofertas[i].estado) {
-            estado = <span className="badge badge-success float-right">Seleccionada</span>
-          } else {
-            estado = <span className="badge badge-danger float-right">No seleccionada</span>
-          }
+          
 
-          let elem = <div className="col-sm-6 col-md-4" key={i}>
-            <div className="card mb-2">
-              <div className="card-header">{estado}{this.state.ofertas[i].titulo}</div>
-              <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right" onClick={() => this.goOferta(this.state.ofertas[i].id)}><i className="fa fa-plus"></i></a></div>
-            </div>
-          </div>
+          let elem = <div className="col-md-4 mb-2">
+            <BuscadorItem oferta={this.state.ofertas[i]} goOferta={this.props.oferta}></BuscadorItem>
+          </div> 
 
           ofertas.push(elem)
         }
@@ -138,7 +131,7 @@ class MuroProfesional extends Component {
         <div className="container-fluid">
           <div className="card mt-3">
             <div className="card-header">
-              Tus trabajos aceptados
+              Tus últimos trabajos aceptados
               <a className="float-right" href="/listaOfertas">Ver más</a>
             </div>
             <div className="card-body">

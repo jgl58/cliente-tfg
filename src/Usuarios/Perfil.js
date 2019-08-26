@@ -229,7 +229,7 @@ class Perfil extends Component {
     render() {
         
         if(this.state.cambiarPass == true){
-            return <Redirect to="/cambiarContraseña"></Redirect>
+            return <Redirect push to="/cambiarContraseña"></Redirect>
         }
 
         let prov = []

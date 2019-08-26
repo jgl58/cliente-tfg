@@ -64,11 +64,17 @@ class BuscadorItem extends Component {
     if(this.state.oferta == true){
       return <Redirect push to='/oferta'/>
     }
+    let estado
+    if (this.props.oferta.estado) {
+        estado = <span className="badge badge-success float-right">Seleccionada</span>
+    } else {
+        estado = <span className="badge badge-danger float-right">No seleccionada</span>
+    }
 
     return (
     <div class="card">
         <div class="card-body">
-
+            {estado}
             <h4 class="card-title font-weight-bold">{this.props.oferta.titulo}</h4>
             <p class="mb-2">{this.props.oferta.provincia}</p>
             <p class="card-text">{this.props.oferta.descripcion}</p>

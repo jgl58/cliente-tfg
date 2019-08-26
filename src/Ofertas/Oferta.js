@@ -155,19 +155,21 @@ class Oferta extends Component {
 
         var valoracion = {
             id: this.state.user.id,
+            user_id: reactLocalStorage.get("idUser"),
+            oferta_id: this.state.oferta.id,
             valoracion: this.state.rating
         }
 
         console.log(valoracion)
 
         new API().valorarProfesional(this.state.user.id, JSON.stringify(valoracion))
-            .then(function (response) {
-                if (response.ok) {
-                    alert('Valoracion realizada con exito')
-                } else {
-                    alert('Problema al valorar')
-                }
-            })
+        .then(function (response) {
+            if (response.ok) {
+                alert('Valoracion realizada con exito')
+            } else {
+                alert('Ya has valorado esta oferta')
+            }
+        })
 
     }
 

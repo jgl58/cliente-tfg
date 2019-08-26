@@ -6,6 +6,7 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 import Navbar from './Navbar'
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { Container, Button } from 'react-floating-action-button'
+import BuscadorItem from '../Buscador/BuscadorItem'
 
 class MuroCliente extends Component {
 
@@ -59,7 +60,7 @@ class MuroCliente extends Component {
       return <Redirect push to='/publico'/>
     }
     if(this.state.crearOferta == true){
-      return <Redirect to='/crearOferta'/>
+      return <Redirect push to='/crearOferta'/>
     }
     if(this.state.oferta == true){
       return <Redirect push to='/oferta'/>
@@ -74,19 +75,10 @@ class MuroCliente extends Component {
       for (let i = 0; i < this.state.tarjetasVisibles; i++) {
 
         if(this.state.ofertas[i] != null){
-          let estado
-          if (this.state.ofertas[i].estado) {
-            estado = <span className="badge badge-success float-right">Seleccionada</span>
-          } else {
-            estado = <span className="badge badge-danger float-right">No seleccionada</span>
-          }
-  
-          let elem = <div className="col-sm-6 col-md-4">
-            <div className="card mb-2">
-              <div className="card-header">{estado}{this.state.ofertas[i].titulo}</div>
-              <div className="card-body">{this.state.ofertas[i].descripcion}<a className="float-right" onClick={() => this.goOferta(this.state.ofertas[i].id)}><i class="fa fa-plus"></i></a></div>
-            </div>
-          </div>
+          
+          let elem = <div className="col-md-4 mb-2">
+            <BuscadorItem oferta={this.state.ofertas[i]} goOferta={this.props.oferta}></BuscadorItem>
+          </div> 
   
           ofertas.push(elem)
         }
@@ -136,7 +128,7 @@ class MuroCliente extends Component {
         <div className="container-fluid">
           <div className="card mt-3">
             <div className="card-header">
-              Tus ofertas
+              Tus últimas ofertas
                 <a className="float-right" href="/listaOfertas">Ver más</a>
             </div>
             <div className="card-body">

@@ -90,28 +90,28 @@ class Navbar extends Component {
   render() {
 
     if(this.state.goOferta == true && reactLocalStorage.get('isProfesional') == 'true'){ 
-      return <Redirect to='/oferta'></Redirect>
+      return <Redirect push to='/oferta'></Redirect>
     }
 
     if(this.state.logout == true  && window.location.pathname != '/'){ 
       reactLocalStorage.clear()
-      return <Redirect to='/'></Redirect>
+      return <Redirect push to='/'></Redirect>
     }
     if(this.state.horario == true && window.location.pathname != '/horario'){ 
-      return <Redirect to='/horario'></Redirect>
+      return <Redirect push to='/horario'></Redirect>
     }
     if(this.state.perfil == true && window.location.pathname != '/perfil'){ 
-      return <Redirect to='/perfil'></Redirect>
+      return <Redirect push to='/perfil'></Redirect>
     }
     if(this.state.buscador == true && window.location.pathname != '/buscador'){ 
-      return <Redirect to='/buscador'></Redirect>
+      return <Redirect push to='/buscador'></Redirect>
     }
 
     if(reactLocalStorage.get('isProfesional') == 'true' && this.state.home == true && window.location.pathname != '/muroProfesional'){   
-      return <Redirect to="/muroProfesional"></Redirect>
+      return <Redirect push to="/muroProfesional"></Redirect>
     } 
     if(reactLocalStorage.get('isProfesional') == 'false' && this.state.home == true && window.location.pathname != '/muroCliente'){
-      return <Redirect to="/muroCliente"></Redirect>
+      return <Redirect push to="/muroCliente"></Redirect>
     }
 
    

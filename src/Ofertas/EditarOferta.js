@@ -25,6 +25,7 @@ class EditarOferta extends Component {
             startDate: new Date()
         }
         this.editarOferta = this.editarOferta.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     componentWillMount() {
@@ -61,7 +62,6 @@ class EditarOferta extends Component {
         if(this.state.precio !== ""){
             oferta.precio = this.state.precio
         }
-
         if(this.state.duracion !== ""){
             oferta.duracion = this.state.duracion
         }
