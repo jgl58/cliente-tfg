@@ -21,13 +21,15 @@ class Navbar extends Component {
       buscador: false,
       goOferta: false,
       horario: false,response: "",
-      endpoint: "http://localhost:4001"
+      endpoint: "http://localhost:4001",
+      reload: false
     }
     this.logout = this.logout.bind(this)
     this.perfil = this.perfil.bind(this)
     this.muro = this.muro.bind(this)
     this.buscador = this.buscador.bind(this)
     this.horario = this.horario.bind(this)
+    this.cancelarNotificacion = this.cancelarNotificacion.bind(this)
     this.socket = io("http://localhost:4001")
     this.socket.emit('room', "profesional"+reactLocalStorage.get("idUser"));
 
@@ -57,6 +59,10 @@ class Navbar extends Component {
           
       }.bind(this))
   } 
+
+  cancelarNotificacion(id){
+    new API().cancelarNotificacion(reactLocalStorage.get("idUser"),id).then(function (response) {})
+  }
 
 
   muro(){
@@ -125,7 +131,9 @@ class Navbar extends Component {
     if(this.state.noti.length != 0 ){
       let oferta = this.state.noti.slice(-1).pop()
       reactLocalStorage.set("idOferta",oferta.mensaje)
-      let m = <div>Tienes una oferta asignada. <Link to="/oferta">Ver oferta</Link></div>
+      let m = <div>Tienes una <Link to="/oferta">oferta</Link> asignada. <br/>
+        <Link onClick={this.cancelarNotificacion(oferta.id)}>Cancelar oferta</Link>
+      </div>
       mensaje = <MDBNotification
                   show
                   fade

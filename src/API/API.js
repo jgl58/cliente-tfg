@@ -300,6 +300,15 @@ class API {
             }
         })
     }
+    cancelarNotificacion(idUser,idNotificacion) {
+        return fetch(API_URL+"profesionales/" + idUser+"/notificaciones/"+idNotificacion, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': reactLocalStorage.get('token')
+            }
+        })
+    }
 
 }
 

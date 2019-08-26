@@ -33,27 +33,37 @@ class CrearOferta extends Component {
       }
 
     crearOferta() {
-        var oferta = {
-            titulo: this.state.titulo,
-            descripcion: this.state.descripcion,
-            provincia: this.state.provincia.id,
-            fecha: this.state.startDate,
-            direccion: this.state.direccion,
-            poblacion: this.state.poblacion,
-            precio: this.state.precio,
-            duracion: this.state.duracion
-        }
-        var json = JSON.stringify(oferta)
 
-        new API().crearOferta(reactLocalStorage.get("idUser"),json).then((response) => {
-            if (response.ok) {         
-                alert('Oferta creada')
-                //his.props.muro();
-                this.setState({volver: true})
-            } else {
-                alert('Datos incorrectos')
-            }
-        })
+        if(this.state.titulo !== "" && this.state.descripcion!== "" && this.state.direccion!=="" && this.state.poblacion !== "" && this.state.precio !== "" && this.state.duracion !== ""){
+                if(!isNaN(this.state.precio) && !isNaN(this.state.precio)){
+                    var oferta = {
+                        titulo: this.state.titulo,
+                        descripcion: this.state.descripcion,
+                        provincia: this.state.provincia.id,
+                        fecha: this.state.startDate,
+                        direccion: this.state.direccion,
+                        poblacion: this.state.poblacion,
+                        precio: this.state.precio,
+                        duracion: this.state.duracion
+                    }
+                    var json = JSON.stringify(oferta)
+            
+                    new API().crearOferta(reactLocalStorage.get("idUser"),json).then((response) => {
+                        if (response.ok) {         
+                            alert('Oferta creada')
+                            this.setState({volver: true})
+                        } else {
+                            alert('Datos incorrectos')
+                        }
+                    })
+                }else{
+                    alert("La duracion y el precio tienen que ser números")
+                }
+        }else{
+            alert("Completa todos los datos")
+        }
+
+        
 
     }
 

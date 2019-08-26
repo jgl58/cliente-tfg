@@ -34,11 +34,14 @@ class Horario extends Component {
             let arrayEventos = []
             for(let i=0;i<response.horario.length;i++){
                 new API().getOferta(reactLocalStorage.get("idUser"),response.horario[i].trabajo).then((response) => {
+                    var final = new Date(response.oferta.fecha)
+                    final.setHours(final.getHours() + response.oferta.duracion)
                    this.setState({
                        calendarEvents: this.state.calendarEvents.concat({
                         id: response.oferta.id,
                         title: response.oferta.titulo,
-                        start: new Date(response.oferta.fecha)
+                        start: new Date(response.oferta.fecha),
+                        end: final
                        })
                    })
 
