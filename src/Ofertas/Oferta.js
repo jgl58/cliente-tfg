@@ -46,7 +46,6 @@ class Oferta extends Component {
 
 
     componentWillMount() {
-        console.log(reactLocalStorage.get("idOferta"))
         new API().getOferta(reactLocalStorage.get("idUser"), reactLocalStorage.get("idOferta")).then((json) => {
             console.log(json.oferta)
 
@@ -145,10 +144,11 @@ class Oferta extends Component {
         new API().cancelarOferta(id, this.state.oferta.id).then(function (response) {
             if (response.ok) {
                 alert("Profesional cancelado")
+                this.setState({muro: true})
             } else {
                 alert("Problema al cancelar la oferta")
             }
-        })
+        }.bind(this))
     }
 
     valorar() {
@@ -159,8 +159,6 @@ class Oferta extends Component {
             oferta_id: this.state.oferta.id,
             valoracion: this.state.rating
         }
-
-        console.log(valoracion)
 
         new API().valorarProfesional(this.state.user.id, JSON.stringify(valoracion))
         .then(function (response) {

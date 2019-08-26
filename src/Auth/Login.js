@@ -27,6 +27,38 @@ class Login extends Component {
     if(reactLocalStorage.get('token') != undefined){
       console.log("Token: "+ reactLocalStorage.get("token"))
       console.log("Hay un token guardado")
+
+      var pet = {
+        token: reactLocalStorage.get("token")
+      }
+
+      var json = JSON.stringify(pet)
+      new API().login(json)
+      .then((response) => {
+        
+        if (response.ok) {
+          return response.json();
+        } else {
+          this.handleShow()
+        }
+      }).then((json) => {
+        reactLocalStorage.set('token',json.token)
+        reactLocalStorage.set('idUser',json.idUser)
+        reactLocalStorage.set('isProfesional',this.state.profesional)
+        reactLocalStorage.set('nombre',json.nombre)
+        reactLocalStorage.set('provincia',json.provincia)
+        if(!this.state.profesional){
+          this.setState({logeado: true})
+        }else{
+          this.setState({logeado: true})
+          new API().getNotificaciones(json.idUser).then(function(d){
+              if(d.notificaciones.length != 0)
+                reactLocalStorage.set("notificaciones",d.notificaciones)        
+          })
+        }
+      }).catch(function(err){
+        
+      })
     }
   }
 
@@ -58,12 +90,15 @@ class Login extends Component {
 
 
   login(event) {
-    
+
     var pet = {
-      profesional:this.state.profesional, 
-      email: this.state.email, 
-      pass: this.state.pass 
-    };
+        profesional:this.state.profesional, 
+        email: this.state.email, 
+        pass: this.state.pass 
+      }
+    
+
+    
     var hash = sha512(pet.pass)
       pet.pass = hash
     pet.pass = hash

@@ -64,7 +64,7 @@ class MuroProfesional extends Component {
 
 
     if (this.state.oferta == true) {
-      return <Redirect push to='/oferta' />
+      return <Redirect push to='/oferta/' />
     }
     if (this.state.perfilPublico == true) {
       return <Redirect push to='/publico' />

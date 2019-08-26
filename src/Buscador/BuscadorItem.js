@@ -62,13 +62,14 @@ class BuscadorItem extends Component {
     console.log(this.props.oferta)
 
     if(this.state.oferta == true){
-      return <Redirect push to='/oferta'/>
+      let url = "/oferta/"+this.props.oferta.id
+        return <Redirect push to={url}/>
     }
     let estado
     if (this.props.oferta.estado) {
         estado = <span className="badge badge-success float-right">Seleccionada</span>
     } else {
-        estado = <span className="badge badge-danger float-right">No seleccionada</span>
+        estado = <span className="badge badge-danger ">No seleccionada</span>
     }
 
     return (
