@@ -12,7 +12,7 @@ class MuroCliente extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { nick: '', ofertas: [], profesionales: [] ,
+    this.state = { ofertas: [], profesionales: [] ,
     perfilPublico: false,
     crearOferta: false,
     oferta: false,
@@ -24,8 +24,6 @@ class MuroCliente extends Component {
   }
 
   componentWillMount() {
-    this.setState({ nick: reactLocalStorage.get('nombre') })
-    console.log(reactLocalStorage.get("idUser"))
 
     new API().getOfertasCreadas(reactLocalStorage.get("idUser"))
       .then((json) => {

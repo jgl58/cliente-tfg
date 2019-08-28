@@ -35,7 +35,7 @@ class Oferta extends Component {
 
         var hour = date.getHours();
         var min = date.getMinutes();
-
+        if(min == 0){min = "00"}
         var d = day + '/' + monthNames[monthIndex] + '/' + year;
         var h = hour + ":" + min
 
@@ -430,7 +430,7 @@ class Oferta extends Component {
                                     <p class="card-text">{this.state.oferta.direccion}</p>
                                     <p class="card-text">{this.state.oferta.poblacion}</p>
                                     <p class="card-text">{this.state.hora} {this.state.fecha}</p>
-                                    <p class="card-text">Duración: {this.state.oferta.duracion}</p>
+                                    <p class="card-text">Duración (horas): {this.state.oferta.duracion}</p>
                                 </div>
 
                                 <div className="card-footer">

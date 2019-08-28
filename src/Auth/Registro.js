@@ -35,12 +35,17 @@ class Registro extends Component {
   }
 
   registrar(event) {
+
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     if (this.state.pass === ''|| this.state.confirmpassword === '' || this.state.email === '' || this.state.nombre === '' 
     && this.state.poblacion === '' || this.state.selectedProvincia === '' || this.state.direccion === '' || this.state.pais === '') {
       alert("Introduce todos los datos")
     }
     else if (this.state.pass !== this.state.confirmpassword) {
       alert("Las contraseñas son distintas")
+    }else if(!re.test(this.state.email)){
+      alert("El email no es correcto")
     } else {
 
       let elem = this.state.provincias.find(element => element.id == this.state.selectedProvincia)

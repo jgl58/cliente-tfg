@@ -69,7 +69,7 @@ class BuscadorItem extends Component {
     if (this.props.oferta.estado) {
         estado = <span className="badge badge-success float-right">Seleccionada</span>
     } else {
-        estado = <span className="badge badge-danger ">No seleccionada</span>
+        estado = <span className="badge badge-danger float-right">No seleccionada</span>
     }
 
     return (

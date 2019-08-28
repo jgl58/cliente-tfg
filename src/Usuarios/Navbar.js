@@ -49,6 +49,11 @@ class Navbar extends Component {
   }
 
   componentWillMount() {
+    if(reactLocalStorage.get("token") == undefined){
+      this.logout()
+    }
+
+
     this.setState({ nick: reactLocalStorage.get('nombre') })
 
     new API().getNotificaciones(reactLocalStorage.get('idUser')).then(function(d){
