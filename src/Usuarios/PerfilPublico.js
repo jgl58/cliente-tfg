@@ -3,7 +3,6 @@ import '../App.css';
 import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import './Chat.css'
-import { Widget, addResponseMessage  } from 'react-chat-widget';
 import io from 'socket.io-client';
 import 'react-chat-widget/lib/styles.css';
 import Navbar from './Navbar'
@@ -14,14 +13,14 @@ class PerfilPublico extends Component {
     constructor(props) {
         super(props)
         this.state = {user: {}, nombre: "", apellidos: "", direccion: "", poblacion: "", provincia: {}, pais: "", telefono: "",response: "",
-        endpoint: "http://jonaygilabert.ddns.net:4001",
+        endpoint: "http://192.168.1.49:4001",
         valoracionMedia: "",
         messageList: []
     }
 
         this.cargarValoracion = this.cargarValoracion.bind(this)
         this.comprobarMensajes = this.comprobarMensajes.bind(this)
-        this.socket = io("http://jonaygilabert.ddns.net:4001")
+        this.socket = io("http://192.168.1.49:4001")
 
         this.socket.on("mensaje",(message)=>{
             let m = message.msg
@@ -33,8 +32,7 @@ class PerfilPublico extends Component {
                       text: m
                    }
                 }]
-              })
-               // addResponseMessage(data.msg)   
+              }) 
         })
     }
 
@@ -126,7 +124,7 @@ class PerfilPublico extends Component {
                     if(mensajes[i].autor == "Profesional"){
                         this.setState({
                             messageList: [...this.state.messageList, {
-                              author: 'me',
+                              author: 'them',
                               type: 'text',
                               data: { 
                                   text: mensajes[i].mensaje
@@ -136,7 +134,7 @@ class PerfilPublico extends Component {
                     }else{
                         this.setState({
                             messageList: [...this.state.messageList, {
-                              author: 'them',
+                              author: 'me',
                               type: 'text',
                               data: { 
                                   text: mensajes[i].mensaje
@@ -155,7 +153,7 @@ class PerfilPublico extends Component {
                 if(mensajes[i].autor == "Cliente"){
                     this.setState({
                         messageList: [...this.state.messageList, {
-                          author: 'me',
+                          author: 'them',
                           type: 'text',
                           data: { 
                               text: mensajes[i].mensaje
@@ -165,7 +163,7 @@ class PerfilPublico extends Component {
                 }else{
                     this.setState({
                         messageList: [...this.state.messageList, {
-                          author: 'them',
+                          author: 'me',
                           type: 'text',
                           data: { 
                               text: mensajes[i].mensaje
