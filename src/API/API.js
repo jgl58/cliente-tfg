@@ -1,8 +1,8 @@
 
 import { reactLocalStorage } from 'reactjs-localstorage';
 
-//const API_URL = 'http://jonaygilabert.ddns.net:3030/'
-const API_URL = 'http://localhost:3030/'
+const API_URL = 'https://jonaygilabert.ddns.net:3030/'
+//const API_URL = 'http://192.168.1.49:3030/'
 class API {
     login(json) {
         return fetch(API_URL+'login', {
@@ -52,7 +52,7 @@ class API {
 
     getTrabajos(idUser) {
 
-        return fetch(API_URL+"profesional/" + idUser + "/trabajos",{
+        return fetch(API_URL+"profesionales/" + idUser + "/trabajos",{
             headers: {
                 'Authorization': reactLocalStorage.get('token')   
             }
@@ -234,7 +234,7 @@ class API {
     }
 
     aceptarOferta(idUser,oferta) {
-        return fetch(API_URL+"profesional/" + idUser+"/trabajos/"+oferta, {
+        return fetch(API_URL+"profesionales/" + idUser+"/trabajos/"+oferta, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -308,6 +308,28 @@ class API {
                 'Content-type': 'application/json',
                 'Authorization': reactLocalStorage.get('token')
             }
+        })
+    }
+
+    getMensajesProfesional(id,idUser){
+        return fetch(API_URL+"profesionales/" + id+"/mensajes/"+idUser,{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+        .then(function (response) {
+            return response.json()
+        })
+    }
+
+    getMensajesCliente(id,idProfesional){
+        return fetch(API_URL+"users/" + id+"/mensajes/"+idProfesional,{
+            headers: {
+                'Authorization': reactLocalStorage.get('token')   
+            }
+        })
+        .then(function (response) {
+            return response.json()
         })
     }
 

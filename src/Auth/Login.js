@@ -100,7 +100,6 @@ class Login extends Component {
 
     
     var hash = sha512(pet.pass)
-      pet.pass = hash
     pet.pass = hash
     var json = JSON.stringify(pet)
 

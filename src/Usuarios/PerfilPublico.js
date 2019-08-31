@@ -7,67 +7,54 @@ import { Widget, addResponseMessage  } from 'react-chat-widget';
 import io from 'socket.io-client';
 import 'react-chat-widget/lib/styles.css';
 import Navbar from './Navbar'
+import {Launcher} from 'react-chat-window'
 
 class PerfilPublico extends Component {
 
     constructor(props) {
         super(props)
         this.state = {user: {}, nombre: "", apellidos: "", direccion: "", poblacion: "", provincia: {}, pais: "", telefono: "",response: "",
-        endpoint: "http://localhost:4001",
-        valoracionMedia: ""
+        endpoint: "http://jonaygilabert.ddns.net:4001",
+        valoracionMedia: "",
+        messageList: []
     }
 
         this.cargarValoracion = this.cargarValoracion.bind(this)
-        this.socket = io("http://localhost:4001")
+        this.comprobarMensajes = this.comprobarMensajes.bind(this)
+        this.socket = io("http://jonaygilabert.ddns.net:4001")
 
-        this.socket.on("mensaje",(data)=>{
-                addResponseMessage(data.msg)   
+        this.socket.on("mensaje",(message)=>{
+            let m = message.msg
+            this.setState({
+                messageList: [...this.state.messageList, {
+                  author: 'them',
+                  type: 'text',
+                  data: { 
+                      text: m
+                   }
+                }]
+              })
+               // addResponseMessage(data.msg)   
         })
     }
-
-    handleNewUserMessage = (newMessage) => {
-        // Now send the message throught the backend API
-        //addResponseMessage(response);
-
-        
-        const {endpoint} = this.state;
-        const socket = io.connect(endpoint);
-
-
-        var r = ""
-        if(reactLocalStorage.get("visitarProfesional") == 'true'){
-            r = reactLocalStorage.get("idUser")+"-"+reactLocalStorage.get("visitar")
-        }else{
-            r = reactLocalStorage.get("visitar")+"-"+reactLocalStorage.get("idUser")
-        }
-        
-
-        var data = {
-            room: r,
-            msg: newMessage
-        }
-        
-        console.log(data)
-
-        this.socket.emit('room', data.room);
-        this.socket.emit("mensaje",JSON.stringify(data))
-      }
 
     componentWillMount() {
 
 
         if(reactLocalStorage.get("visitarProfesional") == 'true'){
             new API().getProfesional(reactLocalStorage.get("visitar")).then((json) => {
+                
                 this.setState({ user: json.user })
                 new API().getProvincia(json.user.provincia).then((prov) => {
                     this.setState({provincia: prov.provincia})
 
                     new API().getValoracionProfesional(json.user.id).then((valoracion) => {
-                        console.log(valoracion.valoracion)
+                        
                         if (valoracion.valoracion != null)
                             this.setState({ valoracionMedia: valoracion.valoracion })
                         else
                             this.setState({ valoracionMedia: 0 })
+                            this.comprobarMensajes()
                     })
                 })
                 
@@ -75,13 +62,122 @@ class PerfilPublico extends Component {
         }else{
             new API().getCliente(reactLocalStorage.get("visitar")).then((json) => {
                 this.setState({ user: json.user })
-
+                
                 new API().getProvincia(json.user.provincia).then((prov) => {
                     this.setState({provincia: prov.provincia})
+                    this.comprobarMensajes()
                 })
             })
         }
+
+        
     }
+
+    _onMessageWasSent(message) {
+
+        const {endpoint} = this.state;
+        const socket = io.connect(endpoint);
+
+
+        var r = ""
+        var autor = ""
+        if(reactLocalStorage.get("visitarProfesional") == 'true'){
+            r = reactLocalStorage.get("idUser")+"-"+reactLocalStorage.get("visitar")
+            autor = "Profesional"
+        }else{
+            r = reactLocalStorage.get("visitar")+"-"+reactLocalStorage.get("idUser")
+            autor = "Cliente"
+        }
+        
+
+        var data = {
+            room: r,
+            autor: autor,
+            msg: message.data.text
+        }
+        
+        
+        this.socket.emit('room', data.room);
+        this.socket.emit("mensaje",JSON.stringify(data))
+        this.setState({
+          messageList: [...this.state.messageList, message]
+        })
+      }
+
+      _sendMessage(text) {
+
+        if (text.length > 0) {
+        
+          this.setState({
+            messageList: [...this.state.messageList, {
+              author: 'them',
+              type: 'text',
+              data: { text }
+            }]
+          })
+        }
+      }
+
+    comprobarMensajes(){
+        if(reactLocalStorage.get("isProfesional") == 'true'){
+            new API().getMensajesProfesional(reactLocalStorage.get("idUser"),this.state.user.id).then(function(data){
+                var mensajes = data.mensajes
+                for(let i=0;i<mensajes.length;i++){
+                    if(mensajes[i].autor == "Profesional"){
+                        this.setState({
+                            messageList: [...this.state.messageList, {
+                              author: 'me',
+                              type: 'text',
+                              data: { 
+                                  text: mensajes[i].mensaje
+                               }
+                            }]
+                          })
+                    }else{
+                        this.setState({
+                            messageList: [...this.state.messageList, {
+                              author: 'them',
+                              type: 'text',
+                              data: { 
+                                  text: mensajes[i].mensaje
+                               }
+                            }]
+                          })
+                    }
+                }
+
+            }.bind(this))
+        }else{
+           new API().getMensajesCliente(reactLocalStorage.get("idUser"),this.state.user.id).then(function(data){
+            var mensajes = data.mensajes
+            console.log(mensajes)
+            for(let i=0;i<mensajes.length;i++){
+                if(mensajes[i].autor == "Cliente"){
+                    this.setState({
+                        messageList: [...this.state.messageList, {
+                          author: 'me',
+                          type: 'text',
+                          data: { 
+                              text: mensajes[i].mensaje
+                           }
+                        }]
+                      })
+                }else{
+                    this.setState({
+                        messageList: [...this.state.messageList, {
+                          author: 'them',
+                          type: 'text',
+                          data: { 
+                              text: mensajes[i].mensaje
+                           }
+                        }]
+                      })
+                }
+            }
+            }.bind(this))
+        }
+    }
+    
 
     cargarValoracion() {
         let valoracion = ''
@@ -201,6 +297,14 @@ class PerfilPublico extends Component {
             valoracion = this.cargarValoracion()
         }
         
+        let chat = <Launcher
+            agentProfile={{
+            teamName: this.state.user.nombre+" "+this.state.user.apellidos,
+            imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
+            }}
+            onMessageWasSent={this._onMessageWasSent.bind(this)}
+            messageList={this.state.messageList}
+        />
         
         
         return (
@@ -285,11 +389,8 @@ class PerfilPublico extends Component {
                         <div className="col-md-2"></div>
                     </div>
                 </div>
-                <Widget 
-                    handleNewUserMessage={this.handleNewUserMessage}
-                    title={"Chat con"}
-                    subtitle={this.state.user.nombre+" "+this.state.user.apellidos}
-                />
+                {chat}
+                
             </div>
         );
     }

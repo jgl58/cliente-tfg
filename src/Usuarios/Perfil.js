@@ -172,57 +172,63 @@ class Perfil extends Component {
 
     editarUsuario() {
 
-        var us = this.state.user;
-        if (this.state.nombre !== "") {
-            us.nombre = this.state.nombre
-        }
-        if (this.state.apellidos !== "") {
-            us.apellidos = this.state.apellidos
-        }
-        if (this.state.direccion !== "") {
-            us.direccion = this.state.direccion
-        }
-        if (this.state.poblacion !== "") {
-            us.poblacion = this.state.poblacion
-        }
-        if (this.state.newProvincia != "" && this.state.newProvincia != this.state.provincia.id) {
-            us.provincia = this.state.newProvincia
-        } else {
-            us.provincia = reactLocalStorage.get("provincia")
-        }
-        if (this.state.pais !== "") {
-            us.pais = this.state.pais
-        }
-        if (this.state.telefono !== "") {
-            us.telefono = this.state.telefono
-        }
-        var json = JSON.stringify(us)
-
-        if (reactLocalStorage.get("isProfesional") === 'true') {
-            
-            new API().updateProfesional(reactLocalStorage.get("idUser"), json).then((response) => {
-                if (response.ok) {
-                    this.setState({ user: us })
-                    reactLocalStorage.set('nombre', us.nombre)
-                    reactLocalStorage.set('provincia', us.provincia)
-                    alert('Datos actualizados')
-                } else {
-                    alert('Datos incorrectos')
-                }
-            })
-        } else {
-            new API().updateCliente(reactLocalStorage.get("idUser"), json).then((response) => {
+        if(isNaN(this.state.telefono)){
+            alert("El telefono tiene que ser numérico")
+        }else{
+            var us = this.state.user;
+            if (this.state.nombre !== "") {
+                us.nombre = this.state.nombre
+            }
+            if (this.state.apellidos !== "") {
+                us.apellidos = this.state.apellidos
+            }
+            if (this.state.direccion !== "") {
+                us.direccion = this.state.direccion
+            }
+            if (this.state.poblacion !== "") {
+                us.poblacion = this.state.poblacion
+            }
+            if (this.state.newProvincia != "" && this.state.newProvincia != this.state.provincia.id) {
+                us.provincia = this.state.newProvincia
+            } else {
+                us.provincia = reactLocalStorage.get("provincia")
+            }
+            if (this.state.pais !== "") {
+                us.pais = this.state.pais
+            }
+            if (this.state.telefono !== "") {
+                us.telefono = this.state.telefono
+            }
+            var json = JSON.stringify(us)
+    
+            if (reactLocalStorage.get("isProfesional") === 'true') {
                 
-                if (response.ok) {
-                    this.setState({ user: us })
-                    reactLocalStorage.set('nombre', us.nombre)
-                    reactLocalStorage.set('provincia', us.provincia)
-                    alert('Datos actualizados')
-                } else {
-                    alert('Datos incorrectos')
-                }
-            })
+                new API().updateProfesional(reactLocalStorage.get("idUser"), json).then((response) => {
+                    if (response.ok) {
+                        this.setState({ user: us })
+                        reactLocalStorage.set('nombre', us.nombre)
+                        reactLocalStorage.set('provincia', us.provincia)
+                        alert('Datos actualizados')
+                    } else {
+                        alert('Datos incorrectos')
+                    }
+                })
+            } else {
+                new API().updateCliente(reactLocalStorage.get("idUser"), json).then((response) => {
+                    
+                    if (response.ok) {
+                        this.setState({ user: us })
+                        reactLocalStorage.set('nombre', us.nombre)
+                        reactLocalStorage.set('provincia', us.provincia)
+                        alert('Datos actualizados')
+                    } else {
+                        alert('Datos incorrectos')
+                    }
+                })
+            }
         }
+
+        
     }
 
 

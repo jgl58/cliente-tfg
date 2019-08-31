@@ -31,7 +31,6 @@ class Horario extends Component {
 
     componentWillMount(){
         new API().getHorario(reactLocalStorage.get("idUser")).then((response) => {
-            let arrayEventos = []
             for(let i=0;i<response.horario.length;i++){
                 new API().getOferta(reactLocalStorage.get("idUser"),response.horario[i].trabajo).then((response) => {
                     var final = new Date(response.oferta.fecha)

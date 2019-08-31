@@ -30,7 +30,7 @@ class BuscadorItem extends Component {
 
     var hour = date.getHours();
     var min = date.getMinutes();
-
+    if(min == 0){min = "00"}
     var d = day + '/' + monthNames[monthIndex] + '/' + year;
     var h = hour+":"+min
 

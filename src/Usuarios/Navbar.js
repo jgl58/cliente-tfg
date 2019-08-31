@@ -35,9 +35,7 @@ class Navbar extends Component {
 
     this.socket.on("n",(data)=>{
       new API().getNotificaciones(data.profesional_id).then(function(d){
-        //  console.log(Array.isArray(this.state.notificaciones))
           if(d.notificaciones.length != 0){
-            console.log(d.notificaciones)
             this.setState({noti:d.notificaciones})
             reactLocalStorage.set("notificaciones",this.state.noti)
           }
