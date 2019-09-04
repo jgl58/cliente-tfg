@@ -21,7 +21,7 @@ class Navbar extends Component {
       buscador: false,
       goOferta: false,
       horario: false,response: "",
-      endpoint: "http://localhost:4001",
+      endpoint: "http://192.168.1.49:4001",
       reload: false
     }
     this.logout = this.logout.bind(this)
@@ -30,7 +30,7 @@ class Navbar extends Component {
     this.buscador = this.buscador.bind(this)
     this.horario = this.horario.bind(this)
     this.cancelarNotificacion = this.cancelarNotificacion.bind(this)
-    this.socket = io("http://localhost:4001")
+    this.socket = io("http://192.168.1.49:4001")
     this.socket.emit('room', "profesional"+reactLocalStorage.get("idUser"));
 
     this.socket.on("n",(data)=>{

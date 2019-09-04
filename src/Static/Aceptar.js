@@ -14,10 +14,11 @@ class Login extends Component {
     profesional: true, 
     logeado: false, 
     oferta:{},
+    hora:"",
+    fecha:"",
     id: "",
     of:""
   }
-    this.login = this.login.bind(this)
     this.aceptarOferta = this.aceptarOferta.bind(this)
     
    
@@ -34,8 +35,31 @@ class Login extends Component {
       this.setState({of: values.of})
       this.setState({oferta: json.oferta})
       console.log(this.state.oferta)
+      this.formatDate(new Date(json.oferta.fecha))
     })
   }
+
+  formatDate(date) {
+    var monthNames = [
+        "enero", "febrero", "marzo",
+        "abril", "mayo", "junio", "julio",
+        "agosto", "septiembre", "octubre",
+        "noviembre", "diciembre"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    var hour = date.getHours();
+    var min = date.getMinutes();
+    if(min == 0){min = "00"}
+    var d = day + '/' + monthNames[monthIndex] + '/' + year;
+    var h = hour + ":" + min
+
+    this.setState({ fecha: d })
+    this.setState({ hora: h })
+}
 
   aceptarOferta(){
 
@@ -51,105 +75,32 @@ class Login extends Component {
   }
 
 
-  login(event) {
-    
-    var pet = {
-      profesional:this.state.profesional, 
-      email: this.state.email, 
-      pass: this.state.pass 
-    };
-    
-    var json = JSON.stringify(pet)
-    
-    new API().login(json)
-      .then((response) => {
-        
-        if (response.ok) {
-          return response.json();
-        } else {
-          this.handleShow()
-        }
-      }).then((json) => {
-        reactLocalStorage.set('token',json.token)
-        reactLocalStorage.set('idUser',json.idUser)
-        reactLocalStorage.set('isProfesional',this.state.profesional)
-        reactLocalStorage.set('nombre',json.nombre)
-        reactLocalStorage.set('provincia',json.provincia)
-        if(!this.state.profesional)
-          this.setState({logeado: true})
-         // this.goToMuro()
-        else
-          this.setState({logeado: true})
-//          this.props.muroP()
-      }).catch(function(err){
-        
-      })
-  }
-
-
   render() {
 
     return (
       <div className="App">
         <div className="container">
           <div className="row">
-            <div className="col-md-12 mt-5">
-              <div className="card">
-                <div className="card-header">
-                  Hemos encontrado esta oferta para ti
-                </div>
-                <div className="card-body">
+            <div className="col-md-2"></div>
+            <div className="col-md-8 mt-5">
+            <div class="card">
+              <div class="card-body float-left">
+                  <h4 class="card-title font-weight-bold">{this.state.oferta.titulo}</h4>
+                  <p class="card-text">{this.state.oferta.descripcion}</p>
+                  <p class="card-text"><b>{this.state.oferta.precio} €</b></p>
+                  <p class="card-text"><b>{this.state.oferta.duracion} horas</b></p>
+                  <hr class="my-4"/>
+                  <p class="card-text">{this.state.oferta.direccion} {this.state.oferta.poblacion}</p>
+                  <hr class="my-4"/>
+                  <p class="card-text"><div class="chip mr-0">{this.state.fecha}-{this.state.hora}</div></p>
+                  
+                  <a class="btn btn-default" onClick={this.aceptarOferta}>Aceptar oferta</a>
 
-                  <div className="row">
-                  <div className="col-md-6">
-                    <div class="card booking-card">
-
-                      <div class="view overlay">
-                          <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/8-col/img (5).jpg" alt="Card image cap"/>
-                          <a href="#!">
-                          <div class="mask rgba-white-slight"></div>
-                          </a>
-                      </div>
-
-                      <div class="card-body">
-
-                          <h4 class="card-title font-weight-bold"><a>{this.state.oferta.titulo}</a></h4>
-                          <ul class="list-unstyled list-inline rating mb-0">
-                          <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"> </i></li>
-                          <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
-                          <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
-                          <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
-                          <li class="list-inline-item"><i class="fas fa-star-half-alt amber-text"></i></li>
-                          <li class="list-inline-item"><p class="text-muted">4.5 (413)</p></li>
-                          </ul>
-                          <p class="mb-2">{this.state.oferta.provincia}</p>
-                          <p class="card-text">{this.state.oferta.descripcion}</p>
-                          <hr class="my-4"/>
-                          <p class="lead"><strong>Hora</strong></p>
-                          <ul class="list-unstyled list-inline d-flex justify-content-between mb-0">
-                          <li class="list-inline-item mr-0">
-                              <div class="chip mr-0">{this.state.oferta.hora}</div>
-                          </li>
-                          </ul>
-                      </div>
-
-                      </div>
-                    </div>
-                  <div className="col-md-6">
-                    <button className="btn btn-primary" onClick={this.aceptarOferta}>
-                      Aceptar oferta
-                    </button>
-
-                  </div>
-                  </div>
-                </div>
-                <div className="card-footer">
-                    <div className="col-md-12">
-                    </div>
-                </div>
               </div>
 
+          </div>
             </div>
+            <div className="col-md-2"></div>          
           </div>
         </div>
       </div>

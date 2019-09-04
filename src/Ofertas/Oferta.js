@@ -4,6 +4,7 @@ import API from '../API/API'
 import { reactLocalStorage } from 'reactjs-localstorage';
 import StarRatingComponent from 'react-star-rating-component';
 import Navbar from '../Usuarios/Navbar'
+import './Oferta.css'
 
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
