@@ -457,7 +457,7 @@ class Oferta extends Component {
                         <div className="col-md-5">
                             {profesional}
                         </div>
-                        <div className="col-md-5 mt-3">
+                        <div className="col-md-5 mt-3" id="valorarBtn">
                             {valorarBtn}
                         </div>
                         <div className="col-md-1"></div>
