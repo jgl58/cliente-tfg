@@ -1,3 +1,6 @@
 #valorarBtn i {
     font-size: 3.10em;
 }
+.dropdown-menu.float-right.show {
+    margin-left: 74%;
+}

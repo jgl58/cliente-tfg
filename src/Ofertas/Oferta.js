@@ -365,7 +365,7 @@ class Oferta extends Component {
             menu = <div><a data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v float-right"></i></a>
 
-                <div className="dropdown-menu dropdown-menu-right">
+                <div className="dropdown-menu float-right">
                     <a className="dropdown-item" href="/editarOferta">Editar</a>
                     <a className="dropdown-item" href="#" data-toggle="modal" data-target="#basicExampleModal">Borrar</a>
                 </div>
