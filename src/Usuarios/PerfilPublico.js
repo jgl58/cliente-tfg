@@ -14,14 +14,14 @@ class PerfilPublico extends Component {
         super(props)
         this.state = {
             user: {}, nombre: "", apellidos: "", direccion: "", poblacion: "", provincia: {}, pais: "", telefono: "", response: "",
-            endpoint: "https://jonaygilabert.ddns.net:4001",
+            endpoint: "http://jonaygilabert.ddns.net:4001",
             valoracionMedia: "",
             messageList: []
         }
 
         this.cargarValoracion = this.cargarValoracion.bind(this)
         this.comprobarMensajes = this.comprobarMensajes.bind(this)
-        this.socket = io.connect("https://jonaygilabert.ddns.net:4001")
+        this.socket = io.connect("http://jonaygilabert.ddns.net:4001")
 
         this.socket.on("mensaje", (message) => {
             let m = message.msg
